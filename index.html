@@ -167,10 +167,10 @@
 
   /* ---------- bottom bar ---------- */
   .bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));z-index:20;
-    width:min(440px,calc(100% - 24px));display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center;padding:6px;border-radius:22px;
+    width:min(480px,calc(100% - 24px));display:grid;grid-template-columns:repeat(3,1fr) auto;gap:4px;align-items:center;padding:6px;border-radius:22px;
     background:rgba(16,18,26,.72);border:1px solid var(--line-2);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
     box-shadow:0 20px 50px -20px rgba(0,0,0,.8)}
-  .bar .seg{height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--mute);transition:color .2s,background .2s}
+  .bar .seg{height:52px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;letter-spacing:.04em;font-weight:600;color:var(--mute);transition:color .2s,background .2s}
   .bar .seg.on{color:var(--fg);background:rgba(255,255,255,.07)}
   .bar .add{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;color:#fff;
     background:linear-gradient(135deg,var(--accent),#5b8cff 55%,var(--accent-2));box-shadow:0 8px 28px -6px rgba(139,124,255,.8),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .15s}
@@ -272,6 +272,102 @@
   .divider{height:1px;background:var(--line);margin:22px 0 4px}
   .about{font-size:12px;color:var(--dim);line-height:1.8;margin-top:18px}
 
+  /* ---------- year tabs ---------- */
+  #tabs{display:flex;flex-direction:column;gap:8px}
+  #tabs.hide{display:none}
+  .qtabs.hide{display:none}
+  .ytabs{grid-template-columns:repeat(var(--n),1fr)}
+  .ytabs .ind{width:calc((100% - 8px)/var(--n))}
+  .ytabs .qtab{height:48px;flex-direction:column;gap:2px;font-family:var(--font);font-size:14px;letter-spacing:.02em}
+  .ytabs .qtab small{font-family:var(--mono);font-size:9.5px;color:var(--dim);font-weight:500;letter-spacing:.08em;display:flex;align-items:center;gap:5px}
+  .ytabs .qtab.on small{color:var(--mute)}
+
+  /* ---------- list filters / rows ---------- */
+  .filters{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+  .fchip{height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line-2);font-size:13px;font-weight:600;color:var(--mute);background:rgba(255,255,255,.03);transition:all .18s}
+  .fchip.on{color:#fff;background:rgba(139,124,255,.22);border-color:rgba(139,124,255,.7);box-shadow:0 0 16px -6px rgba(139,124,255,.8)}
+  .search{flex:1 1 200px;min-width:0}
+  .search input{height:40px;padding:8px 16px;border-radius:999px}
+  .rows{display:flex;flex-direction:column;gap:6px}
+  .row{display:grid;grid-template-columns:8px minmax(0,1fr) auto 44px;gap:12px;align-items:center;padding:12px 12px 12px 14px;border-radius:13px;background:var(--panel);border:1px solid var(--line);text-align:left;width:100%;transition:border-color .2s,background .2s}
+  .row:hover{border-color:var(--line-2);background:var(--panel-2)}
+  .row .dot{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c)}
+  .rn{font-weight:650;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rs{font-size:11.5px;color:var(--mute);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rc{font-family:var(--mono);font-size:15px;font-weight:600;text-align:right;white-space:nowrap}
+  .rc small{font-size:10px;color:var(--dim);margin-left:2px;font-family:var(--font);font-weight:500}
+  .gbadge{min-width:44px;height:32px;padding:0 6px;border-radius:9px;display:grid;place-items:center;font-weight:750;font-size:13.5px;border:1px solid;white-space:nowrap}
+  .gbadge.pend{font-size:10.5px;font-weight:600;border-style:dashed}
+  .ghead{display:flex;align-items:baseline;gap:10px;margin:26px 0 10px;flex-wrap:wrap}
+  .ghead:first-child{margin-top:4px}
+  .ghead b{font-size:18px;font-weight:750;letter-spacing:-.01em}
+  .ghead span{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.1em}
+  .ghead em{font-style:normal;margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--mute)}
+  .card .gcorner{position:absolute;top:14px;right:14px;z-index:1}
+  .card h3{padding-right:56px}
+  .offgrid{margin-top:18px;padding:14px;border-radius:var(--radius);border:1px dashed var(--line-2)}
+  .offchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .offchip{padding:10px 13px;border-radius:12px;background:linear-gradient(165deg,var(--c1),var(--c2));border:1px solid var(--c3);font-size:13px;font-weight:650;text-align:left}
+  .offchip small{display:block;font-weight:500;font-size:11px;color:var(--mute);margin-top:2px}
+
+  /* ---------- stats ---------- */
+  .hero{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;padding:22px;border-radius:22px;background:var(--panel);border:1px solid var(--line);position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;left:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(61,224,208,.12),transparent 70%);pointer-events:none}
+  @media (max-width:560px){.hero{grid-template-columns:1fr;justify-items:center;padding:20px 16px}}
+  .ring{position:relative;width:176px;height:176px;z-index:1}
+  .ring svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+  .ring .ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring .ctr b{font-family:var(--mono);font-size:44px;font-weight:600;line-height:1;letter-spacing:-.03em}
+  .ring .ctr span{font-size:10.5px;color:var(--mute);margin-top:8px;font-family:var(--mono);letter-spacing:.14em}
+  .ring .ctr em{font-style:normal;font-size:11px;color:var(--dim);margin-top:3px}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;z-index:1}
+  .tile{padding:13px 14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
+  .tile .k{font-size:10px;font-family:var(--mono);letter-spacing:.14em;color:var(--mute);display:flex;align-items:center;gap:7px}
+  .tile .k i{width:8px;height:8px;border-radius:2px;flex:none}
+  .tile .v{font-family:var(--mono);font-size:26px;font-weight:600;margin-top:6px;letter-spacing:-.02em}
+  .tile .v small{font-size:11px;color:var(--dim);margin-left:4px;font-family:var(--font);font-weight:500}
+  .tile .d{font-size:11px;color:var(--dim);margin-top:2px}
+  .sec{margin-top:28px}
+  .sec>h3{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--mute);font-weight:500;margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+  .sec>h3 small{letter-spacing:.06em;color:var(--dim);text-transform:none;font-family:var(--font)}
+  .ytable{display:flex;flex-direction:column;gap:8px}
+  .yrow{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:14px;align-items:center;padding:13px 15px;border-radius:14px;background:var(--panel);border:1px solid var(--line);width:100%;text-align:left;transition:border-color .2s}
+  button.yrow:hover{border-color:var(--line-2)}
+  .yrow.cur{border-color:rgba(61,224,208,.35)}
+  .yrow b{font-size:16px;font-weight:750}
+  .yrow .ysub{display:block;font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:2px}
+  .ymeta{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--mute);margin-top:7px;font-family:var(--mono)}
+  .ynum{font-family:var(--mono);text-align:right;white-space:nowrap}
+  .ynum b{font-size:18px;font-weight:600}
+  .ynum small{display:block;font-size:10px;color:var(--dim);letter-spacing:.1em}
+  .sbar{height:8px;border-radius:6px;background:rgba(255,255,255,.05);overflow:hidden;display:flex;position:relative}
+  .sbar .e{background:var(--accent-2);box-shadow:0 0 10px rgba(61,224,208,.6)}
+  .sbar .p{background:repeating-linear-gradient(135deg,rgba(139,124,255,.85) 0 4px,rgba(139,124,255,.45) 4px 8px)}
+  .sbar .req{position:absolute;top:-2px;bottom:-2px;width:2px;background:#fff;opacity:.7;border-radius:2px}
+  .dist{display:flex;height:34px;border-radius:10px;overflow:hidden;gap:2px}
+  .dist i{display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:750;color:#07080c;min-width:0;overflow:hidden}
+  .dlegend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12px;color:var(--mute)}
+  .dlegend span{display:inline-flex;align-items:center;gap:6px}
+  .dlegend i{width:8px;height:8px;border-radius:2px}
+  .dlegend b{color:var(--fg);font-family:var(--mono)}
+  .banner{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,181,71,.35);background:rgba(255,181,71,.07);font-size:13px;line-height:1.5;margin-bottom:14px}
+  .banner .btn{height:38px;padding:0 14px;font-size:13px;margin-left:auto;flex:none}
+  .legend-mini{display:flex;gap:14px;font-size:11px;color:var(--mute);margin-top:12px;flex-wrap:wrap}
+  .legend-mini span{display:inline-flex;align-items:center;gap:6px}
+  .legend-mini i{width:14px;height:6px;border-radius:3px}
+
+  /* ---------- grade picker / selects ---------- */
+  .gpick{display:flex;flex-wrap:wrap;gap:6px}
+  .gb{min-width:50px;height:42px;padding:0 11px;border-radius:11px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);font-weight:750;font-size:14.5px;color:var(--mute);transition:all .15s}
+  .gb.sm{font-size:12px;font-weight:600}
+  .gb.on{color:#fff;border-color:var(--g);background:var(--gbg);box-shadow:0 0 16px -6px var(--g)}
+  select{width:100%;font-size:16px;padding:12px 13px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line-2);color-scheme:dark;outline:none}
+  select:focus{border-color:rgba(139,124,255,.7)}
+  option{background:#10121a;color:var(--fg)}
+  .crow{display:grid;grid-template-columns:1fr 96px 40px;gap:8px;margin-bottom:8px;align-items:center}
+  .crow .x{height:44px;border-radius:10px;display:grid;place-items:center;color:var(--dim)}
+  .crow .x:hover{color:var(--danger)}
+
   /* ---------- toast ---------- */
   .toast{position:fixed;left:50%;bottom:calc(var(--bar-h) + 30px + env(safe-area-inset-bottom));transform:translate(-50%,20px);z-index:60;opacity:0;pointer-events:none;
     padding:11px 16px;border-radius:12px;background:rgba(22,25,36,.95);border:1px solid var(--line-2);font-size:13.5px;box-shadow:0 12px 30px -10px #000;transition:opacity .25s,transform .25s;max-width:calc(100% - 32px);text-align:center}
@@ -287,22 +383,26 @@
   <header class="top">
     <div class="brand">
       <div class="eyebrow">Campus Schedule</div>
-      <h1>時間割 <span class="qbig" id="qbig">Q1</span></h1>
+      <h1><span id="ttl">時間割</span> <span class="qbig" id="qbig">Q1</span></h1>
     </div>
     <div class="actions">
       <button class="iconbtn" id="btnShare" aria-label="共有・同期"><svg class="ic" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
       <button class="iconbtn" id="btnSettings" aria-label="設定"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     </div>
   </header>
-  <nav class="qtabs" id="qtabs" aria-label="クォーター"></nav>
+  <div id="tabs">
+    <nav class="qtabs ytabs" id="ytabs" aria-label="学年"></nav>
+    <nav class="qtabs" id="qtabs" aria-label="クォーター"></nav>
+  </div>
   <section id="now"></section>
   <main id="view"></main>
 </div>
 
 <nav class="bar" aria-label="メイン操作">
   <button class="seg" data-view="grid"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>時間割</button>
+  <button class="seg" data-view="list"><svg class="ic" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>履修一覧</button>
+  <button class="seg" data-view="stats"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>単位・成績</button>
   <button class="add" id="btnAdd" aria-label="授業を追加"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-  <button class="seg" data-view="list"><svg class="ic" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>一覧</button>
 </nav>
 
 <div class="scrim" id="scrim"></div>
@@ -323,9 +423,22 @@ const DAYS = ['月', '火', '水', '木', '金'];
 const DAYS_EN = ['MON', 'TUE', 'WED', 'THU', 'FRI'];
 const QUARTERS = [1, 2, 3, 4];
 const LUNCH_AFTER = 2;
+const ACAD_START_MONTH = 4;      // 年度の始まり（4月）
+const DEFAULT_YEARS = 4;
+const DEFAULT_REQUIRED = 124;    // 大学設置基準の卒業要件単位数
 const COLORS = ['#8b7cff', '#3de0d0', '#ff6fb1', '#ffb547', '#5b9dff', '#4ee38a', '#ff7a59', '#c77dff', '#29c5f6', '#e6e36b'];
 const EVAL_COLORS = ['#8b7cff', '#3de0d0', '#ff6fb1', '#ffb547', '#5b9dff', '#4ee38a', '#ff7a59', '#c77dff'];
 const EVAL_PRESETS = ['期末試験', '中間試験', 'レポート', '小テスト', '課題', '出席・平常点', '発表', 'リアクションペーパー'];
+const CAT_PRESETS = ['必修', '選択必修', '選択', '教養', '専門', '外国語', '自由'];
+const SCALES = {
+  sabcf: { name: 'S / A / B / C / F', labels: ['S', 'A', 'B', 'C', 'F'] },
+  yu:    { name: '秀 / 優 / 良 / 可 / 不可', labels: ['秀', '優', '良', '可', '不可'] },
+  abcdf: { name: 'A / B / C / D / F', labels: ['A', 'B', 'C', 'D', 'F'] },
+  aa:    { name: 'AA / A / B / C / D', labels: ['AA', 'A', 'B', 'C', 'D'] },
+};
+const GP = [4, 3, 2, 1, 0];
+const GRADE_COLORS = ['#3de0d0', '#8b7cff', '#5b9dff', '#ffb547', '#ff5d73'];
+const GRADE_CODES = ['g0', 'g1', 'g2', 'g3', 'g4', 'P', 'N', 'W', ''];
 const STORE_KEY = 'campus-schedule/v1';
 
 /* ===== util ===== */
@@ -337,6 +450,11 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 
 const toMin = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
 const fmtT = t => t.replace(/^0/, '');
 const isUrl = u => /^https?:\/\/\S+$/i.test(u);
+const pad = n => String(n).padStart(2, '0');
+const isoDate = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const acadYear = (d = new Date()) => d.getMonth() + 1 >= ACAD_START_MONTH ? d.getFullYear() : d.getFullYear() - 1;
+const fmtCr = x => Number.isInteger(x) ? String(x) : x.toFixed(1);
+const fmtGpa = g => g == null ? '—' : g.toFixed(2);
 function rgba(hex, a) {
   const h = hex.replace('#', '');
   const n = parseInt(h.length === 3 ? h.split('').map(x => x + x).join('') : h, 16);
@@ -349,6 +467,9 @@ const ICON = {
   book: '<svg class="ic" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 21.5A2.5 2.5 0 0 1 6.5 19H20v3H6.5"/></svg>',
   chart: '<svg class="ic" viewBox="0 0 24 24"><path d="M21 12A9 9 0 1 1 12 3v9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg>',
   star: '<svg class="ic" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>',
+  cap: '<svg class="ic" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5M22 9v6"/></svg>',
+  tag: '<svg class="ic" viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>',
+  cal: '<svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
   link: '<svg class="ic" viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>',
   note: '<svg class="ic" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>',
   clock: '<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
@@ -364,15 +485,25 @@ const ICON = {
 
 /* ===== state ===== */
 function defaultState() {
-  return { v: 1, courses: [], settings: { ranges: QUARTERS.map(() => ({ s: '', e: '' })) }, ui: { q: 1, view: 'grid' } };
+  const y = acadYear();
+  return {
+    v: 2, courses: [],
+    settings: { ranges: QUARTERS.map(() => ({ s: '', e: '' })), entryYear: y, entrySet: false, years: DEFAULT_YEARS, required: DEFAULT_REQUIRED, scale: 'sabcf', cats: [] },
+    ui: { y, q: 1, view: 'grid', filter: 'term' },
+  };
 }
-function normCourse(c) {
+function normCourse(c, fallbackYear = acadYear()) {
   if (!c || typeof c.name !== 'string' || !c.name.trim()) return null;
   const color = /^#[0-9a-f]{6}$/i.test(c.color) ? c.color : COLORS[0];
   const seen = new Set();
+  const cr = parseFloat(c.credits);
+  const yr = parseInt(c.year, 10);
   return {
     id: str(c.id) || uid(), name: c.name.trim(), teacher: str(c.teacher), room: str(c.room),
-    textbook: str(c.textbook), credits: str(c.credits), url: str(c.url), memo: str(c.memo), evalNote: str(c.evalNote), color,
+    textbook: str(c.textbook), credits: isFinite(cr) && cr >= 0 ? String(cr) : '', url: str(c.url), memo: str(c.memo), evalNote: str(c.evalNote), color,
+    year: yr > 1900 && yr < 3000 ? yr : fallbackYear,
+    category: str(c.category).trim(),
+    grade: GRADE_CODES.includes(c.grade) ? c.grade : '',
     evals: Array.isArray(c.evals) ? c.evals.map(x => ({ label: str(x && x.label).trim(), pct: Math.max(0, Number(x && x.pct) || 0) })).filter(x => x.label || x.pct) : [],
     quarters: Array.isArray(c.quarters) ? [...new Set(c.quarters.map(Number))].filter(q => QUARTERS.includes(q)).sort() : [],
     slots: Array.isArray(c.slots) ? c.slots.map(s => ({ d: Number(s && s.d), p: Number(s && s.p) }))
@@ -383,11 +514,28 @@ function normCourse(c) {
 function normalize(d) {
   const base = defaultState();
   if (!d || !Array.isArray(d.courses)) return base;
-  const r = d.settings && Array.isArray(d.settings.ranges) && d.settings.ranges.length === 4
-    ? d.settings.ranges.map(x => ({ s: str(x && x.s), e: str(x && x.e) })) : base.settings.ranges;
+  const s = d.settings || {};
+  const ey = parseInt(s.entryYear, 10);
+  const yrs = parseInt(s.years, 10);
+  const req = parseFloat(s.required);
+  const settings = {
+    ranges: Array.isArray(s.ranges) && s.ranges.length === 4 ? s.ranges.map(x => ({ s: str(x && x.s), e: str(x && x.e) })) : base.settings.ranges,
+    entryYear: ey > 1900 && ey < 3000 ? ey : base.settings.entryYear,
+    entrySet: !!s.entrySet,
+    years: yrs >= 1 && yrs <= 8 ? yrs : DEFAULT_YEARS,
+    required: req > 0 ? req : DEFAULT_REQUIRED,
+    scale: SCALES[s.scale] ? s.scale : 'sabcf',
+    cats: Array.isArray(s.cats) ? s.cats.map(x => ({ name: str(x && x.name).trim(), req: Math.max(0, parseFloat(x && x.req) || 0) })).filter(x => x.name) : [],
+  };
+  const u = d.ui || {};
+  const uy = parseInt(u.y, 10);
   return {
-    v: 1, courses: d.courses.map(normCourse).filter(Boolean), settings: { ranges: r },
-    ui: { q: QUARTERS.includes(d.ui && d.ui.q) ? d.ui.q : 1, view: d.ui && d.ui.view === 'list' ? 'list' : 'grid' },
+    v: 2, courses: d.courses.map(c => normCourse(c)).filter(Boolean), settings,
+    ui: {
+      y: uy > 1900 ? uy : base.ui.y, q: QUARTERS.includes(u.q) ? u.q : 1,
+      view: ['grid', 'list', 'stats'].includes(u.view) ? u.view : 'grid',
+      filter: ['term', 'year', 'all'].includes(u.filter) ? u.filter : 'term',
+    },
   };
 }
 function load() {
@@ -398,22 +546,68 @@ function save() {
   catch (e) { toast('この端末に保存できませんでした（プライベートモードの可能性）'); }
 }
 let state = load();
+let search = '';
+
+/* ===== years / grades ===== */
+function yearsList() {
+  const { entryYear, years } = state.settings;
+  const set = new Set(Array.from({ length: years }, (_, i) => entryYear + i));
+  state.courses.forEach(c => set.add(c.year));
+  return [...set].sort((a, b) => a - b);
+}
+function yearLabel(y) {
+  const i = y - state.settings.entryYear;
+  return i >= 0 && i < state.settings.years ? `${i + 1}年` : i < 0 ? '入学前' : `${i + 1}年目`;
+}
+function gradeMeta(code) {
+  const i = ['g0', 'g1', 'g2', 'g3', 'g4'].indexOf(code);
+  if (i >= 0) return { label: SCALES[state.settings.scale].labels[i], kind: i === 4 ? 'fail' : 'pass', gp: GP[i], color: GRADE_COLORS[i] };
+  if (code === 'P') return { label: '合格', kind: 'pass', gp: null, color: '#4ee38a' };
+  if (code === 'N') return { label: '不合格', kind: 'fail', gp: null, color: '#ff7a59' };
+  if (code === 'W') return { label: '取消', kind: 'withdrawn', gp: null, color: '#5b6174' };
+  return { label: '履修中', kind: 'pending', gp: null, color: '#9097ab' };
+}
+const credit = c => parseFloat(c.credits) || 0;
+function stats(list) {
+  let n = 0, reg = 0, earned = 0, planned = 0, failed = 0, gpS = 0, gpC = 0;
+  for (const c of list) {
+    const m = gradeMeta(c.grade), k = credit(c);
+    if (m.kind === 'withdrawn') continue;
+    n++; reg += k;
+    if (m.kind === 'pass') earned += k; else if (m.kind === 'fail') failed += k; else planned += k;
+    if (m.gp != null && k > 0) { gpS += m.gp * k; gpC += k; }
+  }
+  return { n, reg, earned, planned, failed, gpa: gpC ? gpS / gpC : null };
+}
+function gradeBadge(c) {
+  const m = gradeMeta(c.grade);
+  if (m.kind === 'pending') return `<span class="gbadge pend" style="color:${m.color};border-color:${rgba(m.color, .4)}">履修中</span>`;
+  return `<span class="gbadge" style="color:${m.color};background:${rgba(m.color, .12)};border-color:${rgba(m.color, .45)}">${esc(m.label)}</span>`;
+}
+function gradePicker(cur) {
+  return GRADE_CODES.map(g => {
+    const m = gradeMeta(g);
+    return `<button type="button" class="gb ${g === cur ? 'on' : ''} ${g === '' || m.label.length > 2 ? 'sm' : ''}" data-g="${g}" style="--g:${m.color};--gbg:${rgba(m.color, .22)}">${esc(m.label)}</button>`;
+  }).join('');
+}
 
 /* ===== quarter / time ===== */
-const pad = n => String(n).padStart(2, '0');
-const isoDate = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 function quarterByDate(date = new Date()) {
-  const t = isoDate(date);
+  const t = isoDate(date).slice(5);
   for (let i = 0; i < 4; i++) {
     const { s, e } = state.settings.ranges[i];
-    if (s && e && s <= t && t <= e) return i + 1;
+    if (!s || !e) continue;
+    const S = s.slice(5), E = e.slice(5);
+    if (S <= E ? S <= t && t <= E : t >= S || t <= E) return i + 1;
   }
   return null;
 }
 const activeQ = () => quarterByDate() || state.ui.q;
-const coursesAt = (q, d, p) => state.courses.filter(c => c.quarters.includes(q) && c.slots.some(s => s.d === d && s.p === p));
-const coursesInQ = q => state.courses.filter(c => c.quarters.includes(q));
-const slotKey = c => c.slots.length ? c.slots[0].d * 10 + c.slots[0].p : 999;
+const coursesAt = (y, q, d, p) => state.courses.filter(c => c.year === y && c.grade !== 'W' && c.quarters.includes(q) && c.slots.some(s => s.d === d && s.p === p));
+const coursesIn = (y, q) => state.courses.filter(c => c.year === y && c.quarters.includes(q));
+const coursesOfYear = y => state.courses.filter(c => c.year === y);
+const sortKey = c => (c.quarters[0] || 9) * 100 + (c.slots.length ? c.slots[0].d * 10 + c.slots[0].p : 99);
+const byTime = (a, b) => sortKey(a) - sortKey(b) || a.name.localeCompare(b.name, 'ja');
 function nowInfo() {
   const n = new Date();
   const mins = n.getHours() * 60 + n.getMinutes();
@@ -422,7 +616,7 @@ function nowInfo() {
   return { d: d >= 0 && d < 5 ? d : -1, p: period ? period.n : 0, mins, wd: n.getDay() };
 }
 function upcoming() {
-  const q = activeQ();
+  const y = acadYear(), q = activeQ();
   const { mins, wd } = nowInfo();
   for (let off = 0; off < 8; off++) {
     const d = (wd + off) % 7 - 1;
@@ -430,10 +624,10 @@ function upcoming() {
     for (const P of PERIODS) {
       const s = toMin(P.s), e = toMin(P.e);
       if (off === 0 && e <= mins) continue;
-      const cs = coursesAt(q, d, P.n);
+      const cs = coursesAt(y, q, d, P.n);
       if (!cs.length) continue;
       const live = off === 0 && s <= mins;
-      return { q, off, d, P, cs, live, left: live ? e - mins : off === 0 ? s - mins : null };
+      return { off, d, P, cs, live, left: live ? e - mins : off === 0 ? s - mins : null };
     }
   }
   return null;
@@ -442,22 +636,32 @@ const dur = m => m >= 60 ? `${Math.floor(m / 60)}時間${m % 60 ? (m % 60) + '�
 
 /* ===== render ===== */
 function render() {
-  const q = state.ui.q;
-  $('#qbig').textContent = 'Q' + q;
-  const cq = quarterByDate();
+  const { y, q, view, filter } = state.ui;
+  const years = yearsList();
+  if (!years.includes(y)) state.ui.y = years.includes(acadYear()) ? acadYear() : years[0];
+  const Y = state.ui.y;
+  $('#ttl').textContent = view === 'stats' ? '単位・成績' : view === 'list' ? '履修一覧' : '時間割';
+  $('#qbig').textContent = view === 'stats' ? '' : view === 'list' && filter === 'all' ? 'ALL' : view === 'list' && filter === 'year' ? yearLabel(Y) : `${yearLabel(Y)} Q${q}`;
+  const cy = acadYear(), cq = quarterByDate();
+  const yi = years.indexOf(Y);
+  $('#tabs').classList.toggle('hide', view === 'stats' || (view === 'list' && filter === 'all'));
+  $('#qtabs').classList.toggle('hide', view === 'list' && filter === 'year');
+  $('#ytabs').style.setProperty('--n', years.length);
+  $('#ytabs').innerHTML = `<span class="ind" style="transform:translateX(${yi * 100}%)"></span>` +
+    years.map(x => `<button class="qtab ${x === Y ? 'on' : ''}" data-y="${x}" aria-pressed="${x === Y}">${yearLabel(x)}<small class="num">${x === cy ? '<i class="cur"></i>' : ''}${x}</small></button>`).join('');
   $('#qtabs').innerHTML = `<span class="ind" style="transform:translateX(${(q - 1) * 100}%)"></span>` +
-    QUARTERS.map(x => `<button class="qtab ${x === q ? 'on' : ''}" data-q="${x}" aria-pressed="${x === q}">${x === cq ? '<i class="cur" title="現在のクォーター"></i>' : ''}Q${x}<span class="cnt num">${coursesInQ(x).length || ''}</span></button>`).join('');
-  $$('.bar .seg').forEach(b => b.classList.toggle('on', b.dataset.view === state.ui.view));
-  renderNow();
-  $('#view').innerHTML = state.ui.view === 'list' ? listHTML(q) : gridHTML(q);
+    QUARTERS.map(x => `<button class="qtab ${x === q ? 'on' : ''}" data-q="${x}" aria-pressed="${x === q}">${Y === cy && x === cq ? '<i class="cur" title="現在のクォーター"></i>' : ''}Q${x}<span class="cnt num">${coursesIn(Y, x).length || ''}</span></button>`).join('');
+  $$('.bar .seg').forEach(b => b.classList.toggle('on', b.dataset.view === view));
+  if (view === 'grid' || (view === 'list' && filter === 'term')) renderNow(); else $('#now').innerHTML = '';
+  $('#view').innerHTML = view === 'list' ? listHTML() : view === 'stats' ? statsHTML() : gridHTML(Y, q);
 }
 
 function renderNow() {
   const u = upcoming();
   const el = $('#now');
-  if (!state.courses.length) { el.innerHTML = ''; return; }
+  if (!state.courses.some(c => c.year === acadYear())) { el.innerHTML = ''; return; }
   if (!u) {
-    el.innerHTML = `<div class="nowcard idle"><div class="when"><div class="lab"><i></i>Q${activeQ()}</div><div class="big">—</div></div><div class="what"><div class="nm">このクォーターの授業はまだありません</div><div class="sub">＋ボタンから授業を追加できます</div></div></div>`;
+    el.innerHTML = `<div class="nowcard idle"><div class="when"><div class="lab"><i></i>Q${activeQ()}</div><div class="big">—</div></div><div class="what"><div class="nm">今のクォーターの授業はありません</div><div class="sub">＋ボタンから授業を追加できます</div></div></div>`;
     return;
   }
   const c = u.cs[0];
@@ -470,14 +674,14 @@ function renderNow() {
     <div class="rem">${rem}</div></button>`;
 }
 
-function gridHTML(q, anim = true) {
+function gridHTML(y, q, anim = true) {
   const nw = nowInfo();
-  const showNow = activeQ() === q;
+  const showNow = y === acadYear() && activeQ() === q;
   let h = `<div class="tt ${anim ? 'fade-in' : ''}"><div></div>` + DAYS.map((d, i) => `<div class="dh ${i === nw.d ? 'today' : ''}">${d}<small>${DAYS_EN[i]}</small></div>`).join('');
   for (const P of PERIODS) {
     h += `<div class="ph ${showNow && nw.p === P.n && nw.d >= 0 ? 'now' : ''}"><b>${P.n}</b><span class="num">${fmtT(P.s)}<br>${fmtT(P.e)}</span></div>`;
     for (let d = 0; d < 5; d++) {
-      const cs = coursesAt(q, d, P.n);
+      const cs = coursesAt(y, q, d, P.n);
       const cls = `${d === nw.d ? 'todaycol' : ''} ${showNow && d === nw.d && nw.p === P.n ? 'now' : ''}`;
       if (!cs.length) {
         h += `<button class="cell empty ${cls}" data-add="${d}-${P.n}" aria-label="${DAYS[d]}曜${P.n}限に追加">${ICON.plus}</button>`;
@@ -487,7 +691,13 @@ function gridHTML(q, anim = true) {
     }
     if (P.n === LUNCH_AFTER) h += `<div class="lunch num">LUNCH ${fmtT(PERIODS[LUNCH_AFTER - 1].e)} – ${fmtT(PERIODS[LUNCH_AFTER].s)}</div>`;
   }
-  return h + '</div>';
+  h += '</div>';
+  const off = coursesIn(y, q).filter(c => !c.slots.length && c.grade !== 'W');
+  if (off.length) {
+    h += `<div class="offgrid"><span class="fl" style="margin:0">時間割外（集中講義・オンデマンドなど）</span><div class="offchips">` +
+      off.map(c => `<button class="offchip" data-open="${esc(c.id)}" style="${cvars(c.color)}">${esc(c.name)}<small>${[c.room, c.credits && c.credits + '単位'].filter(Boolean).map(esc).join(' · ') || '—'}</small></button>`).join('') + '</div></div>';
+  }
+  return h;
 }
 
 function slotTags(c, extraCls = 'c') {
@@ -505,21 +715,131 @@ function evalHTML(c) {
   if (c.evalNote) h += `<div class="enote">${esc(c.evalNote)}</div>`;
   return h;
 }
-function listHTML(q) {
-  const cs = coursesInQ(q).sort((a, b) => slotKey(a) - slotKey(b) || a.name.localeCompare(b.name, 'ja'));
-  if (!cs.length) return emptyHTML(q);
+
+/* ----- list ----- */
+function listHTML() {
+  const f = state.ui.filter;
+  const chips = [['term', '今期'], ['year', 'この学年'], ['all', '4年間すべて']]
+    .map(([k, l]) => `<button class="fchip ${f === k ? 'on' : ''}" data-filter="${k}">${l}</button>`).join('');
+  const sb = f === 'all' ? `<div class="search"><input type="text" id="lsearch" placeholder="授業名・先生・区分で検索" value="${esc(search)}" enterkeyhint="search"></div>` : '';
+  return `<div class="filters">${chips}${sb}</div><div id="lres">${listResultsHTML()}</div>`;
+}
+function listResultsHTML() {
+  const { filter: f, y, q } = state.ui;
+  if (f === 'term') return termCardsHTML(y, q);
+  if (f === 'year') {
+    const cs = coursesOfYear(y);
+    if (!cs.length) return emptyHTML(`${yearLabel(y)}（${y}年度）の授業はまだありません`);
+    let h = groupHead(yearLabel(y), `${y}年度`, cs);
+    for (const qq of QUARTERS) {
+      const g = cs.filter(c => (c.quarters[0] || 1) === qq).sort(byTime);
+      if (!g.length) continue;
+      h += `<div class="ghead"><b style="font-size:14px;font-family:var(--mono)">Q${qq}〜</b><span>${g.length} COURSES</span></div><div class="rows">${g.map(rowHTML).join('')}</div>`;
+    }
+    return `<div class="fade-in">${h}</div>`;
+  }
+  const s = search.trim().toLowerCase();
+  const match = c => !s || [c.name, c.teacher, c.room, c.category, c.textbook, c.memo].some(v => v.toLowerCase().includes(s));
+  let h = '';
+  for (const yy of yearsList()) {
+    const cs = coursesOfYear(yy).filter(match).sort(byTime);
+    if (!cs.length) continue;
+    h += groupHead(yearLabel(yy), `${yy}年度`, cs) + `<div class="rows">${cs.map(rowHTML).join('')}</div>`;
+  }
+  return h ? `<div class="fade-in">${h}</div>` : emptyHTML(s ? `「${esc(search)}」に一致する授業はありません` : 'まだ授業がありません');
+}
+function groupHead(title, sub, cs) {
+  const st = stats(cs);
+  return `<div class="ghead"><b>${esc(title)}</b><span>${esc(sub)}</span><em class="num">取得 ${fmtCr(st.earned)} · 予定 ${fmtCr(st.planned)} · GPA ${fmtGpa(st.gpa)}</em></div>`;
+}
+function rowHTML(c) {
+  const where = c.slots.length ? c.slots.map(s => DAYS[s.d] + s.p).join(' ') : '時間割外';
+  const sub = [c.quarters.map(q => 'Q' + q).join('·'), where, c.category, c.teacher].filter(Boolean).map(esc).join(' · ');
+  return `<button class="row" data-open="${esc(c.id)}" style="${cvars(c.color)}"><i class="dot"></i><div style="min-width:0"><div class="rn">${esc(c.name)}</div><div class="rs">${sub}</div></div><div class="rc">${c.credits ? esc(c.credits) + '<small>単位</small>' : '<small>—</small>'}</div>${gradeBadge(c)}</button>`;
+}
+function termCardsHTML(y, q) {
+  const cs = coursesIn(y, q).sort(byTime);
+  if (!cs.length) return emptyHTML(`${yearLabel(y)} Q${q} の授業はまだありません`, true);
   const mi = (icon, k, v, full) => `<div class="mi ${full ? 'full' : ''}">${icon}<div style="min-width:0"><span class="k">${k}</span><div class="v ${v ? '' : 'none'}">${v ? esc(v) : '—'}</div></div></div>`;
-  const credits = cs.reduce((a, c) => a + (parseFloat(c.credits) || 0), 0);
-  return `<div class="hint" style="margin:0 0 12px;font-family:var(--mono);letter-spacing:.12em">Q${q} · ${cs.length} COURSES${credits ? ` · ${credits} CREDITS` : ''}</div>
+  const st = stats(cs);
+  return `<div class="hint" style="margin:0 0 12px;font-family:var(--mono);letter-spacing:.12em">${yearLabel(y)} Q${q} · ${cs.length} COURSES · ${fmtCr(st.reg)} CREDITS</div>
   <div class="list fade-in">` + cs.map(c => `<button class="card" data-open="${esc(c.id)}" style="${cvars(c.color)}">
-    <div><h3>${esc(c.name)}</h3><div class="tags" style="margin-top:8px">${slotTags(c) || '<span class="tag q">時限未設定</span>'}</div></div>
+    <span class="gcorner">${gradeBadge(c)}</span>
+    <div><h3>${esc(c.name)}</h3><div class="tags" style="margin-top:8px">${slotTags(c) || '<span class="tag q">時間割外</span>'}${c.credits ? `<span class="tag num">${esc(c.credits)}単位</span>` : ''}${c.category ? `<span class="tag q">${esc(c.category)}</span>` : ''}</div></div>
     <div class="meta">${mi(ICON.pin, 'ROOM', c.room)}${mi(ICON.user, 'TEACHER', c.teacher)}${mi(ICON.book, 'TEXTBOOK', c.textbook, true)}</div>
     <div class="mi full">${ICON.chart}<div style="min-width:0;flex:1"><span class="k">GRADING</span>${evalHTML(c)}</div></div>
     ${c.memo ? mi(ICON.note, 'MEMO', c.memo, true) : ''}
   </button>`).join('') + '</div>';
 }
-function emptyHTML(q) {
-  return `<div class="empty-state fade-in"><b>Q${q} の授業はまだありません</b><p>時間割のマスをタップするか、下の ＋ から授業を追加してください。<br>別の端末のデータは「共有」ボタンのリンクから取り込めます。</p><button class="btn pri" data-add="">${ICON.plus}授業を追加</button></div>`;
+function emptyHTML(msg, withAdd = true) {
+  return `<div class="empty-state fade-in"><b>${msg}</b><p>時間割のマスをタップするか、＋ボタンから授業を追加してください。<br>別の端末のデータは「共有」ボタンのリンクから取り込めます。</p>${withAdd ? `<button class="btn pri" data-add="">${ICON.plus}授業を追加</button>` : ''}</div>`;
+}
+
+/* ----- stats ----- */
+function statsHTML() {
+  const all = state.courses;
+  const st = stats(all);
+  const req = state.settings.required;
+  const remain = Math.max(0, req - st.earned);
+  const short = Math.max(0, req - st.earned - st.planned);
+  const R = 70, C = 2 * Math.PI * R;
+  const ef = Math.min(1, st.earned / req), pf = Math.min(1 - ef, st.planned / req);
+  let h = '';
+  if (!state.settings.entrySet) {
+    h += `<div class="banner">${ICON.cap}<div>入学年度が未設定です。いまは <b>${state.settings.entryYear}年度入学</b> として学年を表示しています。</div><button class="btn" id="goSettings">設定する</button></div>`;
+  }
+  h += `<div class="hero fade-in">
+    <div class="ring"><svg viewBox="0 0 176 176">
+      <circle cx="88" cy="88" r="${R}" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="14"/>
+      <circle cx="88" cy="88" r="${R}" fill="none" stroke="rgba(139,124,255,.55)" stroke-width="14" stroke-dasharray="${pf * C} ${C}" stroke-dashoffset="${-ef * C}"/>
+      <circle cx="88" cy="88" r="${R}" fill="none" stroke="#3de0d0" stroke-width="14" stroke-linecap="${ef > 0 ? 'round' : 'butt'}" stroke-dasharray="${ef * C} ${C}" style="filter:drop-shadow(0 0 6px rgba(61,224,208,.7))"/>
+    </svg><div class="ctr"><b class="num">${fmtCr(st.earned)}</b><span>/ ${fmtCr(req)} CREDITS</span><em>${Math.round(ef * 100)}% 取得</em></div></div>
+    <div class="tiles">
+      <div class="tile"><div class="k"><i style="background:#3de0d0"></i>取得単位</div><div class="v num">${fmtCr(st.earned)}<small>単位</small></div><div class="d">卒業まであと ${fmtCr(remain)}</div></div>
+      <div class="tile"><div class="k"><i style="background:rgba(139,124,255,.85)"></i>取得予定</div><div class="v num">${fmtCr(st.planned)}<small>単位</small></div><div class="d">履修中・成績未入力</div></div>
+      <div class="tile"><div class="k"><i style="background:linear-gradient(135deg,#8b7cff,#3de0d0)"></i>通算 GPA</div><div class="v num">${fmtGpa(st.gpa)}</div><div class="d">${SCALES[state.settings.scale].labels[0]}=4 〜 ${SCALES[state.settings.scale].labels[4]}=0</div></div>
+      <div class="tile"><div class="k"><i style="background:${short ? 'var(--warn)' : 'var(--accent-2)'}"></i>予定込みで不足</div><div class="v num" style="color:${short ? 'var(--warn)' : 'var(--accent-2)'}">${fmtCr(short)}<small>単位</small></div><div class="d">${short ? 'あと履修登録が必要' : '要件単位に到達見込み'}</div></div>
+    </div></div>`;
+
+  // 学年別
+  const cy = acadYear();
+  h += `<div class="sec"><h3>学年別 <small>タップで一覧へ</small></h3><div class="ytable">` + yearsList().map(y => {
+    const s = stats(coursesOfYear(y));
+    const max = Math.max(s.reg, 1);
+    return `<button class="yrow ${y === cy ? 'cur' : ''}" data-goyear="${y}"><div><b>${yearLabel(y)}</b><span class="ysub">${y}年度</span></div>
+      <div style="min-width:0"><div class="sbar"><i class="e" style="width:${s.earned / max * 100}%"></i><i class="p" style="width:${s.planned / max * 100}%"></i></div>
+        <div class="ymeta"><span>取得 ${fmtCr(s.earned)} / 予定 ${fmtCr(s.planned)}${s.failed ? ` / 不可 ${fmtCr(s.failed)}` : ''}</span><span>${s.n}科目</span></div></div>
+      <div class="ynum"><b>${fmtGpa(s.gpa)}</b><small>GPA</small></div></button>`;
+  }).join('') + '</div></div>';
+
+  // 科目区分別
+  const catNames = [...state.settings.cats.map(c => c.name)];
+  all.forEach(c => { const n = c.category || '未分類'; if (!catNames.includes(n)) catNames.push(n); });
+  if (catNames.length) {
+    h += `<div class="sec"><h3>科目区分別 <small>要件は設定で登録</small></h3><div class="ytable">` + catNames.map(name => {
+      const cs = all.filter(c => (c.category || '未分類') === name);
+      const s = stats(cs);
+      const reqC = (state.settings.cats.find(x => x.name === name) || {}).req || 0;
+      const max = Math.max(reqC, s.earned + s.planned, 1);
+      const need = reqC ? Math.max(0, reqC - s.earned) : null;
+      return `<div class="yrow"><div><b style="font-size:14px">${esc(name)}</b><span class="ysub">${s.n}科目</span></div>
+        <div style="min-width:0"><div class="sbar"><i class="e" style="width:${s.earned / max * 100}%"></i><i class="p" style="width:${s.planned / max * 100}%"></i>${reqC ? `<span class="req" style="left:calc(${reqC / max * 100}% - 2px)"></span>` : ''}</div>
+          <div class="ymeta"><span>取得 ${fmtCr(s.earned)} / 予定 ${fmtCr(s.planned)}</span><span>${reqC ? `要件 ${fmtCr(reqC)}` : ''}</span></div></div>
+        <div class="ynum">${need == null ? `<b>${fmtCr(s.earned)}</b><small>取得</small>` : need ? `<b style="color:var(--warn)">${fmtCr(need)}</b><small>あと</small>` : `<b style="color:var(--accent-2)">✓</b><small>達成</small>`}</div></div>`;
+    }).join('') + '</div><div class="legend-mini"><span><i style="background:#3de0d0"></i>取得</span><span><i style="background:rgba(139,124,255,.8)"></i>予定</span><span><i style="background:#fff;width:2px;height:10px"></i>要件</span></div></div>';
+  }
+
+  // 成績分布
+  const codes = ['g0', 'g1', 'g2', 'g3', 'g4', 'P', 'N'];
+  const cnt = codes.map(g => all.filter(c => c.grade === g).length);
+  const total = cnt.reduce((a, b) => a + b, 0);
+  h += `<div class="sec"><h3>成績分布 <small>${total}科目 評価済み</small></h3>`;
+  h += total ? `<div class="dist">${codes.map((g, i) => cnt[i] ? `<i style="flex:${cnt[i]};background:${gradeMeta(g).color}">${cnt[i] / total > .08 ? esc(gradeMeta(g).label) : ''}</i>` : '').join('')}</div>
+    <div class="dlegend">${codes.map((g, i) => cnt[i] ? `<span><i style="background:${gradeMeta(g).color}"></i>${esc(gradeMeta(g).label)} <b>${cnt[i]}</b></span>` : '').join('')}</div>`
+    : '<div class="empty-state" style="padding:24px 16px"><p style="margin:0">授業の詳細画面から成績を入力すると、ここに分布と GPA が出ます。</p></div>';
+  h += '</div>';
+  if (!all.length) h = emptyHTML('まだ授業がありません') + h;
+  return h;
 }
 
 /* ===== sheet ===== */
@@ -528,7 +848,6 @@ function openSheet(title, body, foot, mount) {
   const sh = $('#sheet');
   sh.innerHTML = `<div class="grab"></div><div class="sh-head"><h2>${title}</h2><button class="iconbtn" data-close aria-label="閉じる">${ICON.close}</button></div>
     <div class="sh-body">${body}</div>${foot ? `<div class="sh-foot">${foot}</div>` : ''}`;
-  sh.scrollTop = 0;
   requestAnimationFrame(() => { sh.classList.add('open'); $('#scrim').classList.add('open'); });
   document.body.classList.add('lock');
   if (mount) mount(sh);
@@ -565,14 +884,16 @@ function armButton(btn, label, action) {
 function openDetail(id) {
   const c = state.courses.find(x => x.id === id);
   if (!c) return;
-  const sec = (icon, title, body, cls = '') => `<div class="dsec ${cls}"><h4>${icon}${title}</h4><div class="body ${body ? '' : 'none'}" style="${body ? '' : 'color:var(--dim)'}">${body || '未入力'}</div></div>`;
+  const sec = (icon, title, body, cls = '') => `<div class="dsec ${cls}"><h4>${icon}${title}</h4><div class="body" style="${body ? '' : 'color:var(--dim)'}">${body || '未入力'}</div></div>`;
   const body = `
     <div class="dt-hero" style="${cvars(c.color)}"><h3>${esc(c.name)}</h3>
-      <div class="tags">${c.quarters.map(q => `<span class="tag">Q${q}</span>`).join('')}${slotTags(c) || '<span class="tag q">時限未設定</span>'}</div></div>
+      <div class="tags"><span class="tag">${yearLabel(c.year)} · ${c.year}年度</span>${c.quarters.map(q => `<span class="tag">Q${q}</span>`).join('')}${slotTags(c) || '<span class="tag q">時間割外</span>'}</div></div>
+    <div class="dsec"><h4>${ICON.cap}成績 <span style="margin-left:auto;letter-spacing:.04em;text-transform:none" id="dGradeNote"></span></h4><div class="gpick" id="dGrade">${gradePicker(c.grade)}</div></div>
     <div class="dgrid">
       ${sec(ICON.pin, '教室', esc(c.room))}
       ${sec(ICON.user, '先生', esc(c.teacher))}
-      ${c.credits ? sec(ICON.star, '単位', esc(c.credits), 'full') : ''}
+      ${sec(ICON.star, '単位', c.credits ? esc(c.credits) : '')}
+      ${sec(ICON.tag, '科目区分', esc(c.category))}
     </div>
     ${sec(ICON.book, '教科書', esc(c.textbook))}
     <div class="dsec"><h4>${ICON.chart}評価基準</h4>${evalHTML(c)}</div>
@@ -580,6 +901,15 @@ function openDetail(id) {
     ${c.memo ? sec(ICON.note, 'メモ', esc(c.memo)) : ''}`;
   const foot = `<button class="btn danger" id="dDel">${ICON.trash}削除</button><span class="spacer"></span><button class="btn pri" id="dEdit">${ICON.edit}編集</button>`;
   openSheet('授業の詳細', body, foot, sh => {
+    const note = () => { const m = gradeMeta(c.grade); $('#dGradeNote', sh).textContent = m.gp != null ? `GP ${m.gp}` : m.kind === 'pending' ? '単位は「取得予定」に計上' : m.kind === 'pass' ? 'GPA対象外・単位取得' : m.kind === 'fail' ? '単位なし' : '集計から除外'; };
+    note();
+    $('#dGrade', sh).addEventListener('click', e => {
+      const b = e.target.closest('.gb'); if (!b) return;
+      c.grade = b.dataset.g;
+      $$('.gb', sh).forEach(x => x.classList.toggle('on', x === b));
+      note(); save(); render();
+      toast(`成績を「${gradeMeta(c.grade).label}」にしました`);
+    });
     $('#dEdit', sh).addEventListener('click', () => openForm(c.id));
     armButton($('#dDel', sh), `${ICON.trash}本当に削除`, () => {
       state.courses = state.courses.filter(x => x.id !== c.id);
@@ -591,22 +921,31 @@ function openDetail(id) {
 /* ===== form ===== */
 function openForm(id, preset) {
   const editing = id ? state.courses.find(x => x.id === id) : null;
-  const usedColors = state.courses.map(c => c.color);
+  const usedColors = state.courses.filter(c => c.year === state.ui.y).map(c => c.color);
   const c = editing ? JSON.parse(JSON.stringify(editing)) : {
-    name: '', teacher: '', room: '', textbook: '', credits: '', url: '', memo: '', evalNote: '', evals: [],
+    name: '', teacher: '', room: '', textbook: '', credits: '', url: '', memo: '', evalNote: '', evals: [], category: '', grade: '',
+    year: state.ui.y,
     color: COLORS.find(x => !usedColors.includes(x)) || COLORS[state.courses.length % COLORS.length],
     quarters: [state.ui.q], slots: preset ? [preset] : [],
   };
-  const busy = (d, p) => state.courses.some(o => o.id !== id && o.slots.some(s => s.d === d && s.p === p) && o.quarters.some(q => c.quarters.includes(q)));
+  const busyWith = (d, p) => state.courses.filter(o => o.id !== id && o.year === c.year && o.grade !== 'W' && o.slots.some(s => s.d === d && s.p === p) && o.quarters.some(q => c.quarters.includes(q)));
+  const busy = (d, p) => busyWith(d, p).length > 0;
   const slotGrid = () => '<div></div>' + DAYS.map(d => `<div class="sh">${d}</div>`).join('') +
     PERIODS.map(P => `<div class="sp">${P.n}</div>` + DAYS.map((_, d) => `<button type="button" class="slot ${c.slots.some(s => s.d === d && s.p === P.n) ? 'on' : ''} ${busy(d, P.n) ? 'busy' : ''}" data-d="${d}" data-p="${P.n}" aria-label="${DAYS[d]}曜${P.n}限"></button>`).join('')).join('');
   const erow = x => `<div class="erow"><input type="text" class="el" placeholder="項目（例：期末試験）" value="${esc(x.label)}"><div class="pct"><input type="number" class="ep num" inputmode="numeric" min="0" max="100" step="1" placeholder="0" value="${x.pct || ''}"></div><button type="button" class="x" aria-label="削除">${ICON.close}</button></div>`;
+  const years = yearsList();
+  if (!years.includes(c.year)) years.push(c.year);
+  const cats = [...new Set([...state.settings.cats.map(x => x.name), ...state.courses.map(x => x.category).filter(Boolean), ...CAT_PRESETS])];
   const body = `<form id="cf" autocomplete="off" novalidate>
     <div class="fg" style="margin-top:6px"><label for="fName">授業名 <span class="req">*</span></label><input type="text" id="fName" placeholder="例：線形代数学Ⅰ" value="${esc(c.name)}" maxlength="80"></div>
+    <div class="row2"><div class="fg"><label for="fYear">学年・年度</label><select id="fYear">${years.sort((a, b) => a - b).map(y => `<option value="${y}" ${y === c.year ? 'selected' : ''}>${yearLabel(y)}（${y}年度）</option>`).join('')}</select></div>
+      <div class="fg"><label for="fCred">単位数</label><input type="number" id="fCred" inputmode="decimal" min="0" step="0.5" placeholder="例：2" value="${esc(c.credits)}"></div></div>
     <div class="fg"><span class="fl">クォーター（複数選択可）</span><div class="toggles" id="fQ">${QUARTERS.map(q => `<button type="button" class="tg ${c.quarters.includes(q) ? 'on' : ''}" data-q="${q}">Q${q}</button>`).join('')}</div></div>
-    <div class="fg"><span class="fl">曜日・時限（複数選択可）</span><div class="slots" id="fS">${slotGrid()}</div><div class="hint" id="slotHint"></div></div>
+    <div class="fg"><span class="fl">曜日・時限（複数選択可・集中講義などは空欄でOK）</span><div class="slots" id="fS">${slotGrid()}</div><div class="hint" id="slotHint"></div></div>
     <div class="row2"><div class="fg"><label for="fRoom">教室</label><input type="text" id="fRoom" placeholder="例：A棟 301" value="${esc(c.room)}"></div>
       <div class="fg"><label for="fTeacher">先生</label><input type="text" id="fTeacher" placeholder="例：山田 太郎" value="${esc(c.teacher)}"></div></div>
+    <div class="fg"><label for="fCat">科目区分</label><input type="text" id="fCat" list="catList" placeholder="例：専門必修・教養・外国語" value="${esc(c.category)}"><datalist id="catList">${cats.map(x => `<option value="${esc(x)}">`).join('')}</datalist></div>
+    <div class="fg"><span class="fl">成績</span><div class="gpick" id="fG">${gradePicker(c.grade)}</div><div class="hint">成績が出るまでは「履修中」のまま（取得予定単位に計上）。</div></div>
     <div class="fg"><label for="fBook">教科書</label><textarea id="fBook" placeholder="書名・著者・出版社・ISBN など（複数可）">${esc(c.textbook)}</textarea></div>
     <div class="fg"><span class="fl">評価基準</span>
       <div class="presets" id="ePre">${EVAL_PRESETS.map(p => `<button type="button" class="pre" data-p="${esc(p)}">＋ ${esc(p)}</button>`).join('')}</div>
@@ -614,8 +953,7 @@ function openForm(id, preset) {
       <button type="button" class="linkbtn" id="eAdd">＋ 項目を追加</button>
       <div class="etotal"><span>合計</span><b class="num" id="eTot">0%</b></div>
       <textarea id="fENote" style="margin-top:10px;min-height:64px" placeholder="補足（例：出席率2/3以上で受験資格、再試なし）">${esc(c.evalNote)}</textarea></div>
-    <div class="row2"><div class="fg"><label for="fCred">単位</label><input type="text" id="fCred" inputmode="decimal" placeholder="例：2" value="${esc(c.credits)}"></div>
-      <div class="fg"><label for="fUrl">シラバスURL</label><input type="url" id="fUrl" placeholder="https://…" value="${esc(c.url)}"></div></div>
+    <div class="fg"><label for="fUrl">シラバスURL</label><input type="url" id="fUrl" placeholder="https://…" value="${esc(c.url)}"></div>
     <div class="fg"><label for="fMemo">メモ</label><textarea id="fMemo" placeholder="持ち物・課題の提出先・連絡事項など">${esc(c.memo)}</textarea></div>
     <div class="fg"><span class="fl">カラー</span><div class="swatches" id="fC">${COLORS.map(x => `<button type="button" class="sw ${x === c.color ? 'on' : ''}" data-c="${x}" style="--c:${x}" aria-label="色 ${x}"></button>`).join('')}</div></div>
   </form>`;
@@ -628,16 +966,17 @@ function openForm(id, preset) {
       el.textContent = t + '%';
       el.className = 'num ' + (!$$('.erow', rows).length ? '' : t === 100 ? 'ok' : 'bad');
     };
+    const refreshBusy = () => $$('.slot', sh).forEach(s => s.classList.toggle('busy', busy(+s.dataset.d, +s.dataset.p)));
     const updHint = () => {
       const h = $('#slotHint', sh);
       const clash = c.slots.filter(s => busy(s.d, s.p));
       if (clash.length) {
-        const names = [...new Set(clash.flatMap(s => state.courses.filter(o => o.id !== id && o.quarters.some(q => c.quarters.includes(q)) && o.slots.some(x => x.d === s.d && x.p === s.p)).map(o => o.name)))];
+        const names = [...new Set(clash.flatMap(s => busyWith(s.d, s.p).map(o => o.name)))];
         h.className = 'hint warn';
         h.textContent = `⚠ ${clash.map(s => DAYS[s.d] + s.p).join('・')} は「${names.join('」「')}」と重複しています（保存は可能です）`;
       } else {
         h.className = 'hint';
-        h.textContent = c.slots.length ? c.slots.slice().sort((a, b) => a.d * 10 + a.p - (b.d * 10 + b.p)).map(s => `${DAYS[s.d]}${s.p}限 ${fmtT(PERIODS[s.p - 1].s)}–${fmtT(PERIODS[s.p - 1].e)}`).join(' / ') : 'グレーの点は他の授業が入っているコマです';
+        h.textContent = c.slots.length ? c.slots.slice().sort((a, b) => a.d * 10 + a.p - (b.d * 10 + b.p)).map(s => `${DAYS[s.d]}${s.p}限 ${fmtT(PERIODS[s.p - 1].s)}–${fmtT(PERIODS[s.p - 1].e)}`).join(' / ') : 'グレーの点は同じ学年・クォーターで他の授業が入っているコマです';
       }
     };
     const addRow = (label = '') => {
@@ -646,13 +985,13 @@ function openForm(id, preset) {
       (label ? $('.ep', r) : $('.el', r)).focus();
       updTotal();
     };
+    $('#fYear', sh).addEventListener('change', e => { c.year = +e.target.value; refreshBusy(); updHint(); });
     $('#fQ', sh).addEventListener('click', e => {
       const b = e.target.closest('.tg'); if (!b) return;
       const q = +b.dataset.q;
       c.quarters = c.quarters.includes(q) ? c.quarters.filter(x => x !== q) : [...c.quarters, q].sort();
       b.classList.toggle('on');
-      $$('.slot', sh).forEach(s => s.classList.toggle('busy', busy(+s.dataset.d, +s.dataset.p)));
-      updHint();
+      refreshBusy(); updHint();
     });
     $('#fS', sh).addEventListener('click', e => {
       const b = e.target.closest('.slot'); if (!b) return;
@@ -661,6 +1000,11 @@ function openForm(id, preset) {
       if (i >= 0) c.slots.splice(i, 1); else c.slots.push({ d, p });
       b.classList.toggle('on');
       updHint();
+    });
+    $('#fG', sh).addEventListener('click', e => {
+      const b = e.target.closest('.gb'); if (!b) return;
+      c.grade = b.dataset.g;
+      $$('#fG .gb', sh).forEach(x => x.classList.toggle('on', x === b));
     });
     $('#fC', sh).addEventListener('click', e => {
       const b = e.target.closest('.sw'); if (!b) return;
@@ -683,11 +1027,12 @@ function openForm(id, preset) {
       const out = normCourse({
         ...c, id: editing ? editing.id : uid(), name: nameEl.value,
         room: $('#fRoom', sh).value.trim(), teacher: $('#fTeacher', sh).value.trim(), textbook: $('#fBook', sh).value.trim(),
-        evalNote: $('#fENote', sh).value.trim(), credits: $('#fCred', sh).value.trim(), url: $('#fUrl', sh).value.trim(), memo: $('#fMemo', sh).value.trim(),
+        category: $('#fCat', sh).value, evalNote: $('#fENote', sh).value.trim(), credits: $('#fCred', sh).value.trim(), url: $('#fUrl', sh).value.trim(), memo: $('#fMemo', sh).value.trim(),
         evals: $$('.erow', rows).map(r => ({ label: $('.el', r).value, pct: Number($('.ep', r).value) || 0 })),
       });
       if (editing) state.courses[state.courses.findIndex(x => x.id === editing.id)] = out;
       else state.courses.push(out);
+      state.ui.y = out.year;
       if (!out.quarters.includes(state.ui.q)) state.ui.q = out.quarters[0];
       save(); closeSheet(); render();
       toast(editing ? '保存しました' : `「${out.name}」を追加しました`);
@@ -709,7 +1054,7 @@ function unb64u(t) {
   return out;
 }
 const pipe = async (bytes, stream) => new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer());
-const payload = () => ({ v: 1, courses: state.courses, settings: state.settings });
+const payload = () => ({ v: 2, courses: state.courses, settings: state.settings });
 async function encodeShare() {
   const bytes = new TextEncoder().encode(JSON.stringify(payload()));
   if ('CompressionStream' in window) {
@@ -744,7 +1089,7 @@ async function openShare() {
   const url = state.courses.length ? await shareUrl() : '';
   const canShare = !!navigator.share;
   const body = `
-    <p class="hint" style="margin:0 0 14px;font-size:13px;color:var(--mute)">データはこの端末のブラウザ内に保存されています。<b style="color:var(--fg)">共有リンク</b>を別の端末（スマホ⇄PC）で開くと、同じ時間割を取り込めます。リンクには授業データそのものが含まれ、サーバーには送信されません。</p>
+    <p class="hint" style="margin:0 0 14px;font-size:13px;color:var(--mute)">データはこの端末のブラウザ内に保存されています。<b style="color:var(--fg)">共有リンク</b>を別の端末（スマホ⇄PC）で開くと、4年分の時間割・成績・設定をまとめて取り込めます。リンクには授業データそのものが含まれ、サーバーには送信されません。</p>
     ${url ? `<span class="fl">共有リンク</span><div class="sharebox"><input type="text" id="shUrl" readonly value="${esc(url)}"><button class="btn" id="shCopy" aria-label="コピー">${ICON.copy}</button></div>
       <div class="hint num">${state.courses.length} 件の授業 · ${url.length.toLocaleString()} 文字</div>
       <div class="stack" style="margin-top:14px">${canShare ? `<button class="btn pri wide" id="shNative">${ICON.share}LINE・メール・AirDrop などで送る</button>` : ''}</div>`
@@ -784,18 +1129,20 @@ $('#fileIn').addEventListener('change', async e => {
   catch (err) { toast('JSONを読み込めませんでした'); }
 });
 function confirmImport(data, source) {
-  const next = normalize(data);
   if (!Array.isArray(data && data.courses)) { toast('時間割データではありません'); return; }
-  const qs = QUARTERS.map(q => `Q${q}: ${next.courses.filter(c => c.quarters.includes(q)).length}`).join(' · ');
-  const body = `<div class="dsec" style="margin-top:4px"><h4>${ICON.down}取り込むデータ（${source}）</h4><div class="body"><b style="font-size:26px;font-family:var(--mono)">${next.courses.length}</b> 件の授業<div class="hint num">${qs}</div></div></div>
+  const next = normalize(data);
+  const byYear = [...new Set(next.courses.map(c => c.year))].sort().map(y => `${y}年度: ${next.courses.filter(c => c.year === y).length}`).join(' · ');
+  const body = `<div class="dsec" style="margin-top:4px"><h4>${ICON.down}取り込むデータ（${source}）</h4><div class="body"><b style="font-size:26px;font-family:var(--mono)">${next.courses.length}</b> 件の授業<div class="hint num">${byYear}</div></div></div>
     <p class="hint" style="font-size:13px;margin-top:14px">この端末の現在のデータ（${state.courses.length} 件）は <b style="color:var(--warn)">置き換え</b> られます。</p>`;
   const foot = `<button class="btn" data-close>キャンセル</button><span class="spacer"></span><button class="btn pri" id="imOk">置き換えて取り込む</button>`;
   openSheet('データを取り込みますか？', body, foot, sh => {
     $('#imOk', sh).addEventListener('click', () => {
       state = { ...next, ui: { ...state.ui } };
+      const ys = yearsList();
+      state.ui.y = ys.includes(acadYear()) ? acadYear() : ys[0];
       const cq = quarterByDate();
       if (cq) state.ui.q = cq;
-      else if (!coursesInQ(state.ui.q).length) state.ui.q = (QUARTERS.find(q => coursesInQ(q).length) || 1);
+      else if (!coursesIn(state.ui.y, state.ui.q).length) state.ui.q = QUARTERS.find(q => coursesIn(state.ui.y, q).length) || 1;
       save(); closeSheet(); render(); toast(`${next.courses.length} 件の授業を取り込みました`);
     });
   });
@@ -810,23 +1157,48 @@ async function checkHash() {
 
 /* ===== settings ===== */
 function openSettings() {
-  const r = state.settings.ranges;
+  const S = state.settings;
+  const r = S.ranges;
+  const cy = acadYear();
+  const crow = x => `<div class="crow"><input type="text" class="cn" placeholder="区分名（例：専門必修）" value="${esc(x.name)}" list="catList2"><input type="number" class="cr num" inputmode="decimal" min="0" placeholder="単位" value="${x.req || ''}"><button type="button" class="x" aria-label="削除">${ICON.close}</button></div>`;
+  const cats = [...new Set([...state.courses.map(x => x.category).filter(Boolean), ...CAT_PRESETS])];
   const body = `
-    <div class="fg" style="margin-top:4px"><span class="fl">クォーター期間（任意）</span>
+    <div class="fg" style="margin-top:4px"><span class="fl">入学年度・在籍年数</span>
+      <div class="row2" style="margin-top:0"><select id="stEntry">${Array.from({ length: 12 }, (_, i) => cy - 8 + i).map(y => `<option value="${y}" ${y === S.entryYear ? 'selected' : ''}>${y}年度入学</option>`).join('')}</select>
+        <select id="stYears">${[4, 5, 6].map(n => `<option value="${n}" ${n === S.years ? 'selected' : ''}>${n}年間</option>`).join('')}</select></div>
+      <div class="hint">今年度（${cy}年度）が何年生かを決めます。登録済みの授業は年度で管理しているので、変えても消えません。</div></div>
+    <div class="fg"><span class="fl">卒業要件単位</span><input type="number" id="stReq" inputmode="decimal" min="1" value="${S.required}"></div>
+    <div class="fg"><span class="fl">成績の段階</span><select id="stScale">${Object.entries(SCALES).map(([k, v]) => `<option value="${k}" ${k === S.scale ? 'selected' : ''}>${v.name}</option>`).join('')}</select>
+      <div class="hint">GPA は上から 4・3・2・1・0 で計算します。「合格」「不合格」はGPA対象外、「取消」は集計から除外します。</div></div>
+    <div class="fg"><span class="fl">科目区分ごとの要件（任意）</span><div id="stCats">${S.cats.map(crow).join('')}</div>
+      <datalist id="catList2">${cats.map(x => `<option value="${esc(x)}">`).join('')}</datalist>
+      <button type="button" class="linkbtn" id="stCatAdd">＋ 区分を追加</button>
+      <div class="hint">例：専門必修 40 / 教養 24 / 外国語 8。単位・成績画面に達成状況が出ます。</div></div>
+    <div class="divider"></div>
+    <div class="fg"><span class="fl">クォーター期間（任意・毎年共通）</span>
       ${QUARTERS.map((q, i) => `<div class="qrange"><b>Q${q}</b><input type="date" data-i="${i}" data-k="s" value="${esc(r[i].s)}" aria-label="Q${q} 開始日"><span>〜</span><input type="date" data-i="${i}" data-k="e" value="${esc(r[i].e)}" aria-label="Q${q} 終了日"></div>`).join('')}
-      <div class="hint">設定すると、起動時に今日が含まれるクォーターを自動で開き、「NOW / NEXT」に今のクォーターの授業を表示します。未設定なら最後に見たクォーターを使います。</div></div>
+      <div class="hint">月日だけを使います（年は無視）。設定すると起動時に今のクォーターを自動で開き、NOW / NEXT に表示します。</div></div>
     <div class="dsec" style="margin-top:20px"><h4>${ICON.clock}時限</h4><div class="body num" style="font-family:var(--mono);font-size:13px">${PERIODS.map(P => `${P.n}限  ${P.s} – ${P.e}`).join('\n')}</div></div>
     <div class="divider"></div>
     <div class="fg"><span class="fl">データ</span><button class="btn danger" id="stWipe" style="width:100%">${ICON.trash}すべての授業を削除</button></div>
-    <p class="about">データはこの端末のブラウザ（localStorage）にのみ保存されます。ブラウザのデータ消去で消えるため、ときどき「共有」からリンクかJSONで控えておくと安心です。</p>`;
+    <p class="about">データはこの端末のブラウザ（localStorage）にのみ保存されます。4年間使うので、学期ごとに「共有」からリンクかJSONで控えておくと安心です。</p>`;
   const foot = `<button class="btn" data-close>閉じる</button><span class="spacer"></span><button class="btn pri" id="stSave">保存</button>`;
   openSheet('設定', body, foot, sh => {
+    const catsEl = $('#stCats', sh);
+    $('#stCatAdd', sh).addEventListener('click', () => { catsEl.insertAdjacentHTML('beforeend', crow({ name: '', req: 0 })); $('.crow:last-child .cn', catsEl).focus(); });
+    catsEl.addEventListener('click', e => { const b = e.target.closest('.x'); if (b) b.closest('.crow').remove(); });
     $('#stSave', sh).addEventListener('click', () => {
       const nr = QUARTERS.map(() => ({ s: '', e: '' }));
       $$('input[type=date]', sh).forEach(i => { nr[+i.dataset.i][i.dataset.k] = i.value; });
-      const bad = nr.findIndex(x => x.s && x.e && x.s > x.e);
-      if (bad >= 0) { toast(`Q${bad + 1} の開始日が終了日より後になっています`); return; }
-      state.settings.ranges = nr;
+      const req = parseFloat($('#stReq', sh).value);
+      if (!(req > 0)) { toast('卒業要件単位を正しく入力してください'); return; }
+      S.ranges = nr;
+      S.entryYear = +$('#stEntry', sh).value;
+      S.entrySet = true;
+      S.years = +$('#stYears', sh).value;
+      S.required = req;
+      S.scale = $('#stScale', sh).value;
+      S.cats = $$('.crow', catsEl).map(r => ({ name: $('.cn', r).value.trim(), req: Math.max(0, parseFloat($('.cr', r).value) || 0) })).filter(x => x.name);
       const cq = quarterByDate();
       if (cq) state.ui.q = cq;
       save(); closeSheet(); render(); toast('設定を保存しました');
@@ -841,25 +1213,40 @@ function openSettings() {
 /* ===== events ===== */
 document.addEventListener('click', e => {
   if (e.target.closest('#sheet')) return;
-  const t = e.target.closest('[data-q],[data-view],[data-open],[data-add]');
+  if (e.target.closest('#goSettings')) { openSettings(); return; }
+  const t = e.target.closest('[data-q],[data-y],[data-view],[data-filter],[data-goyear],[data-open],[data-add]');
   if (!t) return;
-  if (t.dataset.q) { state.ui.q = +t.dataset.q; save(); render(); }
-  else if (t.dataset.view) { state.ui.view = t.dataset.view; save(); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-  else if (t.dataset.open) openDetail(t.dataset.open);
-  else if (t.dataset.add !== undefined) {
-    const [d, p] = t.dataset.add.split('-').map(Number);
-    openForm(null, t.dataset.add ? { d, p } : null);
+  const d = t.dataset;
+  if (d.q) { state.ui.q = +d.q; save(); render(); }
+  else if (d.y) { state.ui.y = +d.y; save(); render(); }
+  else if (d.view) { state.ui.view = d.view; save(); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  else if (d.filter) { state.ui.filter = d.filter; save(); render(); }
+  else if (d.goyear) { state.ui.y = +d.goyear; state.ui.view = 'list'; state.ui.filter = 'year'; save(); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  else if (d.open) openDetail(d.open);
+  else if (d.add !== undefined) {
+    const [dd, p] = d.add.split('-').map(Number);
+    openForm(null, d.add ? { d: dd, p } : null);
   }
+});
+document.addEventListener('input', e => {
+  if (e.target.id !== 'lsearch') return;
+  search = e.target.value;
+  $('#lres').innerHTML = listResultsHTML();
 });
 $('#btnAdd').addEventListener('click', () => openForm(null));
 $('#btnShare').addEventListener('click', openShare);
 $('#btnSettings').addEventListener('click', openSettings);
 window.addEventListener('hashchange', checkHash);
-document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });
-setInterval(() => { if (!document.hidden) { renderNow(); if (state.ui.view === 'grid' && !$('#sheet').classList.contains('open')) $('#view').innerHTML = gridHTML(state.ui.q, false); } }, 30000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden && !$('#sheet').classList.contains('open') && document.activeElement.id !== 'lsearch') render(); });
+setInterval(() => {
+  if (document.hidden || $('#sheet').classList.contains('open')) return;
+  if (state.ui.view === 'grid') { renderNow(); $('#view').innerHTML = gridHTML(state.ui.y, state.ui.q, false); }
+  else if (state.ui.view === 'list' && state.ui.filter === 'term') renderNow();
+}, 30000);
 
 /* ===== boot ===== */
 {
+  if (yearsList().includes(acadYear())) state.ui.y = acadYear();
   const cq = quarterByDate();
   if (cq) state.ui.q = cq;
   render();
