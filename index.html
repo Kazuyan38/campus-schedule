@@ -368,6 +368,47 @@
   .crow .x{height:44px;border-radius:10px;display:grid;place-items:center;color:var(--dim)}
   .crow .x:hover{color:var(--danger)}
 
+  /* ---------- attendance ---------- */
+  .nowwrap.has-att .nowcard{border-bottom-left-radius:0;border-bottom-right-radius:0}
+  .natt{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px 10px 16px;border:1px solid var(--line);border-top:1px dashed var(--line);border-radius:0 0 var(--radius) var(--radius);background:rgba(255,255,255,.02)}
+  .natt .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--mute)}
+  .natt .rest{font-size:13px;font-weight:650}
+  .natt .sp{flex:1}
+  .abtn{height:38px;padding:0 14px;border-radius:11px;font-size:13px;font-weight:650;border:1px solid var(--line-2);background:rgba(255,255,255,.04);display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+  .abtn:active{transform:scale(.96)}
+  .abtn.a{color:#ff9aa8;border-color:rgba(255,93,115,.4);background:rgba(255,93,115,.08)}
+  .abtn.l{color:#ffd08a;border-color:rgba(255,181,71,.4);background:rgba(255,181,71,.07)}
+  .lv-ok{color:var(--accent-2)} .lv-warn{color:var(--warn)} .lv-danger,.lv-over{color:var(--danger)}
+  .chip .ab{position:absolute;top:4px;right:4px;font-style:normal;font-family:var(--mono);font-size:9px;line-height:1;padding:3px 4px;border-radius:5px;font-weight:700;background:var(--warn);color:#07080c;z-index:1}
+  .chip .ab.danger,.chip .ab.over{background:var(--danger);color:#fff}
+  .chip.att-danger,.chip.att-over{box-shadow:0 0 0 1.5px var(--danger),0 10px 26px -12px var(--danger)}
+  .chip.att-warn{box-shadow:0 0 0 1.5px rgba(255,181,71,.8),0 10px 26px -12px var(--warn)}
+  .chip .ab ~ .n{padding-right:14px}
+  .tag.lv-warn{border-color:rgba(255,181,71,.5);background:rgba(255,181,71,.08)}
+  .tag.lv-danger,.tag.lv-over{border-color:rgba(255,93,115,.5);background:rgba(255,93,115,.1)}
+  .attbig{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .attbig b{font-family:var(--mono);font-size:36px;font-weight:600;line-height:1}
+  .attbig span{font-size:13px;color:var(--mute)}
+  .dots{display:flex;flex-wrap:wrap;gap:5px;margin:12px 0 4px}
+  .dots i{width:16px;height:16px;border-radius:5px;border:1px solid var(--line-2);background:rgba(255,255,255,.03)}
+  .dots i.u{background:var(--danger);border-color:transparent;box-shadow:0 0 8px rgba(255,93,115,.6)}
+  .dots i.x{background:repeating-linear-gradient(135deg,var(--danger) 0 3px,transparent 3px 6px);border-color:var(--danger)}
+  .attnums{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+  .attnums div{padding:8px 6px;border-radius:10px;background:rgba(255,255,255,.03);text-align:center}
+  .attnums b{display:block;font-family:var(--mono);font-size:17px;font-weight:600}
+  .attnums small{font-size:10px;color:var(--mute)}
+  .attadd{display:grid;grid-template-columns:1fr auto auto;gap:8px;margin-top:14px;align-items:center}
+  .attadd input{padding:9px 10px;font-size:15px}
+  .alog{margin-top:12px;display:flex;flex-direction:column;gap:4px}
+  .alog div{display:flex;align-items:center;gap:10px;padding:6px 4px 6px 10px;border-radius:9px;background:rgba(255,255,255,.025);font-size:13px}
+  .alog div em{font-style:normal;font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px}
+  .alog .ta{background:rgba(255,93,115,.15);color:#ff9aa8}
+  .alog .tl{background:rgba(255,181,71,.15);color:#ffd08a}
+  .alog .dt{font-family:var(--mono);flex:1}
+  .alog button{width:34px;height:30px;border-radius:8px;display:grid;place-items:center;color:var(--dim)}
+  .alog button:hover{color:var(--danger)}
+  .alog .ic{width:15px;height:15px}
+
   /* ---------- toast ---------- */
   .toast{position:fixed;left:50%;bottom:calc(var(--bar-h) + 30px + env(safe-area-inset-bottom));transform:translate(-50%,20px);z-index:60;opacity:0;pointer-events:none;
     padding:11px 16px;border-radius:12px;background:rgba(22,25,36,.95);border:1px solid var(--line-2);font-size:13.5px;box-shadow:0 12px 30px -10px #000;transition:opacity .25s,transform .25s;max-width:calc(100% - 32px);text-align:center}
@@ -439,6 +480,9 @@ const SCALES = {
 const GP = [4, 3, 2, 1, 0];
 const GRADE_COLORS = ['#3de0d0', '#8b7cff', '#5b9dff', '#ffb547', '#ff5d73'];
 const GRADE_CODES = ['g0', 'g1', 'g2', 'g3', 'g4', 'P', 'N', 'W', ''];
+const DEFAULT_SESSIONS_PER_Q = 8;   // 期間未設定時の 1クォーター・1コマあたりの授業回数
+const ATT_RATIOS = [3, 4, 5];       // 欠席が総回数の 1/n 以上で不可
+const LATE_RATIOS = [3, 2, 0];      // 遅刻 n 回で欠席1回（0 = 数えない）
 const STORE_KEY = 'campus-schedule/v1';
 
 /* ===== util ===== */
@@ -488,7 +532,7 @@ function defaultState() {
   const y = acadYear();
   return {
     v: 2, courses: [],
-    settings: { ranges: QUARTERS.map(() => ({ s: '', e: '' })), entryYear: y, entrySet: false, years: DEFAULT_YEARS, required: DEFAULT_REQUIRED, scale: 'sabcf', cats: [] },
+    settings: { ranges: QUARTERS.map(() => ({ s: '', e: '' })), entryYear: y, entrySet: false, years: DEFAULT_YEARS, required: DEFAULT_REQUIRED, scale: 'sabcf', cats: [], attRatio: 3, lateRatio: 3 },
     ui: { y, q: 1, view: 'grid', filter: 'term' },
   };
 }
@@ -504,6 +548,13 @@ function normCourse(c, fallbackYear = acadYear()) {
     year: yr > 1900 && yr < 3000 ? yr : fallbackYear,
     category: str(c.category).trim(),
     grade: GRADE_CODES.includes(c.grade) ? c.grade : '',
+    attOff: !!c.attOff,
+    sessions: parseInt(c.sessions, 10) > 0 ? String(parseInt(c.sessions, 10)) : '',
+    attMax: parseInt(c.attMax, 10) >= 0 ? String(parseInt(c.attMax, 10)) : '',
+    absences: Array.isArray(c.absences) ? c.absences
+      .filter(a => a && /^\d{4}-\d{2}-\d{2}$/.test(a.date) && (a.type === 'A' || a.type === 'L'))
+      .map(a => ({ date: a.date, type: a.type, p: parseInt(a.p, 10) || 0 }))
+      .sort((a, b) => a.date.localeCompare(b.date) || a.p - b.p) : [],
     evals: Array.isArray(c.evals) ? c.evals.map(x => ({ label: str(x && x.label).trim(), pct: Math.max(0, Number(x && x.pct) || 0) })).filter(x => x.label || x.pct) : [],
     quarters: Array.isArray(c.quarters) ? [...new Set(c.quarters.map(Number))].filter(q => QUARTERS.includes(q)).sort() : [],
     slots: Array.isArray(c.slots) ? c.slots.map(s => ({ d: Number(s && s.d), p: Number(s && s.p) }))
@@ -526,6 +577,8 @@ function normalize(d) {
     required: req > 0 ? req : DEFAULT_REQUIRED,
     scale: SCALES[s.scale] ? s.scale : 'sabcf',
     cats: Array.isArray(s.cats) ? s.cats.map(x => ({ name: str(x && x.name).trim(), req: Math.max(0, parseFloat(x && x.req) || 0) })).filter(x => x.name) : [],
+    attRatio: ATT_RATIOS.includes(s.attRatio) ? s.attRatio : 3,
+    lateRatio: LATE_RATIOS.includes(s.lateRatio) ? s.lateRatio : 3,
   };
   const u = d.ui || {};
   const uy = parseInt(u.y, 10);
@@ -589,6 +642,52 @@ function gradePicker(cur) {
     const m = gradeMeta(g);
     return `<button type="button" class="gb ${g === cur ? 'on' : ''} ${g === '' || m.label.length > 2 ? 'sm' : ''}" data-g="${g}" style="--g:${m.color};--gbg:${rgba(m.color, .22)}">${esc(m.label)}</button>`;
   }).join('');
+}
+
+/* ===== attendance ===== */
+// 月日だけで持つクォーター期間を、その授業の年度の実日付に写す（4月以降は当年、1〜3月は翌年）
+function rangeDate(year, iso) {
+  const [m, d] = iso.slice(5).split('-').map(Number);
+  return new Date(m >= ACAD_START_MONTH ? year : year + 1, m - 1, d);
+}
+function totalSessions(c) {
+  if (c.sessions) return { n: +c.sessions, src: 'manual' };
+  if (!c.slots.length) return null;
+  const rs = state.settings.ranges;
+  if (c.quarters.every(q => rs[q - 1].s && rs[q - 1].e)) {
+    let n = 0;
+    for (const q of c.quarters) {
+      const a = rangeDate(c.year, rs[q - 1].s), b = rangeDate(c.year, rs[q - 1].e);
+      if (b < a) b.setFullYear(b.getFullYear() + 1);
+      for (const dt = new Date(a); dt <= b; dt.setDate(dt.getDate() + 1)) {
+        n += c.slots.filter(s => s.d === dt.getDay() - 1).length;
+      }
+    }
+    if (n > 0) return { n, src: 'range' };
+  }
+  return { n: DEFAULT_SESSIONS_PER_Q * c.slots.length * c.quarters.length, src: 'default' };
+}
+function attInfo(c) {
+  if (c.attOff || c.grade === 'W') return null;
+  const T = totalSessions(c);
+  if (!T) return null;
+  const { attRatio, lateRatio } = state.settings;
+  const auto = Math.max(0, Math.ceil(T.n / attRatio - 1e-9) - 1);
+  const allowed = c.attMax !== '' ? +c.attMax : auto;
+  const A = c.absences.filter(a => a.type === 'A').length;
+  const L = c.absences.filter(a => a.type === 'L').length;
+  const used = A + (lateRatio ? Math.floor(L / lateRatio) : 0);
+  const rem = allowed - used;
+  const level = rem < 0 ? 'over' : rem === 0 ? 'danger' : rem === 1 ? 'warn' : 'ok';
+  return { total: T.n, src: T.src, allowed, auto, A, L, used, rem, level, active: c.grade === '' };
+}
+const attRestText = i => i.rem < 0 ? `上限を ${-i.rem} 回超過` : i.rem === 0 ? 'もう休めません' : `あと ${i.rem} 回休める`;
+function recordAbsence(c, type, date, p = 0) {
+  c.absences.push({ date, type, p });
+  c.absences.sort((a, b) => a.date.localeCompare(b.date) || a.p - b.p);
+  save();
+  const i = attInfo(c);
+  toast(`${type === 'A' ? '欠席' : '遅刻'}を記録しました${i ? `（${attRestText(i)}）` : ''}`);
 }
 
 /* ===== quarter / time ===== */
@@ -667,11 +766,21 @@ function renderNow() {
   const c = u.cs[0];
   const lab = u.live ? 'Now' : u.off === 0 ? 'Next' : u.off === 1 ? 'Tomorrow' : DAYS_EN[u.d];
   const rem = u.live ? `残り ${dur(u.left)}` : u.off === 0 ? `${dur(u.left)}後` : u.off === 1 ? '明日' : `${DAYS[u.d]}曜`;
-  el.innerHTML = `<button class="nowcard ${u.live ? 'live' : ''}" data-open="${esc(c.id)}" style="${cvars(c.color)}">
+  const ai = u.off === 0 ? attInfo(c) : null;
+  let att = '';
+  if (ai) {
+    const today = isoDate(new Date());
+    const idx = c.absences.findIndex(a => a.date === today && a.p === u.P.n);
+    att = `<div class="natt"><span class="lbl">出欠</span><span class="rest lv-${ai.level}">${attRestText(ai)}</span><span class="sp"></span>` +
+      (idx >= 0
+        ? `<span style="font-size:12.5px;color:var(--mute)">今日の${c.absences[idx].type === 'A' ? '欠席' : '遅刻'}を記録済み</span><button class="abtn" data-attundo="${esc(c.id)}|${today}|${u.P.n}">取消</button>`
+        : `<button class="abtn a" data-att="A|${esc(c.id)}|${u.P.n}">欠席</button><button class="abtn l" data-att="L|${esc(c.id)}|${u.P.n}">遅刻</button>`) + '</div>';
+  }
+  el.innerHTML = `<div class="nowwrap ${att ? 'has-att' : ''}"><button class="nowcard ${u.live ? 'live' : ''}" data-open="${esc(c.id)}" style="${cvars(c.color)}">
     <div class="when"><div class="lab"><i></i>${lab}</div><div class="big num">${u.P.n}<small style="font-size:12px;color:var(--mute);margin-left:3px">限</small></div></div>
     <div class="what"><div class="nm">${esc(c.name)}${u.cs.length > 1 ? ` <span style="color:var(--warn);font-size:12px">+${u.cs.length - 1}</span>` : ''}</div>
       <div class="sub"><span class="num">${ICON.clock}${fmtT(u.P.s)}–${fmtT(u.P.e)}</span>${c.room ? `<span>${ICON.pin}${esc(c.room)}</span>` : ''}${c.teacher ? `<span>${ICON.user}${esc(c.teacher)}</span>` : ''}</div></div>
-    <div class="rem">${rem}</div></button>`;
+    <div class="rem">${rem}</div></button>${att}</div>`;
 }
 
 function gridHTML(y, q, anim = true) {
@@ -686,7 +795,7 @@ function gridHTML(y, q, anim = true) {
       if (!cs.length) {
         h += `<button class="cell empty ${cls}" data-add="${d}-${P.n}" aria-label="${DAYS[d]}曜${P.n}限に追加">${ICON.plus}</button>`;
       } else {
-        h += `<div class="cell filled ${cls}">` + cs.map(c => `<button class="chip ${cs.length > 1 ? 'dup' : ''}" data-open="${esc(c.id)}" style="${cvars(c.color)}">${cs.length > 1 ? '<i class="dupb" title="重複"></i>' : ''}<span class="n">${esc(c.name)}</span>${c.teacher ? `<span class="t">${esc(c.teacher)}</span>` : ''}<span class="r">${esc(c.room)}</span></button>`).join('') + '</div>';
+        h += `<div class="cell filled ${cls}">` + cs.map(c => { const ai = attInfo(c); const warn = ai && ai.active && ai.level !== 'ok'; return `<button class="chip ${cs.length > 1 ? 'dup' : ''} ${warn ? 'att-' + ai.level : ''}" data-open="${esc(c.id)}" style="${cvars(c.color)}">${cs.length > 1 ? '<i class="dupb" title="重複"></i>' : ''}${warn ? `<i class="ab ${ai.level}" title="${attRestText(ai)}">${ai.rem < 0 ? '超過' : '残' + ai.rem}</i>` : ''}<span class="n">${esc(c.name)}</span>${c.teacher ? `<span class="t">${esc(c.teacher)}</span>` : ''}<span class="r">${esc(c.room)}</span></button>`; }).join('') + '</div>';
       }
     }
     if (P.n === LUNCH_AFTER) h += `<div class="lunch num">LUNCH ${fmtT(PERIODS[LUNCH_AFTER - 1].e)} – ${fmtT(PERIODS[LUNCH_AFTER].s)}</div>`;
@@ -755,7 +864,9 @@ function groupHead(title, sub, cs) {
 function rowHTML(c) {
   const where = c.slots.length ? c.slots.map(s => DAYS[s.d] + s.p).join(' ') : '時間割外';
   const sub = [c.quarters.map(q => 'Q' + q).join('·'), where, c.category, c.teacher].filter(Boolean).map(esc).join(' · ');
-  return `<button class="row" data-open="${esc(c.id)}" style="${cvars(c.color)}"><i class="dot"></i><div style="min-width:0"><div class="rn">${esc(c.name)}</div><div class="rs">${sub}</div></div><div class="rc">${c.credits ? esc(c.credits) + '<small>単位</small>' : '<small>—</small>'}</div>${gradeBadge(c)}</button>`;
+  const ai = attInfo(c);
+  const attTxt = ai && ai.active && ai.level !== 'ok' ? `<span class="lv-${ai.level}" style="font-weight:700">${attRestText(ai)}</span> · ` : '';
+  return `<button class="row" data-open="${esc(c.id)}" style="${cvars(c.color)}"><i class="dot"></i><div style="min-width:0"><div class="rn">${esc(c.name)}</div><div class="rs">${attTxt}${sub}</div></div><div class="rc">${c.credits ? esc(c.credits) + '<small>単位</small>' : '<small>—</small>'}</div>${gradeBadge(c)}</button>`;
 }
 function termCardsHTML(y, q) {
   const cs = coursesIn(y, q).sort(byTime);
@@ -765,7 +876,7 @@ function termCardsHTML(y, q) {
   return `<div class="hint" style="margin:0 0 12px;font-family:var(--mono);letter-spacing:.12em">${yearLabel(y)} Q${q} · ${cs.length} COURSES · ${fmtCr(st.reg)} CREDITS</div>
   <div class="list fade-in">` + cs.map(c => `<button class="card" data-open="${esc(c.id)}" style="${cvars(c.color)}">
     <span class="gcorner">${gradeBadge(c)}</span>
-    <div><h3>${esc(c.name)}</h3><div class="tags" style="margin-top:8px">${slotTags(c) || '<span class="tag q">時間割外</span>'}${c.credits ? `<span class="tag num">${esc(c.credits)}単位</span>` : ''}${c.category ? `<span class="tag q">${esc(c.category)}</span>` : ''}</div></div>
+    <div><h3>${esc(c.name)}</h3><div class="tags" style="margin-top:8px">${slotTags(c) || '<span class="tag q">時間割外</span>'}${c.credits ? `<span class="tag num">${esc(c.credits)}単位</span>` : ''}${c.category ? `<span class="tag q">${esc(c.category)}</span>` : ''}${(ai => ai && ai.active ? `<span class="tag num lv-${ai.level}">欠席 ${ai.used}/${ai.allowed}</span>` : '')(attInfo(c))}</div></div>
     <div class="meta">${mi(ICON.pin, 'ROOM', c.room)}${mi(ICON.user, 'TEACHER', c.teacher)}${mi(ICON.book, 'TEXTBOOK', c.textbook, true)}</div>
     <div class="mi full">${ICON.chart}<div style="min-width:0;flex:1"><span class="k">GRADING</span>${evalHTML(c)}</div></div>
     ${c.memo ? mi(ICON.note, 'MEMO', c.memo, true) : ''}
@@ -800,6 +911,13 @@ function statsHTML() {
       <div class="tile"><div class="k"><i style="background:linear-gradient(135deg,#8b7cff,#3de0d0)"></i>通算 GPA</div><div class="v num">${fmtGpa(st.gpa)}</div><div class="d">${SCALES[state.settings.scale].labels[0]}=4 〜 ${SCALES[state.settings.scale].labels[4]}=0</div></div>
       <div class="tile"><div class="k"><i style="background:${short ? 'var(--warn)' : 'var(--accent-2)'}"></i>予定込みで不足</div><div class="v num" style="color:${short ? 'var(--warn)' : 'var(--accent-2)'}">${fmtCr(short)}<small>単位</small></div><div class="d">${short ? 'あと履修登録が必要' : '要件単位に到達見込み'}</div></div>
     </div></div>`;
+
+  // 出欠の要注意
+  const risky = all.map(c => ({ c, i: attInfo(c) })).filter(x => x.i && x.i.active && x.i.level !== 'ok').sort((a, b) => a.i.rem - b.i.rem);
+  if (risky.length) {
+    h += `<div class="sec"><h3>出欠の要注意 <small>あと1回以下</small></h3><div class="rows">` + risky.map(({ c, i }) =>
+      `<button class="row" data-open="${esc(c.id)}" style="${cvars(c.color)}"><i class="dot"></i><div style="min-width:0"><div class="rn">${esc(c.name)}</div><div class="rs num">${yearLabel(c.year)} · 欠席 ${i.A} · 遅刻 ${i.L} · 上限 ${i.allowed}回 / 全${i.total}回</div></div><div class="rc lv-${i.level}" style="font-size:12.5px">${attRestText(i)}</div><span class="gbadge" style="color:${i.level === 'warn' ? 'var(--warn)' : 'var(--danger)'};border-color:currentColor;font-family:var(--mono)">${i.rem < 0 ? '超過' : '残' + i.rem}</span></button>`).join('') + '</div></div>';
+  }
 
   // 学年別
   const cy = acadYear();
@@ -881,6 +999,25 @@ function armButton(btn, label, action) {
 }
 
 /* ===== detail ===== */
+function attSectionHTML(c) {
+  const head = `<h4><svg class="ic" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>出欠</h4>`;
+  if (c.attOff) return head + '<div class="body" style="color:var(--dim)">この授業は出欠を管理しない設定です（編集から変更できます）</div>';
+  const i = attInfo(c);
+  if (!i) return head + '<div class="body" style="color:var(--dim)">曜日・時限が未設定のため総回数が分かりません。編集で「総授業回数」を入れると管理できます。</div>';
+  const src = { manual: '手入力', range: 'クォーター期間から自動計算', default: `${DEFAULT_SESSIONS_PER_Q}回×コマ数×クォーター数で仮計算` }[i.src];
+  const lateRule = state.settings.lateRatio ? `遅刻${state.settings.lateRatio}回＝欠席1回` : '遅刻は数えない';
+  const dots = Array.from({ length: Math.max(i.allowed, i.used) }, (_, k) => `<i class="${k < i.used ? (k < i.allowed ? 'u' : 'x') : ''}"></i>`).join('');
+  const log = c.absences.slice().reverse().map(a => {
+    const d = new Date(a.date + 'T00:00');
+    return `<div><em class="${a.type === 'A' ? 'ta' : 'tl'}">${a.type === 'A' ? '欠席' : '遅刻'}</em><span class="dt">${a.date.slice(5).replace('-', '/')}（${'日月火水木金土'[d.getDay()]}）${a.p ? ` ${a.p}限` : ''}</span><button type="button" data-rm="${a.date}|${a.p}|${a.type}" aria-label="記録を削除">${ICON.close}</button></div>`;
+  }).join('');
+  return head + `<div class="attbig"><b class="num lv-${i.level}">${i.rem < 0 ? '超過' : i.rem}</b><span>${i.rem < 0 ? `上限を ${-i.rem} 回超えています` : i.rem === 0 ? '回 — もう休めません' : '回 休める'}</span></div>
+    ${dots ? `<div class="dots" title="欠席換算 ${i.used} / 上限 ${i.allowed}">${dots}</div>` : ''}
+    <div class="attnums"><div><b class="num">${i.A}</b><small>欠席</small></div><div><b class="num">${i.L}</b><small>遅刻</small></div><div><b class="num">${i.allowed}</b><small>上限</small></div><div><b class="num">${i.total}</b><small>総回数</small></div></div>
+    <div class="hint">総回数：${src}。上限：${c.attMax !== '' ? '手入力' : `総回数の1/${state.settings.attRatio}未満`}。${lateRule}。</div>
+    <div class="attadd"><input type="date" id="attDate" value="${isoDate(new Date())}" aria-label="日付"><button type="button" class="abtn a" data-addatt="A">＋欠席</button><button type="button" class="abtn l" data-addatt="L">＋遅刻</button></div>
+    ${log ? `<div class="alog">${log}</div>` : ''}`;
+}
 function openDetail(id) {
   const c = state.courses.find(x => x.id === id);
   if (!c) return;
@@ -895,6 +1032,7 @@ function openDetail(id) {
       ${sec(ICON.star, '単位', c.credits ? esc(c.credits) : '')}
       ${sec(ICON.tag, '科目区分', esc(c.category))}
     </div>
+    <div class="dsec" id="dAtt">${attSectionHTML(c)}</div>
     ${sec(ICON.book, '教科書', esc(c.textbook))}
     <div class="dsec"><h4>${ICON.chart}評価基準</h4>${evalHTML(c)}</div>
     ${c.url ? sec(ICON.link, 'シラバス', isUrl(c.url) ? `<a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">${esc(c.url)}</a>` : esc(c.url)) : ''}
@@ -909,6 +1047,25 @@ function openDetail(id) {
       $$('.gb', sh).forEach(x => x.classList.toggle('on', x === b));
       note(); save(); render();
       toast(`成績を「${gradeMeta(c.grade).label}」にしました`);
+    });
+    const attEl = $('#dAtt', sh);
+    attEl.addEventListener('click', e => {
+      const add = e.target.closest('[data-addatt]');
+      const rm = e.target.closest('[data-rm]');
+      if (add) {
+        const date = $('#attDate', attEl).value;
+        if (!date) { toast('日付を選んでください'); return; }
+        const dow = new Date(date + 'T00:00').getDay() - 1;
+        const slot = c.slots.find(s => s.d === dow);
+        recordAbsence(c, add.dataset.addatt, date, slot ? slot.p : 0);
+      } else if (rm) {
+        const [date, p, type] = rm.dataset.rm.split('|');
+        const k = c.absences.findIndex(a => a.date === date && a.p === +p && a.type === type);
+        if (k >= 0) c.absences.splice(k, 1);
+        save(); toast('記録を削除しました');
+      } else return;
+      attEl.innerHTML = attSectionHTML(c);
+      render();
     });
     $('#dEdit', sh).addEventListener('click', () => openForm(c.id));
     armButton($('#dDel', sh), `${ICON.trash}本当に削除`, () => {
@@ -935,6 +1092,10 @@ function openForm(id, preset) {
   const erow = x => `<div class="erow"><input type="text" class="el" placeholder="項目（例：期末試験）" value="${esc(x.label)}"><div class="pct"><input type="number" class="ep num" inputmode="numeric" min="0" max="100" step="1" placeholder="0" value="${x.pct || ''}"></div><button type="button" class="x" aria-label="削除">${ICON.close}</button></div>`;
   const years = yearsList();
   if (!years.includes(c.year)) years.push(c.year);
+  const attAuto = (() => {
+    const t = totalSessions({ ...c, sessions: '' });
+    return { total: t ? t.n : null, allowed: t ? Math.max(0, Math.ceil(t.n / state.settings.attRatio - 1e-9) - 1) : null };
+  })();
   const cats = [...new Set([...state.settings.cats.map(x => x.name), ...state.courses.map(x => x.category).filter(Boolean), ...CAT_PRESETS])];
   const body = `<form id="cf" autocomplete="off" novalidate>
     <div class="fg" style="margin-top:6px"><label for="fName">授業名 <span class="req">*</span></label><input type="text" id="fName" placeholder="例：線形代数学Ⅰ" value="${esc(c.name)}" maxlength="80"></div>
@@ -946,6 +1107,10 @@ function openForm(id, preset) {
       <div class="fg"><label for="fTeacher">先生</label><input type="text" id="fTeacher" placeholder="例：山田 太郎" value="${esc(c.teacher)}"></div></div>
     <div class="fg"><label for="fCat">科目区分</label><input type="text" id="fCat" list="catList" placeholder="例：専門必修・教養・外国語" value="${esc(c.category)}"><datalist id="catList">${cats.map(x => `<option value="${esc(x)}">`).join('')}</datalist></div>
     <div class="fg"><span class="fl">成績</span><div class="gpick" id="fG">${gradePicker(c.grade)}</div><div class="hint">成績が出るまでは「履修中」のまま（取得予定単位に計上）。</div></div>
+    <div class="fg"><span class="fl">出欠管理</span><div class="toggles" style="grid-template-columns:1fr 1fr" id="fAtt"><button type="button" class="tg ${c.attOff ? '' : 'on'}" data-a="on">管理する</button><button type="button" class="tg ${c.attOff ? 'on' : ''}" data-a="off">しない</button></div>
+      <div class="row2"><div class="fg"><label for="fSess">総授業回数</label><input type="number" id="fSess" inputmode="numeric" min="1" step="1" placeholder="${attAuto.total != null ? `自動（${attAuto.total}回）` : '要入力'}" value="${esc(c.sessions || '')}"></div>
+        <div class="fg"><label for="fAttMax">休める回数</label><input type="number" id="fAttMax" inputmode="numeric" min="0" step="1" placeholder="${attAuto.allowed != null ? `自動（${attAuto.allowed}回）` : '自動'}" value="${esc(c.attMax || '')}"></div></div>
+      <div class="hint">空欄なら自動：総回数はクォーター期間（未設定なら${DEFAULT_SESSIONS_PER_Q}回/クォーター）から、休める回数は「総回数の1/${state.settings.attRatio}以上で不可」から計算。シラバスに回数が書いてあれば上書きしてください。</div></div>
     <div class="fg"><label for="fBook">教科書</label><textarea id="fBook" placeholder="書名・著者・出版社・ISBN など（複数可）">${esc(c.textbook)}</textarea></div>
     <div class="fg"><span class="fl">評価基準</span>
       <div class="presets" id="ePre">${EVAL_PRESETS.map(p => `<button type="button" class="pre" data-p="${esc(p)}">＋ ${esc(p)}</button>`).join('')}</div>
@@ -1006,6 +1171,11 @@ function openForm(id, preset) {
       c.grade = b.dataset.g;
       $$('#fG .gb', sh).forEach(x => x.classList.toggle('on', x === b));
     });
+    $('#fAtt', sh).addEventListener('click', e => {
+      const b = e.target.closest('.tg'); if (!b) return;
+      c.attOff = b.dataset.a === 'off';
+      $$('#fAtt .tg', sh).forEach(x => x.classList.toggle('on', x === b));
+    });
     $('#fC', sh).addEventListener('click', e => {
       const b = e.target.closest('.sw'); if (!b) return;
       c.color = b.dataset.c;
@@ -1029,6 +1199,7 @@ function openForm(id, preset) {
         room: $('#fRoom', sh).value.trim(), teacher: $('#fTeacher', sh).value.trim(), textbook: $('#fBook', sh).value.trim(),
         category: $('#fCat', sh).value, evalNote: $('#fENote', sh).value.trim(), credits: $('#fCred', sh).value.trim(), url: $('#fUrl', sh).value.trim(), memo: $('#fMemo', sh).value.trim(),
         evals: $$('.erow', rows).map(r => ({ label: $('.el', r).value, pct: Number($('.ep', r).value) || 0 })),
+        sessions: $('#fSess', sh).value, attMax: $('#fAttMax', sh).value,
       });
       if (editing) state.courses[state.courses.findIndex(x => x.id === editing.id)] = out;
       else state.courses.push(out);
@@ -1170,6 +1341,10 @@ function openSettings() {
     <div class="fg"><span class="fl">卒業要件単位</span><input type="number" id="stReq" inputmode="decimal" min="1" value="${S.required}"></div>
     <div class="fg"><span class="fl">成績の段階</span><select id="stScale">${Object.entries(SCALES).map(([k, v]) => `<option value="${k}" ${k === S.scale ? 'selected' : ''}>${v.name}</option>`).join('')}</select>
       <div class="hint">GPA は上から 4・3・2・1・0 で計算します。「合格」「不合格」はGPA対象外、「取消」は集計から除外します。</div></div>
+    <div class="fg"><span class="fl">出欠のルール</span>
+      <div class="row2" style="margin-top:0"><select id="stAtt">${ATT_RATIOS.map(n => `<option value="${n}" ${n === S.attRatio ? 'selected' : ''}>欠席が1/${n}以上で不可</option>`).join('')}</select>
+        <select id="stLate">${LATE_RATIOS.map(n => `<option value="${n}" ${n === S.lateRatio ? 'selected' : ''}>${n ? `遅刻${n}回＝欠席1回` : '遅刻は数えない'}</option>`).join('')}</select></div>
+      <div class="hint">学生便覧・シラバスの規定に合わせてください。授業ごとの例外は各授業の編集画面で上書きできます。</div></div>
     <div class="fg"><span class="fl">科目区分ごとの要件（任意）</span><div id="stCats">${S.cats.map(crow).join('')}</div>
       <datalist id="catList2">${cats.map(x => `<option value="${esc(x)}">`).join('')}</datalist>
       <button type="button" class="linkbtn" id="stCatAdd">＋ 区分を追加</button>
@@ -1198,6 +1373,8 @@ function openSettings() {
       S.years = +$('#stYears', sh).value;
       S.required = req;
       S.scale = $('#stScale', sh).value;
+      S.attRatio = +$('#stAtt', sh).value;
+      S.lateRatio = +$('#stLate', sh).value;
       S.cats = $$('.crow', catsEl).map(r => ({ name: $('.cn', r).value.trim(), req: Math.max(0, parseFloat($('.cr', r).value) || 0) })).filter(x => x.name);
       const cq = quarterByDate();
       if (cq) state.ui.q = cq;
@@ -1214,6 +1391,20 @@ function openSettings() {
 document.addEventListener('click', e => {
   if (e.target.closest('#sheet')) return;
   if (e.target.closest('#goSettings')) { openSettings(); return; }
+  const at = e.target.closest('[data-att],[data-attundo]');
+  if (at) {
+    if (at.dataset.att) {
+      const [type, id, p] = at.dataset.att.split('|');
+      const c = state.courses.find(x => x.id === id);
+      if (c) recordAbsence(c, type, isoDate(new Date()), +p);
+    } else {
+      const [id, date, p] = at.dataset.attundo.split('|');
+      const c = state.courses.find(x => x.id === id);
+      if (c) { c.absences = c.absences.filter(a => !(a.date === date && a.p === +p)); save(); toast('今日の記録を取り消しました'); }
+    }
+    render();
+    return;
+  }
   const t = e.target.closest('[data-q],[data-y],[data-view],[data-filter],[data-goyear],[data-open],[data-add]');
   if (!t) return;
   const d = t.dataset;
