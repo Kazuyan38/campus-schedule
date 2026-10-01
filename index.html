@@ -266,10 +266,10 @@
   .sharebox{display:flex;gap:8px}
   .sharebox input{font-family:var(--mono);font-size:12.5px}
   .stack{display:flex;flex-direction:column;gap:10px}
-  .qrange{display:grid;grid-template-columns:34px 1fr 12px 1fr;gap:8px;align-items:center;margin-bottom:8px}
+  .qrange{display:grid;grid-template-columns:26px minmax(0,1fr) 10px minmax(0,1fr);gap:6px;align-items:center;margin-bottom:10px}
   .qrange b{font-family:var(--mono);font-size:13px;color:var(--mute)}
   .qrange span{color:var(--dim);text-align:center}
-  .qrange input{padding:10px;font-size:14px}
+  .qrange input{min-width:0;width:100%;height:44px;padding:0 8px;font-size:14px;-webkit-appearance:none;appearance:none}
   .divider{height:1px;background:var(--line);margin:22px 0 4px}
   .about{font-size:12px;color:var(--dim);line-height:1.8;margin-top:18px}
 
@@ -543,6 +543,40 @@
   .dempty{width:100%;min-height:48px;border-radius:14px;border:1px dashed rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;gap:8px;color:var(--dim);font-size:12.5px}
   .dempty .ic{width:16px;height:16px}
 
+  /* ---------- requirement diagram / category ---------- */
+  .rq-eq{font-size:13px;color:var(--mute);margin:-4px 0 14px;line-height:1.7}
+  .rq-eq b{font-family:var(--mono);font-size:15px;color:var(--fg)}
+  .ice{display:flex;flex-direction:column;gap:4px;margin:0 0 16px}
+  .ice-row{display:flex;gap:4px}
+  .ice-row .slot2{display:flex;gap:3px;min-width:0}
+  .seg{position:relative;min-width:0;height:46px;border-radius:9px;overflow:hidden;background:rgba(255,255,255,.045);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;text-align:center}
+  .ice-row.sub .seg{height:36px;border-radius:7px}
+  .seg .e{position:absolute;left:0;top:0;bottom:0;background:var(--c);opacity:.9;box-shadow:0 0 14px var(--c)}
+  .seg .p{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,var(--c) 0 3px,transparent 3px 6px);opacity:.55}
+  .seg span{position:relative;z-index:1;display:flex;flex-direction:column;line-height:1.15;padding:0 3px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+  .seg b{font-size:12.5px;font-weight:750;white-space:nowrap}
+  .seg small{font-size:10.5px;font-family:var(--mono)}
+  .yrow.rq{grid-template-columns:112px minmax(0,1fr) 46px;gap:12px;padding:12px 12px 12px 13px;border-left:3px solid var(--c)}
+  .yrow.rq b{font-size:13.5px;line-height:1.35}
+  .yrow.rq.grp{background:var(--panel-2);border-color:var(--c3);border-left-color:var(--c)}
+  .yrow.rq .sbar .e{background:var(--c);box-shadow:0 0 10px var(--c)}
+  .yrow.rq .sbar .p{background:repeating-linear-gradient(135deg,var(--c3) 0 4px,var(--c1) 4px 8px)}
+  .rq-kids{margin:8px 0 0 10px;padding-left:10px;border-left:2px solid var(--line-2);display:flex;flex-direction:column;gap:8px}
+  .rq-g{margin-bottom:2px}
+  .cgrp{margin-bottom:14px}
+  .cgrp .cl{display:flex;align-items:baseline;gap:8px;font-size:12.5px;font-weight:700;color:var(--mute);margin-bottom:8px}
+  .cgrp .cl em{font-style:normal;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--dim)}
+  .cchips{display:flex;flex-wrap:wrap;gap:8px}
+  .cc{min-height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);font-size:13.5px;font-weight:650;color:var(--mute);transition:all .15s;text-align:left}
+  .cc.on{color:#fff;background:linear-gradient(135deg,rgba(139,124,255,.45),rgba(91,140,255,.3));border-color:rgba(139,124,255,.8);box-shadow:0 0 18px -6px rgba(139,124,255,.8)}
+  .cblk{margin-bottom:12px;padding:8px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+  .cblk .crow.top .cn{font-weight:700}
+  .ckids{margin:8px 0 0 6px;padding-left:8px;border-left:2px solid var(--line-2)}
+  .crow{grid-template-columns:minmax(0,1fr) 62px 38px;gap:6px}
+  .crow input{padding:12px 10px}
+  .crow .cr{text-align:right}
+  .crow .x{width:38px}
+
   /* ---------- phone (primary target) ---------- */
   @media (max-width:719px){
     .top{padding-top:max(8px,env(safe-area-inset-top));padding-bottom:10px;align-items:center}
@@ -642,11 +676,27 @@ const QUARTERS = [1, 2, 3, 4];
 const LUNCH_AFTER = 2;
 const ACAD_START_MONTH = 4;      // 年度の始まり（4月）
 const DEFAULT_YEARS = 4;
-const DEFAULT_REQUIRED = 124;    // 大学設置基準の卒業要件単位数
+const DEFAULT_REQUIRED = 128;    // 卒業要件単位数（全学教育科目 36 + 専門教育科目 92）
+// 卒業要件の区分。大区分の下に小区分を持てる（授業には葉＝小区分、または小区分のない大区分を付ける）。req=0 は最低単位の指定なし
+const CURRICULUM = [
+  { name: '全学教育科目', req: 36, kids: [] },
+  { name: '専門教育科目', req: 92, kids: [
+    { name: '学部共通専門科目', req: 10 }, { name: '基幹科目', req: 12 }, { name: '地域課題関連分野', req: 4 },
+    { name: '公共政策関連分野', req: 4 }, { name: '経済・社会関連分野', req: 4 }, { name: '実践科目', req: 14 },
+    { name: 'ゼミナール', req: 12 }, { name: '関連科目', req: 0 }, { name: '選択科目', req: 32 },
+  ] },
+];
+function presetCats() {
+  const out = [];
+  CURRICULUM.forEach((t, i) => {
+    out.push({ id: 'p' + i, name: t.name, req: t.req, parent: '' });
+    t.kids.forEach((k, j) => out.push({ id: `p${i}_${j}`, name: k.name, req: k.req, parent: 'p' + i }));
+  });
+  return out;
+}
 const COLORS = ['#8b7cff', '#3de0d0', '#ff6fb1', '#ffb547', '#5b9dff', '#4ee38a', '#ff7a59', '#c77dff', '#29c5f6', '#e6e36b'];
 const EVAL_COLORS = ['#8b7cff', '#3de0d0', '#ff6fb1', '#ffb547', '#5b9dff', '#4ee38a', '#ff7a59', '#c77dff'];
 const EVAL_PRESETS = ['期末試験', '中間試験', 'レポート', '小テスト', '課題', '出席・平常点', '発表', 'リアクションペーパー'];
-const CAT_PRESETS = ['必修', '選択必修', '選択', '教養', '専門', '外国語', '自由'];
 const SCALES = {
   sabcf: { name: 'S / A / B / C / F', labels: ['S', 'A', 'B', 'C', 'F'] },
   yu:    { name: '秀 / 優 / 良 / 可 / 不可', labels: ['秀', '優', '良', '可', '不可'] },
@@ -715,7 +765,7 @@ function defaultState() {
   const y = acadYear();
   return {
     v: 2, courses: [], exams: [],
-    settings: { ranges: QUARTERS.map(() => ({ s: '', e: '' })), entryYear: y, entrySet: false, years: DEFAULT_YEARS, required: DEFAULT_REQUIRED, scale: 'sabcf', cats: [], attRatio: 3, lateRatio: 3 },
+    settings: { ranges: QUARTERS.map(() => ({ s: '', e: '' })), entryYear: y, entrySet: false, years: DEFAULT_YEARS, required: DEFAULT_REQUIRED, scale: 'sabcf', cats: presetCats(), curr: 1, attRatio: 3, lateRatio: 3 },
     ui: { y, q: 1, view: 'grid', filter: 'term', span: 'week' },
   };
 }
@@ -764,6 +814,12 @@ function normExam(x) {
     logs: Array.isArray(x.logs) ? x.logs.filter(l => l && isISO(l.d) && parseInt(l.m, 10) > 0).map(l => ({ d: l.d, m: parseInt(l.m, 10) })) : [],
   };
 }
+function normCats(raw) {
+  const list = (Array.isArray(raw) ? raw : []).map(x => ({ id: str(x && x.id) || uid(), name: str(x && x.name).trim(), req: Math.max(0, parseFloat(x && x.req) || 0), parent: str(x && x.parent) }))
+    .filter((x, i, a) => x.name && a.findIndex(y => y.name === x.name) === i);
+  const byId = new Map(list.map(x => [x.id, x]));
+  return list.map(x => { const q = byId.get(x.parent); return { ...x, parent: q && !q.parent && q !== x ? q.id : '' }; });   // 区分は2階層まで
+}
 function normalize(d) {
   const base = defaultState();
   if (!d || !Array.isArray(d.courses)) return base;
@@ -778,10 +834,13 @@ function normalize(d) {
     years: yrs >= 1 && yrs <= 8 ? yrs : DEFAULT_YEARS,
     required: req > 0 ? req : DEFAULT_REQUIRED,
     scale: SCALES[s.scale] ? s.scale : 'sabcf',
-    cats: Array.isArray(s.cats) ? s.cats.map(x => ({ name: str(x && x.name).trim(), req: Math.max(0, parseFloat(x && x.req) || 0) })).filter(x => x.name) : [],
+    cats: normCats(s.cats),
     attRatio: ATT_RATIOS.includes(s.attRatio) ? s.attRatio : 3,
     lateRatio: LATE_RATIOS.includes(s.lateRatio) ? s.lateRatio : 3,
   };
+  // 旧データ：区分が未設定で卒業要件が旧既定の124のままなら、現行の卒業要件（128単位・区分つき）に切り替える
+  if (!s.curr && !settings.cats.length && (!(req > 0) || req === 124)) { settings.cats = presetCats(); settings.required = DEFAULT_REQUIRED; }
+  settings.curr = 1;
   const u = d.ui || {};
   const uy = parseInt(u.y, 10);
   return {
@@ -1143,6 +1202,67 @@ function emptyHTML(msg, withAdd = true) {
   return `<div class="empty-state fade-in"><b>${msg}</b><p>時間割のマスをタップするか、＋ボタンから授業を追加してください。<br>別の端末のデータは「共有」ボタンのリンクから取り込めます。</p>${withAdd ? `<button class="btn pri" data-add="">${ICON.plus}授業を追加</button>` : ''}</div>`;
 }
 
+/* ----- 卒業要件（区分別の最低取得単位） ----- */
+const catPath = name => {
+  const cs = state.settings.cats, k = cs.find(x => x.name === name), q = k && k.parent && cs.find(x => x.id === k.parent);
+  return q ? `${q.name} › ${name}` : name;
+};
+function reqHTML() {
+  const cs = state.settings.cats;
+  if (!cs.length) return '';
+  const GROUP_COLOR = '#aab2d5';
+  let ci = 0;
+  const tops = cs.filter(c => !c.parent);
+  const nodes = tops.map(t => {
+    const kids = cs.filter(k => k.parent === t.id).map(k => ({ k, color: COLORS[ci++ % COLORS.length], st: stats(state.courses.filter(c => c.category === k.name)) }));
+    if (kids.length) return { t, kids, color: GROUP_COLOR, st: stats(state.courses.filter(c => kids.some(x => x.k.name === c.category))) };
+    return { t, kids, color: COLORS[ci++ % COLORS.length], st: stats(state.courses.filter(c => c.category === t.name)) };
+  });
+  const leaves = new Set(nodes.flatMap(n => n.kids.length ? n.kids.map(x => x.k.name) : [n.t.name]));
+  const orphan = stats(state.courses.filter(c => !leaves.has(c.category)));
+  const sum = nodes.reduce((a, n) => a + n.t.req, 0);
+  const total = sum || 1;
+  const pc = (v, r) => r ? Math.min(100, v / r * 100) : 0;
+
+  const seg = (label, req, st, color, big) => {
+    const e = pc(st.earned, req), pl = Math.min(100 - e, pc(st.planned, req));
+    const txt = big ? `<span><b>${esc(label)}</b><small class="num">${fmtCr(st.earned)} / ${fmtCr(req)}</small></span>` : req / total >= .06 ? `<span><small class="num">${fmtCr(req)}</small></span>` : '';
+    return `<div class="seg" style="flex:${req};--c:${color}" title="${esc(label)}　取得 ${fmtCr(st.earned)} / 最低 ${fmtCr(req)}"><i class="e" style="width:${e}%"></i><i class="p" style="left:${e}%;width:${pl}%"></i>${txt}</div>`;
+  };
+  const top = nodes.filter(n => n.t.req > 0).map(n => seg(n.t.name, n.t.req, n.st, n.color, true)).join('');
+  const sub = nodes.filter(n => n.t.req > 0).map(n => {
+    const ks = n.kids.filter(x => x.k.req > 0);
+    const rest = n.t.req - ks.reduce((a, x) => a + x.k.req, 0);
+    return `<div class="slot2" style="flex:${n.t.req}">${ks.map(x => seg(x.k.name, x.k.req, x.st, x.color, false)).join('')}${rest > 0 && ks.length ? `<div style="flex:${rest}"></div>` : ''}</div>`;
+  }).join('');
+
+  const row = (name, req, st, color, kind) => {
+    const need = Math.max(0, req - st.earned), covered = st.earned + st.planned >= req;
+    const max = Math.max(req, st.earned + st.planned, 1);
+    const right = !req ? `<b>${fmtCr(st.earned)}</b><small>取得</small>`
+      : need ? `<b style="color:${covered ? 'var(--mute)' : 'var(--warn)'}">${fmtCr(need)}</b><small>あと</small>`
+        : '<b style="color:var(--accent-2)">✓</b><small>達成</small>';
+    return `<div class="yrow rq ${kind}" style="${cvars(color)}"><div><b>${esc(name)}</b><span class="ysub">${req ? '最低 ' + fmtCr(req) + '単位' : '最低単位の指定なし'}</span></div>` +
+      `<div style="min-width:0"><div class="sbar"><i class="e" style="width:${st.earned / max * 100}%"></i><i class="p" style="width:${st.planned / max * 100}%"></i>${req ? `<span class="req" style="left:calc(${req / max * 100}% - 2px)"></span>` : ''}</div>` +
+      `<div class="ymeta"><span>取得 ${fmtCr(st.earned)} / 予定 ${fmtCr(st.planned)}</span><span>${st.n}科目</span></div></div><div class="ynum">${right}</div></div>`;
+  };
+  const table = nodes.map(n => n.kids.length
+    ? `<div class="rq-g">${row(n.t.name, n.t.req, n.st, n.color, 'grp')}<div class="rq-kids">${n.kids.map(x => row(x.k.name, x.k.req, x.st, x.color, 'sub')).join('')}</div></div>`
+    : row(n.t.name, n.t.req, n.st, n.color, 'top')).join('');
+
+  const eq = nodes.filter(n => n.t.req > 0).map(n => `${esc(n.t.name)} ${fmtCr(n.t.req)}`).join(' ＋ ');
+  const mismatch = sum && sum !== state.settings.required ? `<div class="hint warn">区分の合計（${fmtCr(sum)}単位）が、設定の卒業要件（${fmtCr(state.settings.required)}単位）と一致していません。</div>` : '';
+  const kidMismatch = nodes.filter(n => n.kids.length && n.kids.reduce((x, k) => x + k.k.req, 0) !== n.t.req)
+    .map(n => `<div class="hint warn">${esc(n.t.name)}の小区分の合計（${fmtCr(n.kids.reduce((x, k) => x + k.k.req, 0))}単位）が、${esc(n.t.name)}の ${fmtCr(n.t.req)}単位と一致していません。</div>`).join('');
+  return `<div class="sec"><h3>卒業要件の内訳 <small>区分ごとの最低取得単位</small></h3>
+    <div class="rq-eq num">卒業要件 <b>${fmtCr(state.settings.required)}</b> 単位 ＝ ${eq}</div>
+    <div class="ice" role="img" aria-label="卒業要件の区分別の達成状況"><div class="ice-row">${top}</div><div class="ice-row sub">${sub}</div></div>
+    <div class="ytable">${table}</div>
+    ${orphan.n ? `<div class="hint warn" style="margin-top:10px">区分を設定していない授業が ${orphan.n} 科目（${fmtCr(orphan.reg)}単位）あります。要件に数えられないので、授業の編集で科目区分を選んでください。</div>` : ''}
+    ${mismatch}${kidMismatch}
+    <div class="legend-mini"><span><i style="background:var(--warn)"></i>あと＝予定を含めても不足</span><span><i style="background:var(--mute)"></i>あと＝履修予定で充足見込み</span><span><i style="background:var(--accent-2)"></i>✓＝達成</span></div></div>`;
+}
+
 /* ----- stats ----- */
 function statsHTML() {
   const all = state.courses;
@@ -1187,22 +1307,7 @@ function statsHTML() {
       <div class="ynum"><b>${fmtGpa(s.gpa)}</b><small>GPA</small></div></button>`;
   }).join('') + '</div></div>';
 
-  // 科目区分別
-  const catNames = [...state.settings.cats.map(c => c.name)];
-  all.forEach(c => { const n = c.category || '未分類'; if (!catNames.includes(n)) catNames.push(n); });
-  if (catNames.length) {
-    h += `<div class="sec"><h3>科目区分別 <small>要件は設定で登録</small></h3><div class="ytable">` + catNames.map(name => {
-      const cs = all.filter(c => (c.category || '未分類') === name);
-      const s = stats(cs);
-      const reqC = (state.settings.cats.find(x => x.name === name) || {}).req || 0;
-      const max = Math.max(reqC, s.earned + s.planned, 1);
-      const need = reqC ? Math.max(0, reqC - s.earned) : null;
-      return `<div class="yrow"><div><b style="font-size:14px">${esc(name)}</b><span class="ysub">${s.n}科目</span></div>
-        <div style="min-width:0"><div class="sbar"><i class="e" style="width:${s.earned / max * 100}%"></i><i class="p" style="width:${s.planned / max * 100}%"></i>${reqC ? `<span class="req" style="left:calc(${reqC / max * 100}% - 2px)"></span>` : ''}</div>
-          <div class="ymeta"><span>取得 ${fmtCr(s.earned)} / 予定 ${fmtCr(s.planned)}</span><span>${reqC ? `要件 ${fmtCr(reqC)}` : ''}</span></div></div>
-        <div class="ynum">${need == null ? `<b>${fmtCr(s.earned)}</b><small>取得</small>` : need ? `<b style="color:var(--warn)">${fmtCr(need)}</b><small>あと</small>` : `<b style="color:var(--accent-2)">✓</b><small>達成</small>`}</div></div>`;
-    }).join('') + '</div><div class="legend-mini"><span><i style="background:#3de0d0"></i>取得</span><span><i style="background:rgba(139,124,255,.8)"></i>予定</span><span><i style="background:#fff;width:2px;height:10px"></i>要件</span></div></div>';
-  }
+  h += reqHTML();
 
   // 成績分布
   const codes = ['g0', 'g1', 'g2', 'g3', 'g4', 'P', 'N'];
@@ -1287,7 +1392,7 @@ function openDetail(id) {
       ${sec(ICON.pin, '教室', esc(c.room))}
       ${sec(ICON.user, '先生', esc(c.teacher))}
       ${sec(ICON.star, '単位', c.credits ? esc(c.credits) : '')}
-      ${sec(ICON.tag, '科目区分', esc(c.category))}
+      ${sec(ICON.tag, '科目区分', esc(catPath(c.category)))}
     </div>
     <div class="dsec" id="dAtt">${attSectionHTML(c)}</div>
     <div class="dsec" id="dEx">${courseExamsHTML(c)}</div>
@@ -1359,7 +1464,18 @@ function openForm(id, preset) {
     const t = totalSessions({ ...c, sessions: '' });
     return { total: t ? t.n : null, allowed: t ? Math.max(0, Math.ceil(t.n / state.settings.attRatio - 1e-9) - 1) : null };
   })();
-  const cats = [...new Set([...state.settings.cats.map(x => x.name), ...state.courses.map(x => x.category).filter(Boolean), ...CAT_PRESETS])];
+  const catPick = () => {
+    const cs = state.settings.cats, tops = cs.filter(x => !x.parent);
+    const chip = k => `<button type="button" class="cc ${k.name === c.category ? 'on' : ''}" data-cat="${esc(k.name)}">${esc(k.name)}</button>`;
+    const solo = tops.filter(t => !cs.some(k => k.parent === t.id));
+    let h = solo.length ? `<div class="cgrp"><div class="cchips">${solo.map(chip).join('')}</div></div>` : '';
+    for (const t of tops) {
+      const kids = cs.filter(k => k.parent === t.id);
+      if (kids.length) h += `<div class="cgrp"><span class="cl">${esc(t.name)}${t.req ? `<em>${fmtCr(t.req)}単位</em>` : ''}</span><div class="cchips">${kids.map(chip).join('')}</div></div>`;
+    }
+    if (c.category && !cs.some(x => x.name === c.category)) h += `<div class="cgrp"><span class="cl">以前の区分</span><div class="cchips">${chip({ name: c.category })}</div></div>`;
+    return h || '<div class="hint">設定で科目区分を登録すると、ここから選べます。</div>';
+  };
   const body = `<form id="cf" autocomplete="off" novalidate>
     <div class="fg" style="margin-top:6px"><label for="fName">授業名 <span class="req">*</span></label><input type="text" id="fName" placeholder="例：線形代数学Ⅰ" value="${esc(c.name)}" maxlength="80"></div>
     <div class="row2"><div class="fg"><label for="fYear">学年・年度</label><select id="fYear">${years.sort((a, b) => a - b).map(y => `<option value="${y}" ${y === c.year ? 'selected' : ''}>${yearLabel(y)}（${y}年度）</option>`).join('')}</select></div>
@@ -1368,7 +1484,7 @@ function openForm(id, preset) {
     <div class="fg"><span class="fl">曜日・時限（複数選択可・集中講義などは空欄でOK）</span><div class="slots" id="fS">${slotGrid()}</div><div class="hint" id="slotHint"></div></div>
     <div class="row2"><div class="fg"><label for="fRoom">教室</label><input type="text" id="fRoom" placeholder="例：A棟 301" value="${esc(c.room)}"></div>
       <div class="fg"><label for="fTeacher">先生</label><input type="text" id="fTeacher" placeholder="例：山田 太郎" value="${esc(c.teacher)}"></div></div>
-    <div class="fg"><label for="fCat">科目区分</label><input type="text" id="fCat" list="catList" placeholder="例：専門必修・教養・外国語" value="${esc(c.category)}"><datalist id="catList">${cats.map(x => `<option value="${esc(x)}">`).join('')}</datalist></div>
+    <div class="fg"><span class="fl">科目区分（卒業要件）</span><div id="fCat">${catPick()}</div><div class="hint">選んだ区分は「単位・成績」の卒業要件に集計されます。もう一度タップすると解除。</div></div>
     <div class="fg"><span class="fl">成績</span><div class="gpick" id="fG">${gradePicker(c.grade)}</div><div class="hint">成績が出るまでは「履修中」のまま（取得予定単位に計上）。</div></div>
     <div class="fg"><span class="fl">出欠管理</span><div class="toggles" style="grid-template-columns:1fr 1fr" id="fAtt"><button type="button" class="tg ${c.attOff ? '' : 'on'}" data-a="on">管理する</button><button type="button" class="tg ${c.attOff ? 'on' : ''}" data-a="off">しない</button></div>
       <div class="row2"><div class="fg"><label for="fSess">総授業回数</label><input type="number" id="fSess" inputmode="numeric" min="1" step="1" placeholder="${attAuto.total != null ? `自動（${attAuto.total}回）` : '要入力'}" value="${esc(c.sessions || '')}"></div>
@@ -1434,6 +1550,11 @@ function openForm(id, preset) {
       c.grade = b.dataset.g;
       $$('#fG .gb', sh).forEach(x => x.classList.toggle('on', x === b));
     });
+    $('#fCat', sh).addEventListener('click', e => {
+      const b = e.target.closest('.cc'); if (!b) return;
+      c.category = c.category === b.dataset.cat ? '' : b.dataset.cat;
+      $$('#fCat .cc', sh).forEach(x => x.classList.toggle('on', x.dataset.cat === c.category));
+    });
     $('#fAtt', sh).addEventListener('click', e => {
       const b = e.target.closest('.tg'); if (!b) return;
       c.attOff = b.dataset.a === 'off';
@@ -1460,7 +1581,7 @@ function openForm(id, preset) {
       const out = normCourse({
         ...c, id: editing ? editing.id : uid(), name: nameEl.value,
         room: $('#fRoom', sh).value.trim(), teacher: $('#fTeacher', sh).value.trim(), textbook: $('#fBook', sh).value.trim(),
-        category: $('#fCat', sh).value, evalNote: $('#fENote', sh).value.trim(), credits: $('#fCred', sh).value.trim(), url: $('#fUrl', sh).value.trim(), memo: $('#fMemo', sh).value.trim(),
+        category: c.category, evalNote: $('#fENote', sh).value.trim(), credits: $('#fCred', sh).value.trim(), url: $('#fUrl', sh).value.trim(), memo: $('#fMemo', sh).value.trim(),
         evals: $$('.erow', rows).map(r => ({ label: $('.el', r).value, pct: Number($('.ep', r).value) || 0 })),
         sessions: $('#fSess', sh).value, attMax: $('#fAttMax', sh).value,
       });
@@ -1914,8 +2035,8 @@ function openSettings() {
   const S = state.settings;
   const r = S.ranges;
   const cy = acadYear();
-  const crow = x => `<div class="crow"><input type="text" class="cn" placeholder="区分名（例：専門必修）" value="${esc(x.name)}" list="catList2"><input type="number" class="cr num" inputmode="decimal" min="0" placeholder="単位" value="${x.req || ''}"><button type="button" class="x" aria-label="削除">${ICON.close}</button></div>`;
-  const cats = [...new Set([...state.courses.map(x => x.category).filter(Boolean), ...CAT_PRESETS])];
+  const crow = (x, kind) => `<div class="crow ${kind}" data-id="${esc(x.id)}"><input type="text" class="cn" placeholder="${kind === 'kid' ? '小区分名（例：基幹科目）' : '区分名（例：全学教育科目）'}" value="${esc(x.name)}" maxlength="30"><input type="number" class="cr num" inputmode="decimal" min="0" step="1" placeholder="単位" value="${x.req || ''}" aria-label="最低取得単位"><button type="button" class="x" aria-label="削除">${ICON.close}</button></div>`;
+  const blk = t => `<div class="cblk" data-id="${esc(t.id)}">${crow(t, 'top')}<div class="ckids">${S.cats.filter(k => k.parent === t.id).map(k => crow(k, 'kid')).join('')}</div><button type="button" class="linkbtn" data-addkid>＋ 小区分を追加</button></div>`;
   const body = `
     <div class="fg" style="margin-top:4px"><span class="fl">入学年度・在籍年数</span>
       <div class="row2" style="margin-top:0"><select id="stEntry">${Array.from({ length: 12 }, (_, i) => cy - 8 + i).map(y => `<option value="${y}" ${y === S.entryYear ? 'selected' : ''}>${y}年度入学</option>`).join('')}</select>
@@ -1925,13 +2046,13 @@ function openSettings() {
     <div class="fg"><span class="fl">成績の段階</span><select id="stScale">${Object.entries(SCALES).map(([k, v]) => `<option value="${k}" ${k === S.scale ? 'selected' : ''}>${v.name}</option>`).join('')}</select>
       <div class="hint">GPA は上から 4・3・2・1・0 で計算します。「合格」「不合格」はGPA対象外、「取消」は集計から除外します。</div></div>
     <div class="fg"><span class="fl">出欠のルール</span>
-      <div class="row2" style="margin-top:0"><select id="stAtt">${ATT_RATIOS.map(n => `<option value="${n}" ${n === S.attRatio ? 'selected' : ''}>欠席が1/${n}以上で不可</option>`).join('')}</select>
-        <select id="stLate">${LATE_RATIOS.map(n => `<option value="${n}" ${n === S.lateRatio ? 'selected' : ''}>${n ? `遅刻${n}回＝欠席1回` : '遅刻は数えない'}</option>`).join('')}</select></div>
+      <div class="row2" style="margin-top:0;grid-template-columns:minmax(0,1fr)"><select id="stAtt">${ATT_RATIOS.map(n => `<option value="${n}" ${n === S.attRatio ? 'selected' : ''}>欠席が1/${n}以上で不可</option>`).join('')}</select>
+        <select id="stLate" style="margin-top:8px">${LATE_RATIOS.map(n => `<option value="${n}" ${n === S.lateRatio ? 'selected' : ''}>${n ? `遅刻${n}回＝欠席1回` : '遅刻は数えない'}</option>`).join('')}</select></div>
       <div class="hint">学生便覧・シラバスの規定に合わせてください。授業ごとの例外は各授業の編集画面で上書きできます。</div></div>
-    <div class="fg"><span class="fl">科目区分ごとの要件（任意）</span><div id="stCats">${S.cats.map(crow).join('')}</div>
-      <datalist id="catList2">${cats.map(x => `<option value="${esc(x)}">`).join('')}</datalist>
-      <button type="button" class="linkbtn" id="stCatAdd">＋ 区分を追加</button>
-      <div class="hint">例：専門必修 40 / 教養 24 / 外国語 8。単位・成績画面に達成状況が出ます。</div></div>
+    <div class="fg"><span class="fl">科目区分と最低取得単位</span><div id="stCats">${S.cats.filter(x => !x.parent).map(blk).join('')}</div>
+      <button type="button" class="linkbtn" id="stCatAdd">＋ 大区分を追加</button>
+      <div class="hint">大区分の下に小区分を作ると、授業登録では小区分を選びます（例：専門教育科目 92 の下に 基幹科目 12 など）。単位が空欄の区分は「最低単位の指定なし」です。</div>
+      <button type="button" class="btn" id="stPreset" style="width:100%;margin-top:12px">卒業要件を初期設定（128単位）に戻す</button></div>
     <div class="divider"></div>
     <div class="fg"><span class="fl">クォーター期間（任意・毎年共通）</span>
       ${QUARTERS.map((q, i) => `<div class="qrange"><b>Q${q}</b><input type="date" data-i="${i}" data-k="s" value="${esc(r[i].s)}" aria-label="Q${q} 開始日"><span>〜</span><input type="date" data-i="${i}" data-k="e" value="${esc(r[i].e)}" aria-label="Q${q} 終了日"></div>`).join('')}
@@ -1943,8 +2064,17 @@ function openSettings() {
   const foot = `<button class="btn" data-close>閉じる</button><span class="spacer"></span><button class="btn pri" id="stSave">保存</button>`;
   openSheet('設定', body, foot, sh => {
     const catsEl = $('#stCats', sh);
-    $('#stCatAdd', sh).addEventListener('click', () => { catsEl.insertAdjacentHTML('beforeend', crow({ name: '', req: 0 })); $('.crow:last-child .cn', catsEl).focus(); });
-    catsEl.addEventListener('click', e => { const b = e.target.closest('.x'); if (b) b.closest('.crow').remove(); });
+    $('#stCatAdd', sh).addEventListener('click', () => { catsEl.insertAdjacentHTML('beforeend', blk({ id: uid(), name: '', req: 0 })); $('.cblk:last-child .cn', catsEl).focus(); });
+    catsEl.addEventListener('click', e => {
+      const x = e.target.closest('.x');
+      if (x) { const r = x.closest('.crow'); (r.classList.contains('top') ? r.closest('.cblk') : r).remove(); return; }
+      const a = e.target.closest('[data-addkid]');
+      if (a) { const b = a.closest('.cblk'); $('.ckids', b).insertAdjacentHTML('beforeend', crow({ id: uid(), name: '', req: 0 }, 'kid')); $('.ckids .crow:last-child .cn', b).focus(); }
+    });
+    armButton($('#stPreset', sh), '本当に初期設定へ戻す', () => {
+      S.cats = presetCats(); S.required = DEFAULT_REQUIRED;
+      save(); closeSheet(); render(); toast('卒業要件を初期設定（128単位）に戻しました');
+    });
     $('#stSave', sh).addEventListener('click', () => {
       const nr = QUARTERS.map(() => ({ s: '', e: '' }));
       $$('input[type=date]', sh).forEach(i => { nr[+i.dataset.i][i.dataset.k] = i.value; });
@@ -1958,7 +2088,16 @@ function openSettings() {
       S.scale = $('#stScale', sh).value;
       S.attRatio = +$('#stAtt', sh).value;
       S.lateRatio = +$('#stLate', sh).value;
-      S.cats = $$('.crow', catsEl).map(r => ({ name: $('.cn', r).value.trim(), req: Math.max(0, parseFloat($('.cr', r).value) || 0) })).filter(x => x.name);
+      const oldName = new Map(S.cats.map(x => [x.id, x.name]));
+      const next = [];
+      $$('.cblk', catsEl).forEach(b => {
+        const t = { id: b.dataset.id, name: $('.crow.top .cn', b).value.trim(), req: Math.max(0, parseFloat($('.crow.top .cr', b).value) || 0), parent: '' };
+        if (!t.name) return;
+        next.push(t);
+        $$('.ckids .crow', b).forEach(r => { const name = $('.cn', r).value.trim(); if (name) next.push({ id: r.dataset.id, name, req: Math.max(0, parseFloat($('.cr', r).value) || 0), parent: t.id }); });
+      });
+      S.cats = normCats(next);
+      S.cats.forEach(x => { const o = oldName.get(x.id); if (o && o !== x.name) state.courses.forEach(c => { if (c.category === o) c.category = x.name; }); });   // 区分名を変えたら授業の区分も追従させる
       const cq = quarterByDate();
       if (cq) state.ui.q = cq;
       save(); closeSheet(); render(); toast('設定を保存しました');
