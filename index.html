@@ -210,7 +210,8 @@
   .fg{margin-top:18px}
   .fg>label,.fl{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--mute);margin-bottom:8px;text-transform:uppercase}
   .fl .req{color:var(--accent-2)}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+  .row2>.fg{min-width:0}
   .row2 .fg{margin-top:18px}
   input[type=text],input[type=url],input[type=number],input[type=date],input[type=time],textarea{width:100%;font-size:16px;padding:12px 13px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line-2);outline:none;transition:border-color .2s,box-shadow .2s,background .2s;color-scheme:dark}
   textarea{resize:vertical;min-height:76px;line-height:1.5}
@@ -577,6 +578,135 @@
   .crow .cr{text-align:right}
   .crow .x{width:38px}
 
+  input[type=date],input[type=time]{min-width:0;min-height:48px;-webkit-appearance:none;appearance:none;line-height:1.2}
+
+  /* ---------- promotion ---------- */
+  .pm{border-radius:20px;border:1px solid var(--line);background:var(--panel);padding:18px 16px}
+  .pm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .pm-title{font-size:16px;font-weight:750;letter-spacing:-.01em}
+  .pm-sub{font-size:12.5px;color:var(--mute);margin-top:5px;line-height:1.5}
+  .pm-badge{flex:none;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;padding:6px 11px;border-radius:9px;border:1px solid}
+  .pm-badge.ok{color:var(--accent-2);border-color:rgba(61,224,208,.55);background:rgba(61,224,208,.1);box-shadow:0 0 16px -4px rgba(61,224,208,.6)}
+  .pm-badge.soon{color:#b8aeff;border-color:rgba(139,124,255,.55);background:rgba(139,124,255,.12)}
+  .pm-badge.ng{color:var(--warn);border-color:rgba(255,181,71,.5);background:rgba(255,181,71,.08)}
+  .pm-block{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  .pm-block>h4{margin:0 0 10px;display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:700}
+  .pm-block>h4 em{font-style:normal;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--mute)}
+  .pm-big{display:flex;align-items:baseline;gap:8px}
+  .pm-big b{font-size:34px;font-weight:600;font-family:var(--mono);line-height:1;letter-spacing:-.02em}
+  .pm-big span{font-size:14px;color:var(--mute);font-family:var(--mono)}
+  .pm-big small{margin-left:auto;font-size:11.5px;color:var(--mute)}
+  .pm-rows{display:flex;flex-direction:column;gap:6px}
+  .pm-row{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:11px;align-items:center;min-height:56px;padding:9px 11px 9px 13px;border-radius:13px;border:1px solid var(--line);background:rgba(255,255,255,.025);width:100%;text-align:left;transition:border-color .2s}
+  .pm-row:hover{border-color:var(--line-2)}
+  .pm-dot{width:8px;height:8px;border-radius:50%;background:var(--dim)}
+  .pm-t{min-width:0}
+  .pm-t b{display:block;font-size:14px;font-weight:700}
+  .pm-t small{display:block;font-size:11.5px;color:var(--mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pm-st{font-family:var(--mono);font-size:11px;font-weight:700;padding:4px 8px;border-radius:7px;border:1px solid var(--line-2);color:var(--dim);white-space:nowrap}
+  .pm-row.ok .pm-dot{background:var(--accent-2);box-shadow:0 0 8px var(--accent-2)}
+  .pm-row.ok .pm-st{color:var(--accent-2);border-color:rgba(61,224,208,.5);background:rgba(61,224,208,.08)}
+  .pm-row.part .pm-dot,.pm-row.plan .pm-dot{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+  .pm-row.part .pm-st,.pm-row.plan .pm-st{color:#b8aeff;border-color:rgba(139,124,255,.5);background:rgba(139,124,255,.1)}
+  .pm-row.fail .pm-dot{background:var(--danger)}
+  .pm-row.fail .pm-st{color:var(--danger);border-color:rgba(255,93,115,.45);background:rgba(255,93,115,.08)}
+  .pm-row.none{border-style:dashed}
+  .pm-cond{margin-top:12px;padding:13px;border-radius:14px;border:1px solid rgba(255,181,71,.3);background:rgba(255,181,71,.05)}
+  .pm-ch{display:flex;flex-direction:column;gap:3px}
+  .pm-ch b{font-size:14px}
+  .pm-ch span{font-size:12px;color:var(--mute)}
+  .pm-score{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;margin-top:10px}
+  .pm-score input{padding:10px 12px;font-size:16px;text-align:right}
+  .pm-score span{font-family:var(--mono);font-size:13px;color:var(--mute)}
+  .pm-score b{font-size:13px;color:var(--warn);min-width:62px;text-align:right}
+  .pm-score b.ok{color:var(--accent-2)}
+  .pm-act{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:12px;color:var(--mute)}
+  .pm .sbar .e{background:var(--accent-2)}
+
+  /* ---------- grades ---------- */
+  .gb{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:52px;flex:1 1 0;min-width:50px;padding:0 6px;line-height:1.1}
+  .gb b{font-size:16px;font-weight:800}
+  .gb small{font-size:10px;font-weight:600;opacity:.75}
+  .gb.sm{flex-direction:row;height:44px;font-size:12.5px}
+  .gbr{flex-basis:100%;height:0}
+  .gscore{display:flex;align-items:center;gap:10px;margin-top:14px}
+  .gscore label{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--mute);margin:0}
+  .gscore input{width:104px;padding:10px 12px;text-align:right}
+  .gscore span{color:var(--mute);font-size:13px}
+  .gtab{border-radius:14px;border:1px solid var(--line);overflow:hidden}
+  .gr{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.2fr) 40px 54px;gap:6px;align-items:center;padding:10px 12px;border-top:1px solid var(--line);font-size:13px}
+  .gr:first-child{border-top:0}
+  .gr.gh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);background:rgba(255,255,255,.03)}
+  .gr i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:8px}
+  .gr .p{color:var(--accent-2);font-weight:700}
+  .gr .f{color:var(--danger);font-weight:700}
+  .pm-chips{display:flex;flex-wrap:wrap;gap:6px;margin:-2px 0 6px 6px;padding:10px 10px 8px;border-radius:0 0 13px 13px;border:1px solid var(--line);border-top:0;background:rgba(255,255,255,.015)}
+  .pm-chips>span{flex-basis:100%;font-size:11px;color:var(--dim)}
+  .pm-chip{min-height:40px;padding:0 12px;border-radius:10px;border:1px dashed var(--line-2);font-size:12.5px;font-weight:650;color:var(--dim)}
+  .pm-chip.ok{border-style:solid;color:var(--accent-2);border-color:rgba(61,224,208,.5);background:rgba(61,224,208,.08)}
+  .pm-chip.plan{border-style:solid;color:#b8aeff;border-color:rgba(139,124,255,.5);background:rgba(139,124,255,.1)}
+  .pm-chip.fail{border-style:solid;color:var(--danger);border-color:rgba(255,93,115,.45);background:rgba(255,93,115,.08)}
+
+  /* ---------- academic calendar ---------- */
+  .cbn{display:block;padding:8px 12px;border-radius:12px;font-size:12.5px;line-height:1.5;margin-bottom:6px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);color:var(--fg)}
+  .cbn small{display:block;color:var(--mute);font-size:11.5px;margin-top:1px}
+  .cbn.off{border-color:rgba(255,93,115,.35);background:rgba(255,93,115,.07)}
+  .cbn.swap{border-color:rgba(255,181,71,.45);background:rgba(255,181,71,.07)}
+  .cbn.exam{border-color:rgba(139,124,255,.5);background:rgba(139,124,255,.1)}
+  .cbn.reg{border-color:rgba(61,224,208,.4);background:rgba(61,224,208,.07)}
+  .cbn.vac{color:var(--mute)}
+  .wnotes{margin:-2px 0 10px}
+  .wnotes .cbn{margin-bottom:4px}
+  .chip.examw{outline:1.5px dashed rgba(139,124,255,.9);outline-offset:-1.5px}
+  .chip.examw::after{content:"試験";position:absolute;top:3px;right:3px;font-size:8.5px;font-weight:800;padding:1px 4px;border-radius:4px;background:rgba(139,124,255,.95);color:#fff;line-height:1.3}
+  .dcard.exw{outline:1.5px dashed rgba(139,124,255,.8);outline-offset:-1.5px}
+  .dayhead em.off{background:rgba(255,93,115,.14);color:#ff9aa8;letter-spacing:.04em}
+  .dayhead em.sw{background:rgba(255,181,71,.14);color:var(--warn);letter-spacing:.04em}
+  .ctabs{display:flex;justify-content:center;margin:2px 0 14px}
+  .cnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .cnav b{font-size:17px;font-weight:750}
+  .cnav button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);font-size:22px;line-height:1;color:var(--fg)}
+  .cwk,.cgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+  .cwk span{text-align:center;font-size:11px;color:var(--mute);padding:3px 0}
+  .cwk span:first-child{color:#ff9aa8}
+  .cwk span:last-child{color:#8fb7ff}
+  .cc2{position:relative;height:54px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.03);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;transition:border-color .15s}
+  .cc2 b{font-family:var(--mono);font-size:15px;font-weight:600;line-height:1}
+  .cc2 small{font-size:9px;font-weight:700;line-height:1;color:var(--mute);white-space:nowrap}
+  .cc2.off{background:rgba(255,255,255,.012);border-color:transparent;color:var(--dim)}
+  .cc2.off b{opacity:.55}
+  .cc2.sun b{color:#ff9aa8}
+  .cc2.sat b{color:#8fb7ff}
+  .cc2.k-holiday b{color:#ff9aa8;opacity:1}
+  .cc2.k-vac{background:repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0 4px,transparent 4px 8px)}
+  .cc2.ex{background:rgba(139,124,255,.13);border-color:rgba(139,124,255,.45)}
+  .cc2 small.x{color:#b8aeff}
+  .cc2 small.r{color:var(--accent-2)}
+  .cc2.k-swap{background:rgba(255,181,71,.08);border-color:rgba(255,181,71,.55)}
+  .cc2.k-swap small{color:var(--warn)}
+  .cc2.k-cancel small{color:var(--danger)}
+  .cc2.today{box-shadow:0 0 0 1.5px var(--accent-2)}
+  .cc2.sel{border-color:#fff}
+  .cdet{margin-top:16px;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--panel)}
+  .cdh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .cdh b{font-size:17px;margin-right:2px}
+  .cs{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 8px;border-radius:7px;border:1px solid var(--line-2);color:var(--mute);white-space:nowrap}
+  .cs.ok{color:var(--accent-2);border-color:rgba(61,224,208,.5);background:rgba(61,224,208,.08)}
+  .cs.off{color:#ff9aa8;border-color:rgba(255,93,115,.4);background:rgba(255,93,115,.07)}
+  .cs.soon{color:var(--warn);border-color:rgba(255,181,71,.45)}
+  .cs.exm{color:#b8aeff;border-color:rgba(139,124,255,.5);background:rgba(139,124,255,.1)}
+  .cs.past{color:var(--dim)}
+  .cdl{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+  .cday{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;min-height:52px;padding:8px 12px 8px 10px;border-radius:12px;border:1px solid var(--c3);background:linear-gradient(165deg,var(--c1),var(--c2));text-align:left;width:100%}
+  .cday>i{font-style:normal;font-family:var(--mono);font-weight:600;font-size:17px;text-align:center}
+  .cday b{display:block;font-size:14px;font-weight:700}
+  .cday small{display:block;font-size:11.5px;color:var(--mute);margin-top:1px}
+  .cday.exw{border-style:dashed}
+  .schs{display:flex;flex-direction:column;gap:6px}
+  .sch{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.025)}
+  .sch b{display:block;font-size:13.5px;font-weight:700}
+  .sch small{display:block;font-size:11.5px;color:var(--mute);margin-top:2px}
+
   /* ---------- phone (primary target) ---------- */
   @media (max-width:719px){
     .top{padding-top:max(8px,env(safe-area-inset-top));padding-bottom:10px;align-items:center}
@@ -625,6 +755,13 @@
     .tag{font-size:11.5px}
     .sh-body{padding-bottom:calc(20px + env(safe-area-inset-bottom))}
   }
+  /* 320px 級（iPhone SE など）：ヘッダーのボタン3つ分を確保しつつ、タイトルを折り返さない */
+  @media (max-width:359px){
+    .top{gap:8px}
+    h1{font-size:22px;flex-wrap:wrap;gap:0 8px}
+    #ttl{white-space:nowrap}
+    .actions{gap:6px}
+  }
 
 </style>
 </head>
@@ -636,6 +773,7 @@
       <h1><span id="ttl">時間割</span> <span class="qbig" id="qbig">Q1</span></h1>
     </div>
     <div class="actions">
+      <button class="iconbtn" id="btnCal" aria-label="学年暦"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></button>
       <button class="iconbtn" id="btnShare" aria-label="共有・同期"><svg class="ic" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
       <button class="iconbtn" id="btnSettings" aria-label="設定"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     </div>
@@ -686,6 +824,64 @@ const CURRICULUM = [
     { name: 'ゼミナール', req: 12 }, { name: '関連科目', req: 0 }, { name: '選択科目', req: 32 },
   ] },
 ];
+// 学年暦（年度ごと）。terms=学期（q=1〜4）、exams=定期試験期間（term=その学期で履修が終わる科目が受験し、それ以外は通常授業）、
+// vacations=休業、events=行事・履修登録期間、holidays=祝日、cancelled=休講日、swaps=曜日振替（日付→その日に行う授業の曜日。月=0）。
+// 授業日＝学期中の平日のうち、祝日・休講日を除く日（＋曜日振替の日）。それ以外は休み。年度が増えたらここに足す
+const CALENDARS = {
+  2026: {
+    terms: [
+      { q: 1, s: '2026-04-08', e: '2026-06-10' }, { q: 2, s: '2026-06-11', e: '2026-08-07' },
+      { q: 3, s: '2026-10-01', e: '2026-11-30' }, { q: 4, s: '2026-12-02', e: '2027-02-09' },
+    ],
+    exams: [
+      { term: 1, s: '2026-06-04', e: '2026-06-10', note: '前期・通年科目は通常授業' },
+      { term: 2, s: '2026-08-03', e: '2026-08-07', note: '前期科目を含む' },
+      { term: 3, s: '2026-11-24', e: '2026-11-30', note: '後期・通年科目は通常授業' },
+      { term: 4, s: '2027-02-03', e: '2027-02-09', note: '後期科目を含む' },
+    ],
+    vacations: [
+      { name: '夏季休業', s: '2026-08-11', e: '2026-09-30' }, { name: '冬季休業', s: '2026-12-24', e: '2027-01-03' }, { name: '春季休業', s: '2027-03-20', e: '2027-03-31' },
+    ],
+    events: [
+      { kind: 'orient', name: 'オリエンテーション期間', s: '2026-04-02', e: '2026-04-07' },
+      { kind: 'event', name: '入学式', s: '2026-04-03', e: '2026-04-03' },
+      { kind: 'reg', name: '履修登録期間', s: '2026-04-02', e: '2026-04-15' },
+      { kind: 'reg', name: '履修登録取り消し期間', s: '2026-06-11', e: '2026-06-17' },
+      { kind: 'reg', name: '履修登録変更期間', s: '2026-10-01', e: '2026-10-07' },
+      { kind: 'reg', name: '履修登録取消期間', s: '2026-12-02', e: '2026-12-08' },
+    ],
+    holidays: {
+      '2026-04-29': '昭和の日', '2026-05-03': '憲法記念日', '2026-05-04': 'みどりの日', '2026-05-05': 'こどもの日', '2026-05-06': '休日（振替休日）',
+      '2026-07-20': '海の日', '2026-08-11': '山の日', '2026-09-21': '敬老の日', '2026-09-22': '国民の休日', '2026-09-23': '秋分の日',
+      '2026-10-12': 'スポーツの日', '2026-11-03': '文化の日', '2026-11-23': '勤労感謝の日',
+      '2027-01-01': '元日', '2027-01-11': '成人の日', '2027-02-11': '建国記念の日', '2027-02-23': '天皇誕生日', '2027-03-21': '春分の日', '2027-03-22': '休日（振替休日）',
+    },
+    cancelled: { '2026-04-30': '休講日', '2026-05-01': '休講日', '2027-01-15': '休講日' },
+    swaps: { '2026-07-23': 0, '2026-10-23': 1, '2026-11-05': 0, '2027-01-12': 4 },
+  },
+};
+// クォーター期間（設定）の初期値。学年暦のない年度ではこの月日で今の学期を判定する
+function defaultRanges() {
+  const c = CALENDARS[2026];
+  return QUARTERS.map(q => { const t = c && c.terms.find(x => x.q === q); return { s: t ? t.s : '', e: t ? t.e : '' }; });
+}
+const ENTRY_YEAR = 2026;         // 入学年度（4年制）
+// 進級要件（2年次 → 3年次）。name は「授業名にこの文字列を含む授業」を対応づけるキー（Ⅰ/Ⅱ は 1/2 と同一視）。cat は授業登録時の初期区分
+const PROMOTION = {
+  from: 2, to: 3, total: 64,
+  must: [
+    { name: '教養セミナー', cr: 2, cat: '全学教育科目' },
+    { name: '情報処理演習Ⅰ', cr: 2, cat: '全学教育科目' },
+    { name: '新聞で学ぶ経済Ⅱ', cr: 2, cat: '専門教育科目', cond: { label: '日経TEST', target: 300 } },
+  ],
+  pick: { need: 8, items: [
+    { name: '長崎のしまに学ぶ', cr: 2, cat: '全学教育科目' },
+    { name: '英語', cr: 4, cat: '全学教育科目', names: ['英語Ⅰ', '英語Ⅱ', '英語Ⅲ', '英語Ⅳ', 'オーラルコミュニケーションⅠ', 'オーラルコミュニケーションⅡ', 'リーディングⅠ', 'リーディングⅡ'] },
+    { name: 'ミクロ経済学入門', cr: 2, cat: '専門教育科目' },
+    { name: 'マクロ経済学入門', cr: 2, cat: '専門教育科目' },
+    { name: '基礎演習', cr: 4, cat: '専門教育科目' },
+  ] },
+};
 function presetCats() {
   const out = [];
   CURRICULUM.forEach((t, i) => {
@@ -697,15 +893,20 @@ function presetCats() {
 const COLORS = ['#8b7cff', '#3de0d0', '#ff6fb1', '#ffb547', '#5b9dff', '#4ee38a', '#ff7a59', '#c77dff', '#29c5f6', '#e6e36b'];
 const EVAL_COLORS = ['#8b7cff', '#3de0d0', '#ff6fb1', '#ffb547', '#5b9dff', '#4ee38a', '#ff7a59', '#c77dff'];
 const EVAL_PRESETS = ['期末試験', '中間試験', 'レポート', '小テスト', '課題', '出席・平常点', '発表', 'リアクションペーパー'];
-const SCALES = {
-  sabcf: { name: 'S / A / B / C / F', labels: ['S', 'A', 'B', 'C', 'F'] },
-  yu:    { name: '秀 / 優 / 良 / 可 / 不可', labels: ['秀', '優', '良', '可', '不可'] },
-  abcdf: { name: 'A / B / C / D / F', labels: ['A', 'B', 'C', 'D', 'F'] },
-  aa:    { name: 'AA / A / B / C / D', labels: ['AA', 'A', 'B', 'C', 'D'] },
-};
-const GP = [4, 3, 2, 1, 0];
-const GRADE_COLORS = ['#3de0d0', '#8b7cff', '#5b9dff', '#ffb547', '#ff5d73'];
-const GRADE_CODES = ['g0', 'g1', 'g2', 'g3', 'g4', 'P', 'N', 'W', ''];
+// 成績評語。kind: pass=単位修得 / fail=単位なし。gp: GPAに算入する点（null は算入しない）。min: 評価点の下限（A〜F のみ）
+const GRADES = [
+  { code: 'g0', label: 'A', name: '秀', kind: 'pass', gp: 4, color: '#3de0d0', range: '90〜100点', min: 90 },
+  { code: 'g1', label: 'B', name: '優', kind: 'pass', gp: 3, color: '#8b7cff', range: '80〜89点', min: 80 },
+  { code: 'g2', label: 'C', name: '良', kind: 'pass', gp: 2, color: '#5b9dff', range: '70〜79点', min: 70 },
+  { code: 'g3', label: 'D', name: '可', kind: 'pass', gp: 1, color: '#ffb547', range: '60〜69点', min: 60 },
+  { code: 'g4', label: 'F', name: '不可', kind: 'fail', gp: 0, color: '#ff5d73', range: '59点以下', min: 0 },
+  { code: 'N', label: 'N', name: '単位認定', kind: 'pass', gp: null, color: '#29c5f6' },   // 他大学等で取得した単位の認定
+  { code: 'G', label: 'G', name: '合格', kind: 'pass', gp: null, color: '#4ee38a' },       // 合格か不合格かを判定する科目
+  { code: 'H', label: 'H', name: '不合格', kind: 'fail', gp: null, color: '#ff7a59' },     // 同上
+  { code: 'Y', label: 'Y', name: '失格', kind: 'fail', gp: 0, color: '#ff3d8b' },         // 出席不足等で受験資格のないもの
+];
+const GRADE_CODES = [...GRADES.map(g => g.code), 'W', ''];
+const gradeFromScore = v => (GRADES.slice(0, 5).find(g => v >= g.min) || GRADES[4]).code;
 const DEFAULT_SESSIONS_PER_Q = 8;   // 期間未設定時の 1クォーター・1コマあたりの授業回数
 const ATT_RATIOS = [3, 4, 5];       // 欠席が総回数の 1/n 以上で不可
 const LATE_RATIOS = [3, 2, 0];      // 遅刻 n 回で欠席1回（0 = 数えない）
@@ -765,7 +966,7 @@ function defaultState() {
   const y = acadYear();
   return {
     v: 2, courses: [], exams: [],
-    settings: { ranges: QUARTERS.map(() => ({ s: '', e: '' })), entryYear: y, entrySet: false, years: DEFAULT_YEARS, required: DEFAULT_REQUIRED, scale: 'sabcf', cats: presetCats(), curr: 1, attRatio: 3, lateRatio: 3 },
+    settings: { ranges: defaultRanges(), entryYear: ENTRY_YEAR, entrySet: true, years: DEFAULT_YEARS, required: DEFAULT_REQUIRED, gv: 2, cats: presetCats(), curr: 1, nikkei: '', attRatio: 3, lateRatio: 3 },
     ui: { y, q: 1, view: 'grid', filter: 'term', span: 'week' },
   };
 }
@@ -782,6 +983,7 @@ function normCourse(c, fallbackYear = acadYear()) {
     category: str(c.category).trim(),
     grade: GRADE_CODES.includes(c.grade) ? c.grade : '',
     attOff: !!c.attOff,
+    score: parseFloat(c.score) >= 0 && parseFloat(c.score) <= 100 ? String(parseFloat(c.score)) : '',
     sessions: parseInt(c.sessions, 10) > 0 ? String(parseInt(c.sessions, 10)) : '',
     attMax: parseInt(c.attMax, 10) >= 0 ? String(parseInt(c.attMax, 10)) : '',
     absences: Array.isArray(c.absences) ? c.absences
@@ -820,6 +1022,8 @@ function normCats(raw) {
   const byId = new Map(list.map(x => [x.id, x]));
   return list.map(x => { const q = byId.get(x.parent); return { ...x, parent: q && !q.parent && q !== x ? q.id : '' }; });   // 区分は2階層まで
 }
+// 旧版の成績コード（P=合格、N=不合格）を現行の評語（G、H）へ移す。現行の N は「単位認定」
+const legacyGrade = c => c && (c.grade === 'P' ? { ...c, grade: 'G' } : c.grade === 'N' ? { ...c, grade: 'H' } : c);
 function normalize(d) {
   const base = defaultState();
   if (!d || !Array.isArray(d.courses)) return base;
@@ -833,18 +1037,21 @@ function normalize(d) {
     entrySet: !!s.entrySet,
     years: yrs >= 1 && yrs <= 8 ? yrs : DEFAULT_YEARS,
     required: req > 0 ? req : DEFAULT_REQUIRED,
-    scale: SCALES[s.scale] ? s.scale : 'sabcf',
     cats: normCats(s.cats),
+    nikkei: parseFloat(s.nikkei) >= 0 ? String(parseFloat(s.nikkei)) : '',
     attRatio: ATT_RATIOS.includes(s.attRatio) ? s.attRatio : 3,
     lateRatio: LATE_RATIOS.includes(s.lateRatio) ? s.lateRatio : 3,
   };
   // 旧データ：区分が未設定で卒業要件が旧既定の124のままなら、現行の卒業要件（128単位・区分つき）に切り替える
   if (!s.curr && !settings.cats.length && (!(req > 0) || req === 124)) { settings.cats = presetCats(); settings.required = DEFAULT_REQUIRED; }
   settings.curr = 1;
+  settings.gv = 2;
+  if (settings.ranges.every(r => !r.s && !r.e)) settings.ranges = defaultRanges();
+  if (!s.entrySet) { settings.entryYear = ENTRY_YEAR; settings.entrySet = true; }   // 入学年度が未設定だった旧データは 2026年度入学として扱う
   const u = d.ui || {};
   const uy = parseInt(u.y, 10);
   return {
-    v: 2, courses: d.courses.map(c => normCourse(c)).filter(Boolean), settings,
+    v: 2, courses: d.courses.map(c => normCourse(s.gv === 2 ? c : legacyGrade(c))).filter(Boolean), settings,
     exams: Array.isArray(d.exams) ? d.exams.map(normExam).filter(Boolean) : [],
     ui: {
       y: uy > 1900 ? uy : base.ui.y, q: QUARTERS.includes(u.q) ? u.q : 1,
@@ -877,12 +1084,10 @@ function yearLabel(y) {
   return i >= 0 && i < state.settings.years ? `${i + 1}年` : i < 0 ? '入学前' : `${i + 1}年目`;
 }
 function gradeMeta(code) {
-  const i = ['g0', 'g1', 'g2', 'g3', 'g4'].indexOf(code);
-  if (i >= 0) return { label: SCALES[state.settings.scale].labels[i], kind: i === 4 ? 'fail' : 'pass', gp: GP[i], color: GRADE_COLORS[i] };
-  if (code === 'P') return { label: '合格', kind: 'pass', gp: null, color: '#4ee38a' };
-  if (code === 'N') return { label: '不合格', kind: 'fail', gp: null, color: '#ff7a59' };
-  if (code === 'W') return { label: '取消', kind: 'withdrawn', gp: null, color: '#5b6174' };
-  return { label: '履修中', kind: 'pending', gp: null, color: '#9097ab' };
+  const g = GRADES.find(x => x.code === code);
+  if (g) return g;
+  if (code === 'W') return { label: '取消', name: '取消', kind: 'withdrawn', gp: null, color: '#5b6174' };
+  return { label: '履修中', name: '履修中', kind: 'pending', gp: null, color: '#9097ab' };
 }
 const credit = c => parseFloat(c.credits) || 0;
 function stats(list) {
@@ -902,11 +1107,14 @@ function gradeBadge(c) {
   return `<span class="gbadge" style="color:${m.color};background:${rgba(m.color, .12)};border-color:${rgba(m.color, .45)}">${esc(m.label)}</span>`;
 }
 function gradePicker(cur) {
-  return GRADE_CODES.map(g => {
-    const m = gradeMeta(g);
-    return `<button type="button" class="gb ${g === cur ? 'on' : ''} ${g === '' || m.label.length > 2 ? 'sm' : ''}" data-g="${g}" style="--g:${m.color};--gbg:${rgba(m.color, .22)}">${esc(m.label)}</button>`;
-  }).join('');
+  const btn = g => {
+    const m = gradeMeta(g), two = GRADES.some(x => x.code === g);
+    return `<button type="button" class="gb ${g === cur ? 'on' : ''} ${two ? '' : 'sm'}" data-g="${g}" style="--g:${m.color};--gbg:${rgba(m.color, .22)}" aria-label="${esc(m.label)}（${esc(m.name)}）">${two ? `<b>${esc(m.label)}</b><small>${esc(m.name)}</small>` : esc(m.label)}</button>`;
+  };
+  return ['g0', 'g1', 'g2', 'g3', 'g4'].map(btn).join('') + '<span class="gbr"></span>' + ['N', 'G', 'H', 'Y'].map(btn).join('') + '<span class="gbr"></span>' + ['W', ''].map(btn).join('');
 }
+const scoreRowHTML = (c, id) => `<div class="gscore"><label for="${id}">評価点</label><input type="number" id="${id}" class="num" inputmode="decimal" min="0" max="100" step="1" placeholder="0〜100" value="${esc(c.score)}"><span>点</span></div>
+  <div class="hint">入力すると評語を自動で判定します（A 90〜／B 80〜／C 70〜／D 60〜／F 59以下）。</div>`;
 
 /* ===== attendance ===== */
 // 月日だけで持つクォーター期間を、その授業の年度の実日付に写す（4月以降は当年、1〜3月は翌年）
@@ -917,6 +1125,8 @@ function rangeDate(year, iso) {
 function totalSessions(c) {
   if (c.sessions) return { n: +c.sessions, src: 'manual' };
   if (!c.slots.length) return null;
+  const cn = calSessions(c);
+  if (cn) return { n: cn, src: 'calendar' };
   const rs = state.settings.ranges;
   if (c.quarters.every(q => rs[q - 1].s && rs[q - 1].e)) {
     let n = 0;
@@ -956,7 +1166,12 @@ function recordAbsence(c, type, date, p = 0) {
 
 /* ===== quarter / time ===== */
 function quarterByDate(date = new Date()) {
-  const t = isoDate(date).slice(5);
+  const dt = toDate(date), cal = CALENDARS[acadYear(dt)];
+  if (cal) {
+    const iso = isoDate(dt), t = cal.terms.find(x => x.s <= iso && iso <= x.e);
+    return t ? t.q : null;
+  }
+  const t = isoDate(dt).slice(5);
   for (let i = 0; i < 4; i++) {
     const { s, e } = state.settings.ranges[i];
     if (!s || !e) continue;
@@ -972,25 +1187,30 @@ const coursesOfYear = y => state.courses.filter(c => c.year === y);
 const sortKey = c => (c.quarters[0] || 9) * 100 + (c.slots.length ? c.slots[0].d * 10 + c.slots[0].p : 99);
 const byTime = (a, b) => sortKey(a) - sortKey(b) || a.name.localeCompare(b.name, 'ja');
 function nowInfo() {
-  const n = new Date();
+  const n = new Date(), info = dayInfo(n);
   const mins = n.getHours() * 60 + n.getMinutes();
-  const d = n.getDay() - 1;
-  const period = d >= 0 && d < 5 ? PERIODS.find(P => toMin(P.s) <= mins && mins < toMin(P.e)) : null;
-  return { d: d >= 0 && d < 5 ? d : -1, p: period ? period.n : 0, mins, wd: n.getDay() };
+  const d = info.class ? info.d : -1;                        // 今日の授業の曜日（曜日振替の日はその曜日）
+  const period = d >= 0 ? PERIODS.find(P => toMin(P.s) <= mins && mins < toMin(P.e)) : null;
+  return { d, p: period ? period.n : 0, mins, wd: n.getDay(), wdi: n.getDay() >= 1 && n.getDay() <= 5 ? n.getDay() - 1 : -1, info };
+}
+// 指定日の授業。学年暦の祝日・休講・曜日振替と、その科目の定期試験期間（通常授業なし）を反映する
+function coursesOn(date, p, info = dayInfo(date)) {
+  if (!info.class) return [];
+  const dt = toDate(date);
+  return coursesAt(acadYear(dt), quarterByDate(dt) || state.ui.q, info.d, p).filter(c => !inExamFor(c, info.iso));
 }
 function upcoming() {
-  const y = acadYear(), q = activeQ();
-  const { mins, wd } = nowInfo();
-  for (let off = 0; off < 8; off++) {
-    const d = (wd + off) % 7 - 1;
-    if (d < 0 || d > 4) continue;
+  const now = new Date(), mins = now.getHours() * 60 + now.getMinutes();
+  for (let off = 0; off < 120; off++) {
+    const dt = new Date(now.getFullYear(), now.getMonth(), now.getDate() + off), info = dayInfo(dt);
+    if (!info.class) continue;
     for (const P of PERIODS) {
       const s = toMin(P.s), e = toMin(P.e);
       if (off === 0 && e <= mins) continue;
-      const cs = coursesAt(y, q, d, P.n);
+      const cs = coursesOn(dt, P.n, info);
       if (!cs.length) continue;
       const live = off === 0 && s <= mins;
-      return { off, d, P, cs, live, left: live ? e - mins : off === 0 ? s - mins : null };
+      return { off, d: info.d, P, cs, live, left: live ? e - mins : off === 0 ? s - mins : null, date: info.iso, swap: info.swap };
     }
   }
   return null;
@@ -1026,13 +1246,15 @@ function renderNow() {
   const u = upcoming();
   const el = $('#now');
   if (!state.courses.some(c => c.year === acadYear())) { el.innerHTML = ''; return; }
+  const bn = calBannerHTML();
   if (!u) {
-    el.innerHTML = `<div class="nowcard idle"><div class="when"><div class="lab"><i></i>Q${activeQ()}</div><div class="big">—</div></div><div class="what"><div class="nm">今のクォーターの授業はありません</div><div class="sub">＋ボタンから授業を追加できます</div></div></div>`;
+    el.innerHTML = bn + `<div class="nowcard idle"><div class="when"><div class="lab"><i></i>Q${activeQ()}</div><div class="big">—</div></div><div class="what"><div class="nm">この先の授業はありません</div><div class="sub">＋ボタンから授業を追加できます</div></div></div>`;
     return;
   }
   const c = u.cs[0];
-  const lab = u.live ? 'Now' : u.off === 0 ? 'Next' : u.off === 1 ? 'Tomorrow' : DAYS_EN[u.d];
-  const rem = u.live ? `残り ${dur(u.left)}` : u.off === 0 ? `${dur(u.left)}後` : u.off === 1 ? '明日' : `${DAYS[u.d]}曜`;
+  const wdn = WD[new Date(u.date + 'T00:00').getDay()];
+  const lab = u.live ? 'Now' : u.off === 0 ? 'Next' : u.off === 1 ? 'Tomorrow' : 'Next';
+  const rem = u.live ? `残り ${dur(u.left)}` : u.off === 0 ? `${dur(u.left)}後` : u.off === 1 ? `明日${u.swap ? `（${DAYS[u.d]}曜授業）` : ''}` : `${fmtShort(u.date)}（${wdn}）${u.swap ? `${DAYS[u.d]}曜授業` : ''}`;
   const ai = u.off === 0 ? attInfo(c) : null;
   let att = '';
   if (ai) {
@@ -1043,7 +1265,7 @@ function renderNow() {
         ? `<span style="font-size:12.5px;color:var(--mute)">今日の${c.absences[idx].type === 'A' ? '欠席' : '遅刻'}を記録済み</span><button class="abtn" data-attundo="${esc(c.id)}|${today}|${u.P.n}">取消</button>`
         : `<button class="abtn a" data-att="A|${esc(c.id)}|${u.P.n}">欠席</button><button class="abtn l" data-att="L|${esc(c.id)}|${u.P.n}">遅刻</button>`) + '</div>';
   }
-  el.innerHTML = `<div class="nowwrap ${att ? 'has-att' : ''}"><button class="nowcard ${u.live ? 'live' : ''}" data-open="${esc(c.id)}" style="${cvars(c.color)}">
+  el.innerHTML = bn + `<div class="nowwrap ${att ? 'has-att' : ''}"><button class="nowcard ${u.live ? 'live' : ''}" data-open="${esc(c.id)}" style="${cvars(c.color)}">
     <div class="when"><div class="lab"><i></i>${lab}</div><div class="big num">${u.P.n}<small style="font-size:12px;color:var(--mute);margin-left:3px">限</small></div></div>
     <div class="what"><div class="nm">${esc(c.name)}${u.cs.length > 1 ? ` <span style="color:var(--warn);font-size:12px">+${u.cs.length - 1}</span>` : ''}</div>
       <div class="sub"><span class="num">${ICON.clock}${fmtT(u.P.s)}–${fmtT(u.P.e)}</span>${c.room ? `<span>${ICON.pin}${esc(c.room)}</span>` : ''}${c.teacher ? `<span>${ICON.user}${esc(c.teacher)}</span>` : ''}</div></div>
@@ -1053,7 +1275,7 @@ function renderNow() {
 function gridHTML(y, q, anim = true) {
   const nw = nowInfo();
   const showNow = y === acadYear() && activeQ() === q;
-  let h = `<div class="tt ${anim ? 'fade-in' : ''}"><div></div>` + DAYS.map((d, i) => `<button class="dh ${i === nw.d ? 'today' : ''}" data-day="${i}" aria-label="${d}曜日を1日表示で開く">${d}<small>${DAYS_EN[i]}</small></button>`).join('');
+  let h = `<div class="tt ${anim ? 'fade-in' : ''}"><div></div>` + DAYS.map((d, i) => `<button class="dh ${i === nw.wdi ? 'today' : ''}" data-day="${i}" aria-label="${d}曜日を1日表示で開く">${d}<small>${DAYS_EN[i]}</small></button>`).join('');
   for (const P of PERIODS) {
     h += `<div class="ph ${showNow && nw.p === P.n && nw.d >= 0 ? 'now' : ''}"><b>${P.n}</b><span class="num">${fmtT(P.s)}<br>${fmtT(P.e)}</span></div>`;
     for (let d = 0; d < 5; d++) {
@@ -1062,7 +1284,7 @@ function gridHTML(y, q, anim = true) {
       if (!cs.length) {
         h += `<button class="cell empty ${cls}" data-add="${d}-${P.n}" aria-label="${DAYS[d]}曜${P.n}限に追加">${ICON.plus}</button>`;
       } else {
-        h += `<div class="cell filled ${cls}">` + cs.map(c => { const ai = attInfo(c); const warn = ai && ai.active && ai.level !== 'ok'; return `<button class="chip ${cs.length > 1 ? 'dup' : ''} ${warn ? 'att-' + ai.level : ''}" data-open="${esc(c.id)}" style="${cvars(c.color)}">${cs.length > 1 ? '<i class="dupb" title="重複"></i>' : ''}${warn ? `<i class="ab ${ai.level}" title="${attRestText(ai)}">${ai.rem < 0 ? '超過' : '残' + ai.rem}</i>` : ''}<span class="n">${esc(c.name)}</span>${c.teacher ? `<span class="t">${esc(c.teacher)}</span>` : ''}<span class="r">${esc(c.room)}</span></button>`; }).join('') + '</div>';
+        h += `<div class="cell filled ${cls}">` + cs.map(c => { const ai = attInfo(c); const warn = ai && ai.active && ai.level !== 'ok'; const exw = showNow && inExamFor(c, weekDate(d)); return `<button class="chip ${cs.length > 1 ? 'dup' : ''} ${warn ? 'att-' + ai.level : ''} ${exw ? 'examw' : ''}" data-open="${esc(c.id)}" style="${cvars(c.color)}">${cs.length > 1 ? '<i class="dupb" title="重複"></i>' : ''}${warn ? `<i class="ab ${ai.level}" title="${attRestText(ai)}">${ai.rem < 0 ? '超過' : '残' + ai.rem}</i>` : ''}<span class="n">${esc(c.name)}</span>${c.teacher ? `<span class="t">${esc(c.teacher)}</span>` : ''}<span class="r">${esc(c.room)}</span></button>`; }).join('') + '</div>';
       }
     }
     if (P.n === LUNCH_AFTER) h += `<div class="lunch num">LUNCH ${fmtT(PERIODS[LUNCH_AFTER - 1].e)} – ${fmtT(PERIODS[LUNCH_AFTER].s)}</div>`;
@@ -1074,6 +1296,160 @@ function gridHTML(y, q, anim = true) {
       off.map(c => `<button class="offchip" data-open="${esc(c.id)}" style="${cvars(c.color)}">${esc(c.name)}<small>${[c.room, c.credits && c.credits + '単位'].filter(Boolean).map(esc).join(' · ') || '—'}</small></button>`).join('') + '</div></div>';
   }
   return h;
+}
+
+/* ===== 学年暦 ===== */
+const toDate = v => typeof v === 'string' ? new Date(v + 'T00:00') : new Date(v.getFullYear(), v.getMonth(), v.getDate());
+// その日の状態。class=授業日か、d=その日に行う授業の曜日（月=0）、kind=class|swap|holiday|cancel|weekend|vac|orient|gap、
+// term=学期、exam=定期試験期間、events=その日にかかる行事・登録期間・休業
+function dayInfo(v) {
+  const dt = toDate(v), iso = isoDate(dt), wd = dt.getDay(), cal = CALENDARS[acadYear(dt)] || null;
+  const r = { iso, wd, cal, class: false, d: -1, kind: 'class', label: '', swap: false, term: null, exam: null, events: [] };
+  if (!cal) { r.class = wd >= 1 && wd <= 5; r.d = r.class ? wd - 1 : -1; r.kind = r.class ? 'class' : 'weekend'; r.label = r.class ? '' : '土日'; return r; }
+  const term = cal.terms.find(t => t.s <= iso && iso <= t.e);
+  r.term = term ? term.q : null;
+  r.exam = cal.exams.find(x => x.s <= iso && iso <= x.e) || null;
+  r.events = [...cal.events, ...cal.vacations.map(x => ({ ...x, kind: 'vac' }))].filter(x => x.s <= iso && iso <= x.e);
+  const weekend = wd === 0 || wd === 6;
+  if (cal.holidays[iso]) { r.kind = 'holiday'; r.label = cal.holidays[iso]; return r; }
+  const vac = cal.vacations.find(x => x.s <= iso && iso <= x.e);              // 休業は学期の期間内（冬季休業）でも授業なし
+  if (vac) { r.kind = 'vac'; r.label = vac.name; return r; }
+  if (term) {
+    if (cal.cancelled[iso]) { r.kind = 'cancel'; r.label = cal.cancelled[iso]; return r; }
+    if (iso in cal.swaps) { r.class = true; r.d = cal.swaps[iso]; r.kind = 'swap'; r.swap = true; r.label = `${DAYS[r.d]}曜日の授業日`; return r; }
+    if (weekend) { r.kind = 'weekend'; r.label = '土日'; return r; }
+    r.class = true; r.d = wd - 1; return r;
+  }
+  const ori = cal.events.find(x => x.kind === 'orient' && x.s <= iso && iso <= x.e);
+  if (ori) { r.kind = 'orient'; r.label = ori.name; return r; }
+  r.kind = weekend ? 'weekend' : 'gap'; r.label = weekend ? '土日' : '授業期間外';
+  return r;
+}
+// 科目が履修を終える学期（前期=2、後期・通年=4）の定期試験期間は、その科目の通常授業がない
+const examWindow = c => {
+  const cal = CALENDARS[c.year];
+  return cal && c.quarters.length ? cal.exams.find(x => x.term === Math.max(...c.quarters)) || null : null;
+};
+const inExamFor = (c, iso) => { const w = examWindow(c); return !!w && w.s <= iso && iso <= w.e; };
+const sessCache = new Map();
+function calSessions(c) {
+  const cal = CALENDARS[c.year];
+  if (!cal) return 0;
+  const key = `${c.year}|${c.quarters.join()}|${c.slots.map(x => x.d).sort().join()}`;
+  if (sessCache.has(key)) return sessCache.get(key);
+  let n = 0;
+  for (const q of c.quarters) {
+    const t = cal.terms.find(x => x.q === q);
+    if (!t) continue;
+    for (const dt = new Date(t.s + 'T00:00'); isoDate(dt) <= t.e; dt.setDate(dt.getDate() + 1)) {
+      const i = dayInfo(dt);
+      if (i.class && !inExamFor(c, i.iso)) n += c.slots.filter(x => x.d === i.d).length;
+    }
+  }
+  sessCache.set(key, n);
+  return n;
+}
+const termLabel = qs => { const k = [...qs].sort().join(); return k === '1,2' ? '前期' : k === '3,4' ? '後期' : k === '1,2,3,4' ? '通年' : qs.map(q => 'Q' + q).join('·'); };
+const calEvents = cal => [
+  ...cal.events,
+  ...cal.exams.map(x => ({ kind: 'exam', name: `第${x.term}学期定期試験`, s: x.s, e: x.e, note: x.note })),
+  ...cal.vacations.map(x => ({ kind: 'vac', name: x.name, s: x.s, e: x.e })),
+].sort((a, b) => a.s.localeCompare(b.s) || a.e.localeCompare(b.e));
+
+// 時間割画面の上に出す、今日の状態と直近の期間
+function calBannerHTML() {
+  const info = dayInfo(new Date()), cal = info.cal;
+  if (!cal) return '';
+  const T = info.iso, days = x => Math.round((new Date(x + 'T00:00') - new Date(T + 'T00:00')) / 864e5);
+  const out = [];
+  if (info.swap) out.push(['swap', `今日は${DAYS[info.d]}曜日の授業日（曜日振替）`]);
+  else if (!info.class) out.push(['off', `今日は授業がありません · ${info.label}`]);
+  for (const x of calEvents(cal)) {
+    if (x.kind === 'vac' || x.kind === 'event') continue;
+    const k = x.kind === 'exam' ? 'exam' : 'reg';
+    if (x.s <= T && T <= x.e) out.push([k, `${x.name} ${fmtShort(x.s)}–${fmtShort(x.e)}（${days(x.e) === 0 ? '今日まで' : `あと${days(x.e)}日`}）`]);
+    else if (x.s > T && days(x.s) <= 7) out.push([k, `${x.name}まであと${days(x.s)}日（${fmtShort(x.s)}〜）`]);
+  }
+  return out.slice(0, 2).map(([k, t]) => `<div class="cbn ${k}">${esc(t)}</div>`).join('');
+}
+// 時間割の「今週の例外」（祝日・休講・曜日振替）。いま見ている学期のときだけ
+function notesHTML() {
+  const { y, q, span } = state.ui;
+  if (!CALENDARS[y] || y !== acadYear() || q !== activeQ()) return '';
+  const dates = span === 'day' ? [weekDate(dayIdx)] : [0, 1, 2, 3, 4].map(weekDate);
+  const out = [];
+  for (const iso of dates) {
+    const i = dayInfo(iso), w = WD[toDate(iso).getDay()];
+    if (i.swap) out.push(['swap', `${w} ${fmtShort(iso)}：${DAYS[i.d]}曜日の授業日`]);
+    else if (i.kind === 'holiday' || i.kind === 'cancel') out.push(['off', `${w} ${fmtShort(iso)}：${i.label}（授業なし）`]);
+    else if (i.kind === 'orient') out.push(['off', `${w} ${fmtShort(iso)}：${i.label}（授業なし）`]);
+  }
+  return out.length ? `<div class="wnotes">${out.map(([k, t]) => `<div class="cbn ${k}">${esc(t)}</div>`).join('')}</div>` : '';
+}
+
+let calSt = { m: new Date(), sel: '', tab: 'cal' };
+const rangeText = (s, e) => s === e ? fmtDate(s) : `${fmtDate(s)} 〜 ${fmtDate(e)}`;
+function monthHTML() {
+  const T = isoDate(new Date()), m = calSt.m, y = m.getFullYear(), mo = m.getMonth();
+  const lead = new Date(y, mo, 1).getDay(), n = new Date(y, mo + 1, 0).getDate();
+  let cells = '<span></span>'.repeat(lead);
+  for (let day = 1; day <= n; day++) {
+    const iso = `${y}-${pad(mo + 1)}-${pad(day)}`, i = dayInfo(iso), wd = (lead + day - 1) % 7;
+    const mark = i.swap ? `<small>${DAYS[i.d]}授業</small>` : i.kind === 'cancel' ? '<small>休講</small>' : i.exam && i.class ? '<small class="x">試験</small>' : i.events.some(x => x.kind === 'reg') ? '<small class="r">登録</small>' : '';
+    cells += `<button type="button" class="cc2 k-${i.kind} ${i.class ? '' : 'off'} ${wd === 0 ? 'sun' : wd === 6 ? 'sat' : ''} ${i.exam ? 'ex' : ''} ${iso === T ? 'today' : ''} ${iso === calSt.sel ? 'sel' : ''}" data-cd="${iso}" aria-label="${mo + 1}月${day}日 ${esc(i.label || '授業日')}"><b>${day}</b>${mark}</button>`;
+  }
+  return `<div class="cnav"><button type="button" data-cm="-1" aria-label="前の月">‹</button><b class="num">${y}年${mo + 1}月</b><button type="button" data-cm="1" aria-label="次の月">›</button></div>
+    <div class="cwk">${[...WD].map(x => `<span>${x}</span>`).join('')}</div><div class="cgrid">${cells}</div>
+    <div class="legend-mini"><span><i style="background:var(--fg);opacity:.5"></i>授業日</span><span><i style="background:rgba(255,255,255,.12)"></i>休み</span><span><i style="background:rgba(139,124,255,.7)"></i>定期試験期間</span><span><i style="background:var(--accent-2)"></i>履修登録</span><span><i style="background:var(--warn)"></i>曜日振替</span></div>${dayDetailHTML()}`;
+}
+function dayDetailHTML() {
+  const iso = calSt.sel;
+  if (!iso) return '';
+  const i = dayInfo(iso), dt = toDate(iso);
+  const stat = i.class ? `<span class="cs ok">授業日${i.swap ? `（${DAYS[i.d]}曜日の授業）` : ''}</span>` : `<span class="cs off">休み · ${esc(i.label)}</span>`;
+  const chips = [];
+  if (i.exam) chips.push(`<div class="cbn exam">第${i.exam.term}学期定期試験期間（${esc(i.exam.note)}）</div>`);
+  i.events.forEach(x => chips.push(`<div class="cbn ${x.kind === 'vac' ? 'vac' : 'reg'}">${esc(x.name)} ${fmtShort(x.s)}${x.s === x.e ? '' : '–' + fmtShort(x.e)}</div>`));
+  let rows = '';
+  if (i.class) {
+    const y = acadYear(dt), q = quarterByDate(dt);
+    for (const P of PERIODS) for (const c of coursesAt(y, q, i.d, P.n)) {
+      const ex = inExamFor(c, iso);
+      rows += `<button type="button" class="cday ${ex ? 'exw' : ''}" data-open="${esc(c.id)}" style="${cvars(c.color)}"><i>${P.n}</i><div><b>${esc(c.name)}</b><small class="num">${fmtT(P.s)}–${fmtT(P.e)}${c.room ? ' · ' + esc(c.room) : ''}</small></div>${ex ? '<span class="cs exm">試験期間</span>' : ''}</button>`;
+    }
+  }
+  return `<div class="cdet"><div class="cdh"><b class="num">${fmtShort(iso)}（${WD[dt.getDay()]}）</b>${stat}${i.term ? `<span class="cs term">第${i.term}学期</span>` : ''}</div>${chips.join('')}${rows ? `<div class="cdl">${rows}</div>` : i.class ? '<div class="hint">この日の授業は登録されていません</div>' : ''}</div>`;
+}
+function scheduleHTML() {
+  const y = acadYear(calSt.m), cal = CALENDARS[y], T = isoDate(new Date());
+  if (!cal) return `<div class="empty-state"><b>${y}年度の学年暦は登録されていません</b><p style="margin:0">登録がない年度は、平日を授業日として扱います。</p></div>`;
+  const chip = (s, e) => e < T ? '<span class="cs past">終了</span>' : s <= T ? '<span class="cs ok">進行中</span>' : `<span class="cs soon">あと${dayDiff(s)}日</span>`;
+  const row = (name, s, e, note) => `<div class="sch"><div><b>${esc(name)}</b><small class="num">${rangeText(s, e)}${note ? ' · ' + esc(note) : ''}</small></div>${chip(s, e)}</div>`;
+  const grp = (title, rs) => rs.length ? `<div class="sec" style="margin-top:20px"><h3>${title}</h3><div class="schs">${rs.join('')}</div></div>` : '';
+  return `<div style="margin-top:-6px">${grp(`${y}（令和${y - 2018}）年度の学期`, cal.terms.map(t => row(`第${t.q}学期（Q${t.q}・${t.q <= 2 ? '前期' : '後期'}）`, t.s, t.e)))}
+    ${grp('定期試験期間', cal.exams.map(x => row(`第${x.term}学期定期試験`, x.s, x.e, x.note)))}
+    ${grp('履修登録', cal.events.filter(x => x.kind === 'reg').map(x => row(x.name, x.s, x.e)))}
+    ${grp('休業・行事', [...cal.events.filter(x => x.kind !== 'reg'), ...cal.vacations.map(x => ({ ...x }))].sort((a, b) => a.s.localeCompare(b.s)).map(x => row(x.name, x.s, x.e)))}
+    ${grp('曜日振替・休講', [...Object.entries(cal.swaps).map(([d, w]) => row(`${DAYS[w]}曜日の授業日`, d, d)), ...Object.entries(cal.cancelled).map(([d, n]) => row(n, d, d))].sort())}
+    ${grp('祝日（授業なし）', Object.entries(cal.holidays).map(([d, n]) => row(n, d, d)))}</div>`;
+}
+const calBodyHTML = () => `<div class="ctabs"><div class="seg2" role="group"><button type="button" data-ctab="cal" class="${calSt.tab === 'cal' ? 'on' : ''}">カレンダー</button><button type="button" data-ctab="list" class="${calSt.tab === 'list' ? 'on' : ''}">日程一覧</button></div></div>` + (calSt.tab === 'cal' ? monthHTML() : scheduleHTML());
+function openCalendar(iso) {
+  const t = iso ? toDate(iso) : new Date();
+  calSt = { m: new Date(t.getFullYear(), t.getMonth(), 1), sel: isoDate(t), tab: 'cal' };
+  openSheet('学年暦', calBodyHTML(), '', sh => {
+    const body = $('.sh-body', sh);
+    body.addEventListener('click', e => {
+      const b = e.target.closest('[data-ctab],[data-cm],[data-cd],[data-open]');
+      if (!b) return;
+      const d = b.dataset;
+      if (d.open) { openDetail(d.open); return; }
+      if (d.ctab) calSt.tab = d.ctab;
+      else if (d.cm) { calSt.m = new Date(calSt.m.getFullYear(), calSt.m.getMonth() + (+d.cm), 1); calSt.sel = ''; }
+      else if (d.cd) calSt.sel = d.cd;
+      body.innerHTML = calBodyHTML();
+    });
+  });
 }
 
 /* ----- 1日表示 / 週間切替 ----- */
@@ -1096,16 +1472,20 @@ function vbarHTML() {
 }
 function dayHTML() {
   const { y, q } = state.ui, d = dayIdx, iso = weekDate(d), isToday = iso === isoDate(new Date()), nw = nowInfo();
-  const n = PERIODS.reduce((a, P) => a + coursesAt(y, q, d, P.n).length, 0);
-  let h = `<div class="dayhead fade-in"><b>${DAYS[d]}曜日</b><span class="num">${fmtShort(iso)}</span>${isToday ? '<em>TODAY</em>' : ''}<span class="sp"></span><span class="num">${n}コマ</span></div><div class="dlist fade-in">`;
+  const info = dayInfo(iso);
+  const inTerm = info.cal && y === acadYear(toDate(iso)) && q === quarterByDate(iso);   // いま見ている学期の日付のときだけ学年暦を反映する
+  const eff = inTerm && info.class ? info.d : d;                                         // 曜日振替の日はその曜日の授業
+  const dead = inTerm && !info.class;
+  const n = dead ? 0 : PERIODS.reduce((a, P) => a + coursesAt(y, q, eff, P.n).length, 0);
+  let h = `<div class="dayhead fade-in"><b>${DAYS[d]}曜日</b><span class="num">${fmtShort(iso)}</span>${isToday ? '<em>TODAY</em>' : ''}${dead ? `<em class="off">${esc(info.label)}</em>` : ''}${inTerm && info.swap ? `<em class="sw">${DAYS[eff]}曜授業</em>` : ''}<span class="sp"></span><span class="num">${n}コマ</span></div><div class="dlist fade-in">`;
   for (const P of PERIODS) {
-    const cs = coursesAt(y, q, d, P.n);
-    const live = isToday && nw.p === P.n, gone = isToday && toMin(P.e) <= nw.mins;
+    const cs = coursesAt(y, q, eff, P.n);
+    const live = isToday && info.class && nw.p === P.n, gone = dead || (isToday && toMin(P.e) <= nw.mins);
     h += `<div class="drow ${live ? 'now' : ''} ${gone ? 'gone' : ''}"><div class="dt"><b>${P.n}</b><span class="num">${fmtT(P.s)}<br>${fmtT(P.e)}</span></div><div class="dcs">` +
       (cs.length ? cs.map(c => {
-        const ai = attInfo(c), warn = ai && ai.active && ai.level !== 'ok';
-        const tags = (cs.length > 1 ? '<span class="tag" style="color:var(--warn)">時間割が重複</span>' : '') + (warn ? `<span class="tag num lv-${ai.level}">${attRestText(ai)}</span>` : '');
-        return `<button class="dcard" data-open="${esc(c.id)}" style="${cvars(c.color)}"><span class="n">${esc(c.name)}</span>` +
+        const ai = attInfo(c), warn = ai && ai.active && ai.level !== 'ok', exw = inTerm && inExamFor(c, iso);
+        const tags = (cs.length > 1 ? '<span class="tag" style="color:var(--warn)">時間割が重複</span>' : '') + (exw ? '<span class="tag" style="color:#b8aeff">定期試験期間（通常授業なし）</span>' : '') + (warn ? `<span class="tag num lv-${ai.level}">${attRestText(ai)}</span>` : '');
+        return `<button class="dcard ${exw ? 'exw' : ''}" data-open="${esc(c.id)}" style="${cvars(c.color)}"><span class="n">${esc(c.name)}</span>` +
           `<span class="m">${c.room ? `<span>${ICON.pin}${esc(c.room)}</span>` : ''}${c.teacher ? `<span>${ICON.user}${esc(c.teacher)}</span>` : ''}${c.credits ? `<span class="num">${esc(c.credits)}単位</span>` : ''}</span>${tags ? `<span class="tags">${tags}</span>` : ''}</button>`;
       }).join('') : `<button class="dempty" data-add="${d}-${P.n}">${ICON.plus}空きコマ</button>`) + '</div></div>';
     if (P.n === LUNCH_AFTER) h += `<div class="lunch num">LUNCH ${fmtT(PERIODS[LUNCH_AFTER - 1].e)} – ${fmtT(PERIODS[LUNCH_AFTER].s)}</div>`;
@@ -1123,7 +1503,7 @@ function dayHTML() {
     off.map(c => `<button class="offchip" data-open="${esc(c.id)}" style="${cvars(c.color)}">${esc(c.name)}<small>${[c.room, c.credits && c.credits + '単位'].filter(Boolean).map(esc).join(' · ') || '—'}</small></button>`).join('') + '</div></div>';
   return h;
 }
-const timetableHTML = (anim = true) => vbarHTML() + (state.ui.span === 'day' ? dayHTML() : gridHTML(state.ui.y, state.ui.q, anim));
+const timetableHTML = (anim = true) => vbarHTML() + notesHTML() + (state.ui.span === 'day' ? dayHTML() : gridHTML(state.ui.y, state.ui.q, anim));
 
 function slotTags(c, extraCls = 'c') {
   return c.slots.map(s => `<span class="tag ${extraCls} num">${DAYS[s.d]}${s.p} · ${fmtT(PERIODS[s.p - 1].s)}–${fmtT(PERIODS[s.p - 1].e)}</span>`).join('');
@@ -1179,7 +1559,7 @@ function groupHead(title, sub, cs) {
 }
 function rowHTML(c) {
   const where = c.slots.length ? c.slots.map(s => DAYS[s.d] + s.p).join(' ') : '時間割外';
-  const sub = [c.quarters.map(q => 'Q' + q).join('·'), where, c.category, c.teacher].filter(Boolean).map(esc).join(' · ');
+  const sub = [termLabel(c.quarters), where, c.category, c.teacher].filter(Boolean).map(esc).join(' · ');
   const ai = attInfo(c);
   const attTxt = ai && ai.active && ai.level !== 'ok' ? `<span class="lv-${ai.level}" style="font-weight:700">${attRestText(ai)}</span> · ` : '';
   return `<button class="row" data-open="${esc(c.id)}" style="${cvars(c.color)}"><i class="dot"></i><div style="min-width:0"><div class="rn">${esc(c.name)}</div><div class="rs">${attTxt}${sub}</div></div><div class="rc">${c.credits ? esc(c.credits) + '<small>単位</small>' : '<small>—</small>'}</div>${gradeBadge(c)}</button>`;
@@ -1263,6 +1643,69 @@ function reqHTML() {
     <div class="legend-mini"><span><i style="background:var(--warn)"></i>あと＝予定を含めても不足</span><span><i style="background:var(--mute)"></i>あと＝履修予定で充足見込み</span><span><i style="background:var(--accent-2)"></i>✓＝達成</span></div></div>`;
 }
 
+/* ----- 進級要件 ----- */
+const nameKey = t => str(t).normalize('NFKC').toLowerCase().replace(/[\s・\-－]/g, '')
+  .replace(/(^|[^a-z])(iv|iii|ii|i|v)(?![a-z])/g, (m, pre, r) => pre + ({ i: '1', ii: '2', iii: '3', iv: '4', v: '5' })[r]);   // 後読みは iOS 16.4 未満で構文エラーになるので使わない
+function promoHTML() {
+  const P = PROMOTION, S = state.settings;
+  const last = S.entryYear + P.from - 1;                    // 進級前の最終年度（2年次）
+  const pool = state.courses.filter(c => c.year <= last && c.grade !== 'W');
+  const st = stats(pool);
+  const info = it => {
+    const keys = (it.names || [it.name]).map(nameKey);
+    const ms = pool.filter(c => keys.some(k => nameKey(c.name).includes(k)));
+    const sum = k => ms.filter(c => gradeMeta(c.grade).kind === k).reduce((a, c) => a + (credit(c) || it.cr), 0);
+    const e = sum('pass'), pl = sum('pending');
+    return { it, ms, e: Math.min(it.cr, e), ep: Math.min(it.cr, e + pl), st: e >= it.cr ? 'ok' : e > 0 ? 'part' : pl > 0 ? 'plan' : ms.length ? 'fail' : 'none' };
+  };
+  const musts = P.must.map(info), picks = P.pick.items.map(info);
+  const pickE = picks.reduce((a, x) => a + x.e, 0), pickEP = picks.reduce((a, x) => a + x.ep, 0);
+  const totOK = st.earned >= P.total, mustOK = musts.every(x => x.st === 'ok'), pickOK = pickE >= P.pick.need;
+  const ok = totOK && mustOK && pickOK;
+  const ok2 = st.earned + st.planned >= P.total && musts.every(x => x.st === 'ok' || x.st === 'plan') && pickEP >= P.pick.need;
+  const gaps = [];
+  if (!totOK) gaps.push(`総単位 あと${fmtCr(P.total - st.earned)}`);
+  const miss = musts.filter(x => x.st !== 'ok');
+  if (miss.length) gaps.push(`必修 あと${miss.length}科目`);
+  if (!pickOK) gaps.push(`選択 あと${fmtCr(P.pick.need - pickE)}単位`);
+  const badge = ok ? ['ok', '達成'] : ok2 ? ['soon', '見込み'] : ['ng', '未達'];
+
+  const LAB = { ok: '取得済', part: '一部取得', plan: '履修中', fail: '未取得', none: '未登録' };
+  const chips = (x, kind, i) => !x.it.names ? '' : `<div class="pm-chips"><span>必修の英語科目（タップで登録・確認）</span>${x.it.names.map((n, j) => {
+    const k = nameKey(n), ms = pool.filter(c => nameKey(c.name).includes(k));
+    const kd = ms.some(c => gradeMeta(c.grade).kind === 'pass') ? 'ok' : ms.some(c => gradeMeta(c.grade).kind === 'pending') ? 'plan' : ms.length ? 'fail' : 'none';
+    return `<button type="button" class="pm-chip ${kd}" ${ms[0] ? `data-pmopen="${esc(ms[0].id)}"` : `data-pmadd="${kind}|${i}|${j}"`}>${esc(n)}</button>`;
+  }).join('')}</div>`;
+  const row = (x, kind, i) => {
+    const m = x.ms[0];
+    const where = m ? `${esc(m.name)}${x.ms.length > 1 ? ` ほか${x.ms.length - 1}` : ''}` : 'タップで授業を登録';
+    return `<button type="button" class="pm-row ${x.st}" ${m ? `data-pmopen="${esc(m.id)}"` : `data-pmadd="${kind}|${i}"`}><i class="pm-dot"></i>` +
+      `<div class="pm-t"><b>${esc(x.it.name)}</b><small>${esc(x.it.cat)} · <span class="num">${fmtCr(x.e)}/${x.it.cr}単位</span> · ${where}</small></div><span class="pm-st">${LAB[x.st]}</span></button>` + chips(x, kind, i);
+  };
+  const bar = (e, p, max) => `<div class="sbar" style="margin-top:8px"><i class="e" style="width:${Math.min(100, e / max * 100)}%"></i><i class="p" style="width:${Math.min(100 - Math.min(100, e / max * 100), p / max * 100)}%"></i></div>`;
+
+  const cond = P.must.find(x => x.cond);
+  let nk = '';
+  if (cond) {
+    const target = cond.cond.target, score = parseFloat(S.nikkei), has = score >= 0;
+    const done = has && score >= target;
+    const linked = musts.find(x => x.it === cond);
+    const nx = upcomingExams().find(x => /日経/.test(x.title));
+    nk = `<div class="pm-cond"><div class="pm-ch"><b>${esc(cond.cond.label)}</b><span>${esc(cond.name)} の修得要件：${target}点以上</span></div>
+      <div class="pm-score"><input type="number" id="nkScore" class="num" inputmode="numeric" min="0" step="1" placeholder="最高スコア" value="${has ? esc(S.nikkei) : ''}" aria-label="日経TESTの最高スコア"><span class="num">/ ${target}点</span><b class="${done ? 'ok' : ''}">${done ? 'クリア ✓' : has ? `あと ${fmtCr(target - score)}点` : '未受験'}</b></div>
+      ${bar(has ? score : 0, 0, target)}
+      <div class="pm-act"><span>${nx ? `次回：${examWhen(nx)}` : '受験日は未登録'}</span><button type="button" class="abtn" data-pmexam="${linked && linked.ms[0] ? esc(linked.ms[0].id) : ''}">${ICON.plus}試験として登録</button></div></div>`;
+  }
+
+  return `<div class="sec"><h3>進級要件 <small>${P.from}年次 → ${P.to}年次</small></h3><div class="pm fade-in">
+    <div class="pm-head"><div><b class="pm-title">${P.from}年次 → ${P.to}年次への進級</b><div class="pm-sub">${gaps.length ? gaps.join(' ／ ') : 'すべての条件を満たしています'}</div></div><span class="pm-badge ${badge[0]}">${badge[1]}</span></div>
+    <div class="pm-block"><h4>総取得単位 <em>必修科目の単位を含めて ${P.total}単位以上</em></h4>
+      <div class="pm-big num"><b>${fmtCr(st.earned)}</b><span>/ ${P.total}</span><small>予定 ${fmtCr(st.planned)}</small></div>${bar(st.earned, st.planned, P.total)}</div>
+    <div class="pm-block"><h4>1. 必ず取得する科目 <em>${musts.filter(x => x.st === 'ok').length} / ${musts.length}科目</em></h4><div class="pm-rows">${musts.map((x, i) => row(x, 'must', i)).join('')}</div>${nk}</div>
+    <div class="pm-block"><h4>2. 次の科目から ${P.pick.need}単位以上 <em class="num">取得 ${fmtCr(pickE)} / ${P.pick.need}</em></h4>${bar(pickE, Math.max(0, pickEP - pickE), P.pick.need)}<div class="pm-rows" style="margin-top:10px">${picks.map((x, i) => row(x, 'pick', i)).join('')}</div></div>
+    <div class="hint" style="margin-top:14px">授業名に上記の名称を含む授業を自動で対応づけます（Ⅰ・Ⅱは1・2と同じ扱い）。対象は ${S.entryYear}〜${last}年度（1〜${P.from}年次）の授業で、成績が出るまでは「履修中」として見込みに数えます。</div></div></div>`;
+}
+
 /* ----- stats ----- */
 function statsHTML() {
   const all = state.courses;
@@ -1285,9 +1728,11 @@ function statsHTML() {
     <div class="tiles">
       <div class="tile"><div class="k"><i style="background:#3de0d0"></i>取得単位</div><div class="v num">${fmtCr(st.earned)}<small>単位</small></div><div class="d">卒業まであと ${fmtCr(remain)}</div></div>
       <div class="tile"><div class="k"><i style="background:rgba(139,124,255,.85)"></i>取得予定</div><div class="v num">${fmtCr(st.planned)}<small>単位</small></div><div class="d">履修中・成績未入力</div></div>
-      <div class="tile"><div class="k"><i style="background:linear-gradient(135deg,#8b7cff,#3de0d0)"></i>通算 GPA</div><div class="v num">${fmtGpa(st.gpa)}</div><div class="d">${SCALES[state.settings.scale].labels[0]}=4 〜 ${SCALES[state.settings.scale].labels[4]}=0</div></div>
+      <div class="tile"><div class="k"><i style="background:linear-gradient(135deg,#8b7cff,#3de0d0)"></i>通算 GPA</div><div class="v num">${fmtGpa(st.gpa)}</div><div class="d">A=4.0 〜 F=0.0（N・G・H は対象外）</div></div>
       <div class="tile"><div class="k"><i style="background:${short ? 'var(--warn)' : 'var(--accent-2)'}"></i>予定込みで不足</div><div class="v num" style="color:${short ? 'var(--warn)' : 'var(--accent-2)'}">${fmtCr(short)}<small>単位</small></div><div class="d">${short ? 'あと履修登録が必要' : '要件単位に到達見込み'}</div></div>
     </div></div>`;
+
+  h += promoHTML();
 
   // 出欠の要注意
   const risky = all.map(c => ({ c, i: attInfo(c) })).filter(x => x.i && x.i.active && x.i.level !== 'ok').sort((a, b) => a.i.rem - b.i.rem);
@@ -1310,7 +1755,7 @@ function statsHTML() {
   h += reqHTML();
 
   // 成績分布
-  const codes = ['g0', 'g1', 'g2', 'g3', 'g4', 'P', 'N'];
+  const codes = ['g0', 'g1', 'g2', 'g3', 'g4', 'N', 'G', 'H', 'Y'];
   const cnt = codes.map(g => all.filter(c => c.grade === g).length);
   const total = cnt.reduce((a, b) => a + b, 0);
   h += `<div class="sec"><h3>成績分布 <small>${total}科目 評価済み</small></h3>`;
@@ -1366,7 +1811,7 @@ function attSectionHTML(c) {
   if (c.attOff) return head + '<div class="body" style="color:var(--dim)">この授業は出欠を管理しない設定です（編集から変更できます）</div>';
   const i = attInfo(c);
   if (!i) return head + '<div class="body" style="color:var(--dim)">曜日・時限が未設定のため総回数が分かりません。編集で「総授業回数」を入れると管理できます。</div>';
-  const src = { manual: '手入力', range: 'クォーター期間から自動計算', default: `${DEFAULT_SESSIONS_PER_Q}回×コマ数×クォーター数で仮計算` }[i.src];
+  const src = { manual: '手入力', calendar: '学年暦（祝日・休講・曜日振替・試験期間を反映）から自動計算', range: 'クォーター期間から自動計算', default: `${DEFAULT_SESSIONS_PER_Q}回×コマ数×クォーター数で仮計算` }[i.src];
   const lateRule = state.settings.lateRatio ? `遅刻${state.settings.lateRatio}回＝欠席1回` : '遅刻は数えない';
   const dots = Array.from({ length: Math.max(i.allowed, i.used) }, (_, k) => `<i class="${k < i.used ? (k < i.allowed ? 'u' : 'x') : ''}"></i>`).join('');
   const log = c.absences.slice().reverse().map(a => {
@@ -1386,8 +1831,8 @@ function openDetail(id) {
   const sec = (icon, title, body, cls = '') => `<div class="dsec ${cls}"><h4>${icon}${title}</h4><div class="body" style="${body ? '' : 'color:var(--dim)'}">${body || '未入力'}</div></div>`;
   const body = `
     <div class="dt-hero" style="${cvars(c.color)}"><h3>${esc(c.name)}</h3>
-      <div class="tags"><span class="tag">${yearLabel(c.year)} · ${c.year}年度</span>${c.quarters.map(q => `<span class="tag">Q${q}</span>`).join('')}${slotTags(c) || '<span class="tag q">時間割外</span>'}</div></div>
-    <div class="dsec"><h4>${ICON.cap}成績 <span style="margin-left:auto;letter-spacing:.04em;text-transform:none" id="dGradeNote"></span></h4><div class="gpick" id="dGrade">${gradePicker(c.grade)}</div></div>
+      <div class="tags"><span class="tag">${yearLabel(c.year)} · ${c.year}年度</span><span class="tag">${termLabel(c.quarters)}</span>${slotTags(c) || '<span class="tag q">時間割外</span>'}</div></div>
+    <div class="dsec"><h4>${ICON.cap}成績 <span style="margin-left:auto;letter-spacing:.04em;text-transform:none" id="dGradeNote"></span></h4><div class="gpick" id="dGrade">${gradePicker(c.grade)}</div>${scoreRowHTML(c, 'dScore')}</div>
     <div class="dgrid">
       ${sec(ICON.pin, '教室', esc(c.room))}
       ${sec(ICON.user, '先生', esc(c.teacher))}
@@ -1402,14 +1847,28 @@ function openDetail(id) {
     ${c.memo ? sec(ICON.note, 'メモ', esc(c.memo)) : ''}`;
   const foot = `<button class="btn danger" id="dDel">${ICON.trash}削除</button><span class="spacer"></span><button class="btn pri" id="dEdit">${ICON.edit}編集</button>`;
   openSheet('授業の詳細', body, foot, sh => {
-    const note = () => { const m = gradeMeta(c.grade); $('#dGradeNote', sh).textContent = m.gp != null ? `GP ${m.gp}` : m.kind === 'pending' ? '単位は「取得予定」に計上' : m.kind === 'pass' ? 'GPA対象外・単位取得' : m.kind === 'fail' ? '単位なし' : '集計から除外'; };
+    const note = () => {
+      const m = gradeMeta(c.grade);
+      $('#dGradeNote', sh).textContent = m.kind === 'pending' ? '単位は「取得予定」に計上' : m.kind === 'withdrawn' ? '集計から除外'
+        : [m.name, m.gp != null ? `GP ${m.gp.toFixed(1)}` : 'GPA対象外', m.kind === 'pass' ? '単位取得' : '単位なし'].join(' · ');
+    };
     note();
     $('#dGrade', sh).addEventListener('click', e => {
       const b = e.target.closest('.gb'); if (!b) return;
       c.grade = b.dataset.g;
       $$('.gb', sh).forEach(x => x.classList.toggle('on', x === b));
       note(); save(); render();
-      toast(`成績を「${gradeMeta(c.grade).label}」にしました`);
+      toast(`成績を「${gradeMeta(c.grade).label}（${gradeMeta(c.grade).name}）」にしました`);
+    });
+    $('#dScore', sh).addEventListener('change', e => {
+      const v = parseFloat(e.target.value);
+      c.score = v >= 0 && v <= 100 ? String(v) : '';
+      if (c.score !== '') {
+        c.grade = gradeFromScore(+c.score);
+        $$('#dGrade .gb', sh).forEach(x => x.classList.toggle('on', x.dataset.g === c.grade));
+        toast(`評価点 ${c.score}点 → ${gradeMeta(c.grade).label}（${gradeMeta(c.grade).name}）`);
+      }
+      note(); save(); render();
     });
     const attEl = $('#dAtt', sh);
     attEl.addEventListener('click', e => {
@@ -1444,7 +1903,7 @@ function openDetail(id) {
 }
 
 /* ===== form ===== */
-function openForm(id, preset) {
+function openForm(id, preset, fill) {
   const editing = id ? state.courses.find(x => x.id === id) : null;
   const usedColors = state.courses.filter(c => c.year === state.ui.y).map(c => c.color);
   const c = editing ? JSON.parse(JSON.stringify(editing)) : {
@@ -1453,6 +1912,7 @@ function openForm(id, preset) {
     color: COLORS.find(x => !usedColors.includes(x)) || COLORS[state.courses.length % COLORS.length],
     quarters: [state.ui.q], slots: preset ? [preset] : [],
   };
+  if (fill && !editing) Object.assign(c, fill);
   const busyWith = (d, p) => state.courses.filter(o => o.id !== id && o.year === c.year && o.grade !== 'W' && o.slots.some(s => s.d === d && s.p === p) && o.quarters.some(q => c.quarters.includes(q)));
   const busy = (d, p) => busyWith(d, p).length > 0;
   const slotGrid = () => '<div></div>' + DAYS.map(d => `<div class="sh">${d}</div>`).join('') +
@@ -1480,12 +1940,12 @@ function openForm(id, preset) {
     <div class="fg" style="margin-top:6px"><label for="fName">授業名 <span class="req">*</span></label><input type="text" id="fName" placeholder="例：線形代数学Ⅰ" value="${esc(c.name)}" maxlength="80"></div>
     <div class="row2"><div class="fg"><label for="fYear">学年・年度</label><select id="fYear">${years.sort((a, b) => a - b).map(y => `<option value="${y}" ${y === c.year ? 'selected' : ''}>${yearLabel(y)}（${y}年度）</option>`).join('')}</select></div>
       <div class="fg"><label for="fCred">単位数</label><input type="number" id="fCred" inputmode="decimal" min="0" step="0.5" placeholder="例：2" value="${esc(c.credits)}"></div></div>
-    <div class="fg"><span class="fl">クォーター（複数選択可）</span><div class="toggles" id="fQ">${QUARTERS.map(q => `<button type="button" class="tg ${c.quarters.includes(q) ? 'on' : ''}" data-q="${q}">Q${q}</button>`).join('')}</div></div>
+    <div class="fg"><span class="fl">クォーター（複数選択可）</span><div class="presets" id="fQp" style="margin-bottom:10px"><button type="button" class="pre" data-qs="1,2">前期（Q1＋Q2）</button><button type="button" class="pre" data-qs="3,4">後期（Q3＋Q4）</button><button type="button" class="pre" data-qs="1,2,3,4">通年</button></div><div class="toggles" id="fQ">${QUARTERS.map(q => `<button type="button" class="tg ${c.quarters.includes(q) ? 'on' : ''}" data-q="${q}">Q${q}</button>`).join('')}</div></div>
     <div class="fg"><span class="fl">曜日・時限（複数選択可・集中講義などは空欄でOK）</span><div class="slots" id="fS">${slotGrid()}</div><div class="hint" id="slotHint"></div></div>
     <div class="row2"><div class="fg"><label for="fRoom">教室</label><input type="text" id="fRoom" placeholder="例：A棟 301" value="${esc(c.room)}"></div>
       <div class="fg"><label for="fTeacher">先生</label><input type="text" id="fTeacher" placeholder="例：山田 太郎" value="${esc(c.teacher)}"></div></div>
     <div class="fg"><span class="fl">科目区分（卒業要件）</span><div id="fCat">${catPick()}</div><div class="hint">選んだ区分は「単位・成績」の卒業要件に集計されます。もう一度タップすると解除。</div></div>
-    <div class="fg"><span class="fl">成績</span><div class="gpick" id="fG">${gradePicker(c.grade)}</div><div class="hint">成績が出るまでは「履修中」のまま（取得予定単位に計上）。</div></div>
+    <div class="fg"><span class="fl">成績</span><div class="gpick" id="fG">${gradePicker(c.grade)}</div>${scoreRowHTML(c, 'fScore')}<div class="hint">成績が出るまでは「履修中」のまま（取得予定単位に計上）。</div></div>
     <div class="fg"><span class="fl">出欠管理</span><div class="toggles" style="grid-template-columns:1fr 1fr" id="fAtt"><button type="button" class="tg ${c.attOff ? '' : 'on'}" data-a="on">管理する</button><button type="button" class="tg ${c.attOff ? 'on' : ''}" data-a="off">しない</button></div>
       <div class="row2"><div class="fg"><label for="fSess">総授業回数</label><input type="number" id="fSess" inputmode="numeric" min="1" step="1" placeholder="${attAuto.total != null ? `自動（${attAuto.total}回）` : '要入力'}" value="${esc(c.sessions || '')}"></div>
         <div class="fg"><label for="fAttMax">休める回数</label><input type="number" id="fAttMax" inputmode="numeric" min="0" step="1" placeholder="${attAuto.allowed != null ? `自動（${attAuto.allowed}回）` : '自動'}" value="${esc(c.attMax || '')}"></div></div>
@@ -1530,6 +1990,12 @@ function openForm(id, preset) {
       updTotal();
     };
     $('#fYear', sh).addEventListener('change', e => { c.year = +e.target.value; refreshBusy(); updHint(); });
+    $('#fQp', sh).addEventListener('click', e => {
+      const b = e.target.closest('.pre'); if (!b) return;
+      c.quarters = b.dataset.qs.split(',').map(Number);
+      $$('#fQ .tg', sh).forEach(x => x.classList.toggle('on', c.quarters.includes(+x.dataset.q)));
+      refreshBusy(); updHint();
+    });
     $('#fQ', sh).addEventListener('click', e => {
       const b = e.target.closest('.tg'); if (!b) return;
       const q = +b.dataset.q;
@@ -1549,6 +2015,14 @@ function openForm(id, preset) {
       const b = e.target.closest('.gb'); if (!b) return;
       c.grade = b.dataset.g;
       $$('#fG .gb', sh).forEach(x => x.classList.toggle('on', x === b));
+    });
+    $('#fScore', sh).addEventListener('input', e => {
+      const v = parseFloat(e.target.value);
+      c.score = v >= 0 && v <= 100 ? String(v) : '';
+      if (c.score !== '') {
+        c.grade = gradeFromScore(+c.score);
+        $$('#fG .gb', sh).forEach(x => x.classList.toggle('on', x.dataset.g === c.grade));
+      }
     });
     $('#fCat', sh).addEventListener('click', e => {
       const b = e.target.closest('.cc'); if (!b) return;
@@ -1710,7 +2184,16 @@ function courseExamsHTML(c) {
     `<button type="button" class="linkbtn" data-xadd="${esc(c.id)}">＋ この授業の試験を追加</button>`;
 }
 
-function examHTML() {
+function examWinBannerHTML() {
+  const cal = CALENDARS[acadYear()];
+  if (!cal) return '';
+  const T = todayISO(), x = cal.exams.find(v => v.e >= T);
+  if (!x) return '';
+  const mine = state.courses.filter(c => c.year === acadYear() && c.grade !== 'W' && c.quarters.length && Math.max(...c.quarters) === x.term).length;
+  return `<div class="cbn exam" style="margin-bottom:12px"><b>第${x.term}学期定期試験</b> ${rangeText(x.s, x.e)}（${x.s <= T ? '期間中' : `あと${dayDiff(x.s)}日`}）<small>${esc(x.note)}${mine ? ` · 登録済みの対象科目 ${mine}件` : ''}</small></div>`;
+}
+const examHTML = () => examWinBannerHTML() + examBodyHTML();
+function examBodyHTML() {
   if (!state.exams.length) {
     return `<div class="empty-state fade-in"><b>試験・テストはまだありません</b><p>試験日と範囲を登録すると、今日から試験前日までの勉強計画を自動で作ります。<br>勉強した時間を記録して、目標までの進み具合を確認できます。</p><button class="btn pri" data-xadd="">${ICON.plus}試験を追加</button></div>`;
   }
@@ -1838,20 +2321,21 @@ function openDay(date) {
 function openExamForm(id, preset = {}) {
   const editing = id ? state.exams.find(x => x.id === id) : null;
   const e = editing ? JSON.parse(JSON.stringify(editing)) : {
-    courseId: preset.courseId || '', title: '', kind: '期末試験', date: '', time: '', room: '', scope: '', memo: '', score: '', hours: '',
+    courseId: preset.courseId || '', title: preset.title || '', kind: preset.kind || '期末試験', date: '', time: '', room: '', scope: '', memo: '', score: '', hours: '',
     color: COLORS[state.exams.length % COLORS.length], tasks: [], logs: [],
   };
   const cy = acadYear();
   const cs = state.courses.filter(c => c.grade !== 'W' || c.id === e.courseId);
   const ys = [...new Set(cs.map(c => c.year))].sort((a, b) => (b === cy) - (a === cy) || b - a);
   const opts = '<option value="">授業に紐づけない</option>' + ys.map(y => `<optgroup label="${yearLabel(y)}（${y}年度）">` +
-    cs.filter(c => c.year === y).sort(byTime).map(c => `<option value="${esc(c.id)}" ${c.id === e.courseId ? 'selected' : ''}>${esc(c.name)}${c.quarters.length ? ' · ' + c.quarters.map(q => 'Q' + q).join('') : ''}</option>`).join('') + '</optgroup>').join('');
+    cs.filter(c => c.year === y).sort(byTime).map(c => `<option value="${esc(c.id)}" ${c.id === e.courseId ? 'selected' : ''}>${esc(c.name)}${c.quarters.length ? ' · ' + termLabel(c.quarters) : ''}</option>`).join('') + '</optgroup>').join('');
   const body = `<form id="xf" autocomplete="off" novalidate>
     <div class="fg" style="margin-top:6px"><label for="xCourse">授業</label><select id="xCourse">${opts}</select><div class="hint" id="xWeight"></div></div>
     <div class="fg"><span class="fl">種類</span><div class="toggles" style="grid-template-columns:repeat(3,1fr)" id="xKind">${EXAM_KINDS.map(k => `<button type="button" class="tg ${k === e.kind ? 'on' : ''}" data-k="${k}" style="font-family:var(--font);font-size:13px">${k}</button>`).join('')}</div></div>
     <div class="fg"><label for="xTitle">タイトル <span class="req" id="xTReq">*</span></label><input type="text" id="xTitle" maxlength="80" value="${esc(e.title)}"></div>
-    <div class="row2"><div class="fg"><label for="xDate">日付 <span class="req">*</span></label><input type="date" id="xDate" value="${esc(e.date)}"></div>
+    <div class="row2" style="grid-template-columns:minmax(0,3fr) minmax(0,2fr)"><div class="fg"><label for="xDate">日付 <span class="req">*</span></label><input type="date" id="xDate" value="${esc(e.date)}"></div>
       <div class="fg"><label for="xTime">開始時刻</label><input type="time" id="xTime" value="${esc(e.time)}"></div></div>
+    <div class="hint" id="xWin" style="margin-top:6px"></div>
     <div class="row2"><div class="fg"><label for="xRoom">場所</label><input type="text" id="xRoom" value="${esc(e.room)}"></div>
       <div class="fg"><label for="xHours">目標勉強時間</label><input type="number" id="xHours" class="num" inputmode="decimal" min="0.5" step="0.5" value="${editing ? e.hours : ''}"></div></div>
     <div class="fg"><label for="xScope">試験範囲（1行に1項目）</label><textarea id="xScope" style="min-height:118px" placeholder="第1章 集合と写像&#10;第2章 行列と行列式&#10;演習プリント 1〜5">${esc(e.scope)}</textarea>
@@ -1872,6 +2356,8 @@ function openExamForm(id, preset = {}) {
       $('#xColWrap', sh).style.display = co ? 'none' : '';
       const w = co ? examWeight({ ...e, title: $('#xTitle', sh).value.trim() }) : null;
       $('#xWeight', sh).textContent = w != null ? `評価基準：この${e.kind}は成績の ${w}%` : co && co.evals.length ? `評価基準：${co.evals.map(x => `${x.label} ${x.pct}%`).join(' / ')}` : '';
+      const win = co ? examWindow(co) : null;
+      $('#xWin', sh).textContent = win && e.kind === '期末試験' ? `この授業の定期試験期間：${rangeText(win.s, win.e)}（第${win.term}学期定期試験）` : '';
     };
     sel.addEventListener('change', upd);
     $('#xTitle', sh).addEventListener('input', ev => { ev.target.classList.remove('err'); upd(); });
@@ -2043,8 +2529,12 @@ function openSettings() {
         <select id="stYears">${[4, 5, 6].map(n => `<option value="${n}" ${n === S.years ? 'selected' : ''}>${n}年間</option>`).join('')}</select></div>
       <div class="hint">今年度（${cy}年度）が何年生かを決めます。登録済みの授業は年度で管理しているので、変えても消えません。</div></div>
     <div class="fg"><span class="fl">卒業要件単位</span><input type="number" id="stReq" inputmode="decimal" min="1" value="${S.required}"></div>
-    <div class="fg"><span class="fl">成績の段階</span><select id="stScale">${Object.entries(SCALES).map(([k, v]) => `<option value="${k}" ${k === S.scale ? 'selected' : ''}>${v.name}</option>`).join('')}</select>
-      <div class="hint">GPA は上から 4・3・2・1・0 で計算します。「合格」「不合格」はGPA対象外、「取消」は集計から除外します。</div></div>
+    <div class="fg"><span class="fl">成績評語と評価点</span>
+      <div class="gtab" role="table">
+        <div class="gr gh"><span>評語</span><span>評価点</span><span>GP</span><span>単位</span></div>
+        ${GRADES.map(g => `<div class="gr"><span><i style="background:${g.color}"></i><b>${g.label}</b>（${g.name}）</span><span class="num">${g.range || '—'}</span><span class="num">${g.gp != null ? g.gp.toFixed(1) : '—'}</span><span class="${g.kind === 'pass' ? 'p' : 'f'}">${g.kind === 'pass' ? '合格' : '不合格'}</span></div>`).join('')}
+      </div>
+      <div class="hint">N＝他大学等で取得した単位の認定。G・H＝合格か不合格かを判定する科目。Y＝出席不足等で受験資格のないもの。GPA は A・B・C・D・F・Y を単位数で重み付けして平均し、N・G・H は算入しません（F・Y は 0.0 として算入）。</div></div>
     <div class="fg"><span class="fl">出欠のルール</span>
       <div class="row2" style="margin-top:0;grid-template-columns:minmax(0,1fr)"><select id="stAtt">${ATT_RATIOS.map(n => `<option value="${n}" ${n === S.attRatio ? 'selected' : ''}>欠席が1/${n}以上で不可</option>`).join('')}</select>
         <select id="stLate" style="margin-top:8px">${LATE_RATIOS.map(n => `<option value="${n}" ${n === S.lateRatio ? 'selected' : ''}>${n ? `遅刻${n}回＝欠席1回` : '遅刻は数えない'}</option>`).join('')}</select></div>
@@ -2056,7 +2546,7 @@ function openSettings() {
     <div class="divider"></div>
     <div class="fg"><span class="fl">クォーター期間（任意・毎年共通）</span>
       ${QUARTERS.map((q, i) => `<div class="qrange"><b>Q${q}</b><input type="date" data-i="${i}" data-k="s" value="${esc(r[i].s)}" aria-label="Q${q} 開始日"><span>〜</span><input type="date" data-i="${i}" data-k="e" value="${esc(r[i].e)}" aria-label="Q${q} 終了日"></div>`).join('')}
-      <div class="hint">月日だけを使います（年は無視）。設定すると起動時に今のクォーターを自動で開き、NOW / NEXT に表示します。</div></div>
+      <div class="hint">月日だけを使います（年は無視）。設定すると起動時に今のクォーターを自動で開き、NOW / NEXT に表示します。2026年度は内蔵の学年暦（祝日・休講・曜日振替・試験期間）を優先するので、この設定は学年暦のない年度で使われます。</div></div>
     <div class="dsec" style="margin-top:20px"><h4>${ICON.clock}時限</h4><div class="body num" style="font-family:var(--mono);font-size:13px">${PERIODS.map(P => `${P.n}限  ${P.s} – ${P.e}`).join('\n')}</div></div>
     <div class="divider"></div>
     <div class="fg"><span class="fl">データ</span><button class="btn danger" id="stWipe" style="width:100%">${ICON.trash}すべての授業を削除</button></div>
@@ -2085,7 +2575,6 @@ function openSettings() {
       S.entrySet = true;
       S.years = +$('#stYears', sh).value;
       S.required = req;
-      S.scale = $('#stScale', sh).value;
       S.attRatio = +$('#stAtt', sh).value;
       S.lateRatio = +$('#stLate', sh).value;
       const oldName = new Map(S.cats.map(x => [x.id, x.name]));
@@ -2128,6 +2617,17 @@ document.addEventListener('click', e => {
     render();
     return;
   }
+  const pm = e.target.closest('[data-pmopen],[data-pmadd],[data-pmexam]');
+  if (pm) {
+    const d = pm.dataset;
+    if (d.pmopen) openDetail(d.pmopen);
+    else if (d.pmadd) {
+      const [k, i, j] = d.pmadd.split('|');
+      const it = k === 'must' ? PROMOTION.must[+i] : PROMOTION.pick.items[+i];
+      openForm(null, null, { name: it.names ? it.names[+j || 0] : it.name, credits: it.names ? '' : String(it.cr), category: it.cat === '全学教育科目' ? it.cat : '' });
+    } else openExamForm(null, { courseId: d.pmexam, title: '日経TEST', kind: 'その他' });
+    return;
+  }
   const tk = e.target.closest('[data-tk]');
   if (tk) { toggleTask(...tk.dataset.tk.split('|')); render(); return; }
   const xo = e.target.closest('[data-xopen],[data-xday],[data-xadd]');
@@ -2158,7 +2658,14 @@ document.addEventListener('input', e => {
   search = e.target.value;
   $('#lres').innerHTML = listResultsHTML();
 });
+document.addEventListener('change', e => {
+  if (e.target.id !== 'nkScore') return;
+  const v = parseFloat(e.target.value);
+  state.settings.nikkei = v >= 0 ? String(v) : '';
+  save(); render(); toast('日経TESTのスコアを保存しました');
+});
 $('#btnAdd').addEventListener('click', () => state.ui.view === 'exam' ? openExamForm(null) : openForm(null));
+$('#btnCal').addEventListener('click', () => openCalendar());
 $('#btnShare').addEventListener('click', openShare);
 $('#btnSettings').addEventListener('click', openSettings);
 window.addEventListener('hashchange', checkHash);
