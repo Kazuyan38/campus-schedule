@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#07080c">
+<title>管理 — Campus Schedule</title>
+<style>
+  :root{
+    --bg:#07080c; --panel:rgba(255,255,255,.035); --panel-2:rgba(255,255,255,.065); --panel-solid:#10121a;
+    --line:rgba(255,255,255,.075); --line-2:rgba(255,255,255,.14);
+    --fg:#eceef6; --mute:#9097ab; --dim:#5b6174;
+    --accent:#8b7cff; --accent-2:#3de0d0; --warn:#ffb547; --danger:#ff5d73; --ok:#3de0a0;
+    --radius:16px; --radius-s:10px;
+    --font:"Inter","SF Pro Display",system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI","Meiryo",sans-serif;
+    --mono:"SF Mono","JetBrains Mono","Cascadia Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);-webkit-font-smoothing:antialiased;text-size-adjust:100%}
+  body{min-height:100vh;background:radial-gradient(900px 500px at 85% -10%,rgba(139,124,255,.16),transparent 60%),radial-gradient(700px 400px at -10% 10%,rgba(61,224,208,.08),transparent 60%),var(--bg)}
+  .wrap{max-width:980px;margin:0 auto;padding:max(20px,env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom))}
+  .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.32em;color:var(--mute);text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 10px var(--accent-2)}
+  h1{margin:6px 0 0;font-size:28px;letter-spacing:-.02em;font-weight:700}
+  h2{margin:0 0 12px;font-size:12px;font-family:var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);font-weight:500}
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:22px}
+  .who{font-size:12px;color:var(--mute);display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+  button,input{font:inherit;color:inherit}
+  .btn{border:1px solid var(--line-2);background:var(--panel-2);color:var(--fg);border-radius:var(--radius-s);padding:10px 14px;min-height:44px;cursor:pointer;font-size:14px}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#6a5cf0);border-color:transparent;font-weight:600}
+  .btn.danger{border-color:rgba(255,93,115,.45);color:var(--danger)}
+  .btn.sm{min-height:36px;padding:6px 12px;font-size:13px}
+  .btn[disabled]{opacity:.45;pointer-events:none}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+  .login{max-width:380px;margin:12vh auto 0}
+  .login label{display:block;font-size:12px;color:var(--mute);margin:14px 0 6px}
+  .login input,.search{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line-2);border-radius:var(--radius-s);padding:12px;min-height:46px;font-size:16px;outline:none}
+  .login input:focus,.search:focus{border-color:var(--accent)}
+  .login .btn{width:100%;margin-top:18px}
+  .msg{margin-top:14px;font-size:13px;color:var(--danger);min-height:1.4em;line-height:1.5}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+  .stat .k{font-size:11px;color:var(--mute);letter-spacing:.04em}
+  .stat .v{font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums}
+  .stat .v small{font-size:13px;color:var(--mute);font-weight:500;margin-left:4px}
+  .stat .s{font-size:11px;color:var(--dim);margin-top:4px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+  .meter{height:8px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin:12px 0 8px}
+  .meter i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent-2),var(--accent))}
+  .note{font-size:12px;color:var(--mute);line-height:1.6}
+  .pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:99px;border:1px solid var(--line-2);color:var(--mute)}
+  .pill.ok{color:var(--ok);border-color:rgba(61,224,160,.4)} .pill.warn{color:var(--warn);border-color:rgba(255,181,71,.45)} .pill.bad{color:var(--danger);border-color:rgba(255,93,115,.45)}
+  .bars{display:flex;align-items:flex-end;gap:4px;height:84px;margin-top:6px}
+  .bars div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%}
+  .bars i{width:100%;min-height:2px;border-radius:4px 4px 1px 1px;background:linear-gradient(180deg,var(--accent),rgba(139,124,255,.25))}
+  .bars span{font-family:var(--mono);font-size:9px;color:var(--dim)}
+  .bars.t2 i{background:linear-gradient(180deg,var(--accent-2),rgba(61,224,208,.22))}
+  .tools{display:flex;gap:10px;margin:22px 0 10px;align-items:center}
+  .tools .search{flex:1}
+  .tbl{width:100%;border-collapse:collapse;font-size:13px}
+  .tbl th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);text-align:left;padding:8px 10px;font-weight:500;text-transform:uppercase;border-bottom:1px solid var(--line)}
+  .tbl td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+  .tbl tr:last-child td{border-bottom:0}
+  .tbl .num{text-align:right;font-variant-numeric:tabular-nums}
+  .em{word-break:break-all}
+  .sub{color:var(--dim);font-size:11px;margin-top:2px}
+  .confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .confirm input{background:rgba(0,0,0,.4);border:1px solid rgba(255,93,115,.5);border-radius:8px;padding:7px 9px;min-height:36px;font-size:14px;width:min(240px,100%)}
+  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .foot{margin-top:26px;font-size:11.5px;color:var(--dim);line-height:1.7}
+  .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--panel-solid);border:1px solid var(--line-2);padding:10px 16px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}
+  .toast.on{opacity:1}
+  [hidden]{display:none!important}
+  @media (max-width:720px){
+    .grid{grid-template-columns:1fr 1fr}
+    .two{grid-template-columns:1fr}
+    .stat .v{font-size:26px}
+    .tbl .hide-s{display:none}
+    header{flex-wrap:wrap}
+    .who{width:100%;justify-content:flex-start}
+    .who #whoMail{flex:1 1 100%;word-break:break-all}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Campus Schedule · Admin</div>
+      <h1>管理</h1>
+    </div>
+    <div class="who" id="who" hidden><span id="whoMail"></span><button class="btn sm" id="reload" type="button">更新</button><button class="btn sm" id="logout" type="button">ログアウト</button></div>
+  </header>
+
+  <section class="login card" id="loginBox">
+    <form id="loginForm" autocomplete="on">
+      <div class="note">管理者のアカウントでログインします。管理者以外では、何も表示されません。</div>
+      <label for="em">メールアドレス</label>
+      <input id="em" type="email" autocomplete="username" required>
+      <label for="pw">パスワード</label>
+      <input id="pw" type="password" autocomplete="current-password" required>
+      <button class="btn primary" type="submit" id="loginBtn">ログイン</button>
+      <div class="msg" id="loginMsg" role="alert"></div>
+    </form>
+  </section>
+
+  <main id="dash" hidden>
+    <div class="grid">
+      <div class="card stat"><div class="k">登録ユーザー</div><div class="v" id="sUsers">–<small>人</small></div><div class="s" id="sUsersSub"></div></div>
+      <div class="card stat"><div class="k">直近7日に更新</div><div class="v" id="sActive">–<small>人</small></div><div class="s">時間割を保存した人</div></div>
+      <div class="card stat"><div class="k">直近7日の新規</div><div class="v" id="sNew">–<small>人</small></div><div class="s">登録した人</div></div>
+      <div class="card stat"><div class="k">時間割データ</div><div class="v" id="sData">–</div><div class="s" id="sDataSub"></div></div>
+    </div>
+
+    <div class="two">
+      <div class="card">
+        <h2>休止までの余裕</h2>
+        <div id="pauseState"></div>
+        <div class="meter"><i id="pauseBar" style="width:0%"></i></div>
+        <div class="note" id="pauseNote"></div>
+      </div>
+      <div class="card">
+        <h2>データベース容量</h2>
+        <div class="stat"><div class="v" id="sDb">–</div></div>
+        <div class="meter"><i id="dbBar" style="width:0%"></i></div>
+        <div class="note">無料枠は 500 MB。時間割データは 1 人あたり数十 KB です。</div>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="card"><h2>新規登録（14日）</h2><div class="bars" id="chartNew"></div></div>
+      <div class="card"><h2>時間割を保存した人（14日）</h2><div class="bars t2" id="chartAct"></div></div>
+    </div>
+
+    <div class="tools">
+      <input class="search" id="q" type="search" placeholder="メールアドレスで絞り込み" autocomplete="off">
+      <span class="pill" id="count"></span>
+    </div>
+    <div class="card scroll" style="padding:6px 8px">
+      <table class="tbl">
+        <thead><tr><th>アカウント</th><th class="hide-s">登録</th><th>最終更新</th><th class="num">授業</th><th class="num hide-s">容量</th><th></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <div class="foot">
+      見えるのは、メール・登録日・最終更新・授業の件数・容量・最後に使った端末まで。授業名・成績・メモなど時間割の中身は、管理者にも見えません。<br>
+      削除すると、そのアカウントとクラウドの時間割が完全に消えます（本人の端末に残るデータは消えません）。
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+// 接続先（index.html の CLOUD_DEFAULT と同じ値。anon キーは公開前提で、保護はサーバー側の権限チェックが行う）
+const SB = { url: 'https://hpdyoxbtrnebnvzhyieq.supabase.co', anonKey: 'sb_publishable_b0bIMqh5bsYxkPTe0_uVkg_ibv2swRF' };
+const AUTH_KEY = 'campus-admin/auth';   // sessionStorage：タブを閉じれば消える。共有端末に資格情報を残さない
+const FREE_DB = 500 * 1024 * 1024, PAUSE_DAYS = 7;
+
+const $ = id => document.getElementById(id);
+let session = null, users = [], busy = false;
+
+try { session = JSON.parse(sessionStorage.getItem(AUTH_KEY)); } catch (e) { session = null; }
+const saveSession = s => { session = s; try { s ? sessionStorage.setItem(AUTH_KEY, JSON.stringify(s)) : sessionStorage.removeItem(AUTH_KEY); } catch (e) {} };
+
+const JA = [
+  [/invalid login credentials/i, 'メールアドレスまたはパスワードが違います。'],
+  [/email not confirmed/i, 'メールアドレスの確認が済んでいません。'],
+  [/rate limit|too many/i, '短い時間に何度も試したため、しばらく待ってからやり直してください。'],
+  [/forbidden|42501/i, 'このアカウントには管理者の権限がありません。'],
+  [/failed to fetch|network/i, '通信できません。電波の良い場所でもう一度お試しください。'],
+];
+const ja = m => { const t = String(m || ''); for (const [re, s] of JA) if (re.test(t)) return s; return t || '失敗しました。'; };
+
+async function api(path, opts = {}, retry = true) {
+  const headers = Object.assign({ apikey: SB.anonKey, 'Content-Type': 'application/json' }, opts.headers || {});
+  if (session) headers.Authorization = 'Bearer ' + session.access_token;
+  const res = await fetch(SB.url + path, Object.assign({}, opts, { headers }));
+  if (res.status === 401 && retry && session && session.refresh_token && await refresh()) return api(path, opts, false);
+  return res;
+}
+async function refresh() {
+  try {
+    const r = await fetch(SB.url + '/auth/v1/token?grant_type=refresh_token', { method: 'POST', headers: { apikey: SB.anonKey, 'Content-Type': 'application/json' }, body: JSON.stringify({ refresh_token: session.refresh_token }) });
+    if (!r.ok) { saveSession(null); return false; }
+    const j = await r.json(); saveSession({ access_token: j.access_token, refresh_token: j.refresh_token, email: session.email }); return true;
+  } catch (e) { return false; }
+}
+async function rpc(name, body) {
+  const r = await api('/rest/v1/rpc/' + name, { method: 'POST', body: JSON.stringify(body || {}) });
+  const text = await r.text(); let j = null; try { j = text ? JSON.parse(text) : null; } catch (e) {}
+  if (!r.ok) throw new Error((j && (j.message || j.msg)) || ('HTTP ' + r.status));
+  return j;
+}
+
+const fmtBytes = n => n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : n >= 1024 ? Math.round(n / 1024) + ' KB' : n + ' B';
+const pad = n => String(n).padStart(2, '0');
+function fmtDate(iso, withTime) { if (!iso) return '–'; const d = new Date(iso); return (d.getMonth() + 1) + '/' + d.getDate() + (withTime ? ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) : ''); }
+function ago(iso) {
+  if (!iso) return '記録なし'; const s = (Date.now() - new Date(iso)) / 1000;
+  if (s < 90) return 'たった今'; if (s < 3600) return Math.floor(s / 60) + '分前'; if (s < 86400) return Math.floor(s / 3600) + '時間前'; return Math.floor(s / 86400) + '日前';
+}
+function toast(t) { const el = $('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2600); }
+
+async function login(email, password) {
+  const r = await fetch(SB.url + '/auth/v1/token?grant_type=password', { method: 'POST', headers: { apikey: SB.anonKey, 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error_description || j.msg || j.message || 'login failed');
+  saveSession({ access_token: j.access_token, refresh_token: j.refresh_token, email });
+}
+
+function show(mode) {
+  $('loginBox').hidden = mode !== 'login'; $('dash').hidden = mode !== 'dash'; $('who').hidden = mode === 'login';
+  $('whoMail').textContent = session ? session.email || '' : '';
+}
+
+function bars(el, series) {
+  const max = Math.max(1, ...series.map(s => s.n)); el.textContent = '';
+  for (const s of series) {
+    const col = document.createElement('div'), bar = document.createElement('i'), lab = document.createElement('span');
+    bar.style.height = Math.round(s.n / max * 100) + '%'; bar.title = fmtDate(s.d) + '：' + s.n;
+    lab.textContent = new Date(s.d + 'T00:00:00').getDate(); col.append(bar, lab); el.append(col);
+  }
+}
+
+function render(ov) {
+  $('sUsers').firstChild.nodeValue = ov.users_total; $('sUsersSub').textContent = 'データあり ' + ov.rows_total + ' 人';
+  $('sActive').firstChild.nodeValue = ov.active_7d; $('sNew').firstChild.nodeValue = ov.signups_7d;
+  $('sData').textContent = fmtBytes(ov.data_bytes); $('sDataSub').textContent = ov.rows_total ? '1人あたり平均 ' + fmtBytes(Math.round(ov.data_bytes / ov.rows_total)) : '';
+  $('sDb').textContent = fmtBytes(ov.db_bytes); $('dbBar').style.width = Math.max(1, Math.min(100, ov.db_bytes / FREE_DB * 100)) + '%';
+  const days = ov.last_activity ? (Date.now() - new Date(ov.last_activity)) / 86400000 : 99;
+  const left = Math.max(0, PAUSE_DAYS - days);
+  const st = days < 3 ? ['ok', '余裕あり'] : days < 6 ? ['warn', '要注意'] : ['bad', '休止の恐れ'];
+  $('pauseState').innerHTML = ''; const p = document.createElement('span'); p.className = 'pill ' + st[0]; p.textContent = st[1]; $('pauseState').append(p);
+  $('pauseBar').style.width = Math.min(100, days / PAUSE_DAYS * 100) + '%';
+  $('pauseNote').textContent = '最後の保存・ログイン：' + ago(ov.last_activity) + '。無料枠は、約 ' + PAUSE_DAYS + ' 日ほぼ利用がないと停止します（残り目安 ' + left.toFixed(1) + ' 日）。ログインして開けば利用に数えられます。';
+  bars($('chartNew'), ov.signups_daily); bars($('chartAct'), ov.active_daily);
+}
+
+function renderUsers() {
+  const q = $('q').value.trim().toLowerCase(), tb = $('rows'); tb.textContent = '';
+  const list = users.filter(u => !q || (u.email || '').toLowerCase().includes(q));
+  $('count').textContent = list.length + ' / ' + users.length + ' 人';
+  for (const u of list) {
+    const tr = document.createElement('tr');
+    const c1 = document.createElement('td'), c2 = document.createElement('td'), c3 = document.createElement('td'), c4 = document.createElement('td'), c5 = document.createElement('td'), c6 = document.createElement('td');
+    c1.className = 'em'; c1.textContent = u.email || '(メールなし)';
+    if (u.is_admin) { const t = document.createElement('span'); t.className = 'pill'; t.style.marginLeft = '8px'; t.textContent = '管理者'; c1.append(t); }
+    const sub = document.createElement('div'); sub.className = 'sub'; sub.textContent = u.device ? '端末 ' + u.device : '同期なし'; c1.append(sub);
+    c2.className = 'hide-s'; c2.textContent = fmtDate(u.created_at);
+    c3.textContent = ago(u.updated_at || u.last_sign_in_at);
+    c4.className = 'num'; c4.textContent = u.courses; c5.className = 'num hide-s'; c5.textContent = u.bytes ? fmtBytes(u.bytes) : '–';
+    c6.className = 'num';
+    if (!u.is_admin) {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn sm danger'; b.textContent = '削除';
+      b.addEventListener('click', () => confirmDelete(u, c6));
+      c6.append(b);
+    }
+    tr.append(c1, c2, c3, c4, c5, c6); tb.append(tr);
+  }
+}
+
+function confirmDelete(u, cell) {
+  cell.textContent = '';
+  const box = document.createElement('div'); box.className = 'confirm';
+  const input = document.createElement('input'); input.placeholder = 'メールを入力して確認'; input.setAttribute('aria-label', '削除するアカウントのメールアドレスを入力');
+  const go = document.createElement('button'); go.className = 'btn sm danger'; go.type = 'button'; go.textContent = '完全に削除'; go.disabled = true;
+  const no = document.createElement('button'); no.className = 'btn sm'; no.type = 'button'; no.textContent = 'やめる';
+  input.addEventListener('input', () => { go.disabled = input.value.trim().toLowerCase() !== (u.email || '').toLowerCase(); });
+  no.addEventListener('click', renderUsers);
+  go.addEventListener('click', async () => {
+    go.disabled = true;
+    try { await rpc('admin_delete_user', { target: u.user_id }); toast('削除しました'); await load(); }
+    catch (e) { toast(ja(e.message)); renderUsers(); }
+  });
+  box.append(input, go, no); cell.append(box); input.focus();
+}
+
+async function load() {
+  if (busy) return; busy = true; $('reload').disabled = true;
+  try {
+    const [ov, list] = await Promise.all([rpc('admin_overview'), rpc('admin_users')]);
+    users = list || []; render(ov); renderUsers(); show('dash');
+  } catch (e) {
+    if (/forbidden|42501/i.test(e.message)) {
+      show('login'); $('loginMsg').textContent = ja(e.message) + ' 管理者として登録されたアカウントでログインしてください。'; saveSession(null);
+    } else if (/jwt|401|token/i.test(e.message)) { saveSession(null); show('login'); $('loginMsg').textContent = 'ログインの有効期限が切れました。もう一度ログインしてください。'; }
+    else toast(ja(e.message));
+  } finally { busy = false; $('reload').disabled = false; }
+}
+
+$('loginForm').addEventListener('submit', async ev => {
+  ev.preventDefault(); const btn = $('loginBtn'); btn.disabled = true; $('loginMsg').textContent = '';
+  try { await login($('em').value.trim(), $('pw').value); $('pw').value = ''; await load(); }
+  catch (e) { $('loginMsg').textContent = ja(e.message); }
+  finally { btn.disabled = false; }
+});
+$('logout').addEventListener('click', async () => {
+  try { if (session) await api('/auth/v1/logout', { method: 'POST' }, false); } catch (e) {}
+  saveSession(null); users = []; show('login');
+});
+$('reload').addEventListener('click', load);
+$('q').addEventListener('input', renderUsers);
+
+if (session) load(); else show('login');
+</script>
+</body>
+</html>

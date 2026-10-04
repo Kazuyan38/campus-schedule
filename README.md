@@ -64,6 +64,15 @@ Safari とホーム画面アプリは保存領域が別なので、追加の前�
 | ファイル | 内容 |
 |---|---|
 | `supabase/schema.sql` | クラウドのテーブルと行レベルセキュリティ（Supabase の SQL Editor で実行） |
+| `supabase/admin.sql` | 管理者ページ用の関数と、管理者の登録（`app_admins`）。`schema.sql` の後に実行 |
 | `dev/set_cloud.py` | 接続先を `index.html` の既定値に焼き込む（`--clear` で空に戻す） |
 | `dev/mock_supabase.py` | Supabase と同じ形で応答する検証用サーバ（`--confirm` でメール確認あり） |
 | `dev/cloud_e2e.cjs` | ログイン・同期の自動テスト（`node dev/cloud_e2e.cjs`、Chrome が必要） |
+| `dev/admin_e2e.cjs` | 管理者ページの自動テスト（`node dev/admin_e2e.cjs`、Chrome が必要） |
+
+## 管理者ページ（`admin.html`）
+公開URLの `/admin.html` を開き、管理者として登録されたアカウントでログインする。人数・直近7日の更新と新規・データ容量・休止までの余裕・利用者一覧（メール・登録日・最終更新・授業数・容量）の確認と、アカウントの削除ができる。
+
+- ページ自体は誰でも開けるが、データは `admin_*` 関数からしか出ず、関数は `app_admins` に載っていない人を `forbidden` で拒否する。
+- 時間割の中身（授業名・成績・メモ）は返さない。
+- 管理者を足すときは、SQL Editor で `insert into public.app_admins (user_id) select id from auth.users where email = '…';` を実行する。

@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import re
+import datetime
 import secrets
 import sys
 import threading
@@ -26,6 +27,8 @@ ANON_KEY = "mock-anon-key"
 TABLE = "/rest/v1/campus_schedules"
 ACCESS_TTL = 2.0          # 秒。短くして 401 → 更新 → 再試行を起こさせる
 CONFIRM = "--confirm" in sys.argv
+
+ADMINS = {"admin@example.test"}       # 管理者ページの検証用。実物の app_admins に当たる
 
 STATE = {
     "users": {},          # email -> {id, password, email, confirmed}
@@ -159,7 +162,8 @@ class Handler(BaseHTTPRequestHandler):
                     return self.reply(400, {"msg": "User already registered"})
                 uid = secrets.token_hex(8)
                 STATE["users"][email] = {"id": uid, "password": password, "email": email,
-                                         "confirmed": not CONFIRM}
+                                         "confirmed": not CONFIRM,
+                                         "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat()}
                 if CONFIRM:           # 確認が必要なプロジェクトでは、トークンは返らない
                     STATE["mails"].append({"email": email, "kind": "confirm"})
                     return self.reply(200, {"id": uid, "email": email})
@@ -201,6 +205,53 @@ class Handler(BaseHTTPRequestHandler):
                 return self.reply(200, {})        # 実物と同じく、宛先の存在は伏せて常に成功
 
             if path == "/auth/v1/logout":
+                return self.reply(204)
+
+            if path.startswith("/rest/v1/rpc/") and path.split("/")[-1] in (
+                    "is_admin", "admin_overview", "admin_users", "admin_delete_user"):
+                uid = user_of(self.headers)
+                if not uid:
+                    return self.reply(401, {"message": "JWT expired"})
+                name = path.split("/")[-1]
+                me = email_of(uid)
+                if name == "is_admin":
+                    return self.reply(200, me in ADMINS)
+                if me not in ADMINS:
+                    return self.reply(403, {"code": "42501", "message": "forbidden"})
+                now = datetime.datetime.now(datetime.timezone.utc)
+                if name == "admin_overview":
+                    rows = list(STATE["rows"].values())
+                    def day(i):
+                        return (now - datetime.timedelta(days=13 - i)).date().isoformat()
+                    def n_on(items, key, d):
+                        return sum(1 for x in items if str(x.get(key) or "")[:10] == d)
+                    users = list(STATE["users"].values())
+                    return self.reply(200, {
+                        "users_total": len(users), "rows_total": len(rows),
+                        "active_7d": len(rows), "signups_7d": len(users),
+                        "data_bytes": sum(len(json.dumps(r.get("data"))) for r in rows),
+                        "db_bytes": 9_400_000,
+                        "last_activity": now.isoformat(),
+                        "signups_daily": [{"d": day(i), "n": n_on(users, "created_at", day(i))} for i in range(14)],
+                        "active_daily": [{"d": day(i), "n": n_on(rows, "updated_at", day(i))} for i in range(14)],
+                    })
+                if name == "admin_users":
+                    out = []
+                    for u in STATE["users"].values():
+                        r = STATE["rows"].get(u["id"]) or {}
+                        courses = (r.get("data") or {}).get("courses") or []
+                        out.append({"user_id": u["id"], "email": u["email"], "created_at": u["created_at"],
+                                    "last_sign_in_at": None, "updated_at": r.get("updated_at"), "rev": r.get("rev"),
+                                    "courses": len(courses), "bytes": len(json.dumps(r.get("data"))) if r else None,
+                                    "device": r.get("device"), "is_admin": u["email"] in ADMINS})
+                    return self.reply(200, out)
+                target = data.get("target")
+                victim = next((u for u in STATE["users"].values() if u["id"] == target), None)
+                if victim and victim["email"] in ADMINS:
+                    return self.reply(403, {"code": "42501", "message": "cannot delete an admin"})
+                if victim:
+                    STATE["users"].pop(victim["email"], None)
+                    STATE["rows"].pop(victim["id"], None)
                 return self.reply(204)
 
             if path == "/rest/v1/rpc/delete_my_account":
