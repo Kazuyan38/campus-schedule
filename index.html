@@ -25,7 +25,7 @@
     --bar-h: 76px;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:var(--font);-webkit-font-smoothing:antialiased;text-size-adjust:100%}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:var(--font);-webkit-font-smoothing:antialiased;text-size-adjust:100%;overscroll-behavior-x:none}   /* 横スワイプでクォーターや曜日を切り替えるので、ブラウザの「戻る／進む」ジェスチャーに奪わせない */
   body{min-height:100vh;min-height:100dvh;overflow-x:hidden}
   body.lock{overflow:hidden}
   body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
@@ -213,7 +213,7 @@
   .row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
   .row2>.fg{min-width:0}
   .row2 .fg{margin-top:18px}
-  input[type=text],input[type=url],input[type=number],input[type=date],input[type=time],textarea{width:100%;font-size:16px;padding:12px 13px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line-2);outline:none;transition:border-color .2s,box-shadow .2s,background .2s;color-scheme:dark}
+  input[type=text],input[type=url],input[type=number],input[type=date],input[type=time],input[type=email],input[type=password],textarea{width:100%;font-size:16px;padding:12px 13px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line-2);outline:none;transition:border-color .2s,box-shadow .2s,background .2s;color-scheme:dark}
   textarea{resize:vertical;min-height:76px;line-height:1.5}
   input:focus,textarea:focus{border-color:rgba(139,124,255,.7);box-shadow:0 0 0 3px rgba(139,124,255,.18);background:rgba(255,255,255,.06)}
   input.err{border-color:var(--danger);box-shadow:0 0 0 3px rgba(255,93,115,.18)}
@@ -707,6 +707,34 @@
   .sch b{display:block;font-size:13.5px;font-weight:700}
   .sch small{display:block;font-size:11.5px;color:var(--mute);margin-top:2px}
 
+  /* ---------- account / sync ---------- */
+  .iconbtn{position:relative}
+  .sdot{position:absolute;top:7px;right:7px;width:10px;height:10px;border-radius:50%;border:2px solid var(--bg);background:var(--dim)}
+  .sdot[hidden]{display:none}
+  .sdot.ok{background:var(--accent-2);box-shadow:0 0 8px var(--accent-2)}
+  .sdot.busy{background:var(--accent);animation:pulse 1.2s ease-in-out infinite}
+  .sdot.warn{background:var(--warn)}
+  .sdot.err{background:var(--danger)}
+  #syncbar{margin-top:10px}
+  #syncbar:empty{display:none}
+  .cbn-btn{width:100%;text-align:left;cursor:pointer}
+  .acct-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .acct-h b{font-size:15px;word-break:break-all}
+  .pill{display:inline-flex;align-items:center;gap:6px;flex:none;font-family:var(--mono);font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid var(--line-2);color:var(--mute);white-space:nowrap}
+  .pill i{width:7px;height:7px;border-radius:50%;background:currentColor}
+  .pill.ok{color:var(--accent-2);border-color:rgba(61,224,208,.5);background:rgba(61,224,208,.08)}
+  .pill.busy{color:#b8aeff;border-color:rgba(139,124,255,.5)}
+  .pill.warn{color:var(--warn);border-color:rgba(255,181,71,.5);background:rgba(255,181,71,.08)}
+  .pill.err{color:var(--danger);border-color:rgba(255,93,115,.45);background:rgba(255,93,115,.08)}
+  .note{padding:14px;border-radius:14px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);font-size:13px;line-height:1.6;margin-top:12px}
+  .note p{margin:6px 0 0}
+  .warn-box{border-color:rgba(255,181,71,.4);background:rgba(255,181,71,.06)}
+  .okmsg{color:var(--accent-2)}
+  .acct-links{margin-top:2px}
+  details.cfg{margin-top:16px;border-top:1px solid var(--line);padding-top:2px}
+  details.cfg summary{cursor:pointer;list-style:none;font-size:12.5px;color:var(--mute);min-height:44px;display:flex;align-items:center}
+  details.cfg summary::-webkit-details-marker{display:none}
+
   /* ---------- phone (primary target) ---------- */
   @media (max-width:719px){
     .top{padding-top:max(8px,env(safe-area-inset-top));padding-bottom:10px;align-items:center}
@@ -774,7 +802,7 @@
     </div>
     <div class="actions">
       <button class="iconbtn" id="btnCal" aria-label="学年暦"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></button>
-      <button class="iconbtn" id="btnShare" aria-label="共有・同期"><svg class="ic" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+      <button class="iconbtn" id="btnShare" aria-label="アカウント・共有"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><i class="sdot off" id="sdot" hidden></i></button>
       <button class="iconbtn" id="btnSettings" aria-label="設定"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     </div>
   </header>
@@ -782,6 +810,7 @@
     <nav class="qtabs ytabs" id="ytabs" aria-label="学年"></nav>
     <nav class="qtabs" id="qtabs" aria-label="クォーター"></nav>
   </div>
+  <section id="syncbar"></section>
   <section id="now"></section>
   <main id="view"></main>
 </div>
@@ -910,7 +939,18 @@ const gradeFromScore = v => (GRADES.slice(0, 5).find(g => v >= g.min) || GRADES[
 const DEFAULT_SESSIONS_PER_Q = 8;   // 期間未設定時の 1クォーター・1コマあたりの授業回数
 const ATT_RATIOS = [3, 4, 5];       // 欠席が総回数の 1/n 以上で不可
 const LATE_RATIOS = [3, 2, 0];      // 遅刻 n 回で欠席1回（0 = 数えない）
-const STORE_KEY = 'campus-schedule/v1';
+// 接続先（Supabase）の既定値。dev/set_cloud.py が書き換える。空ならアプリ内の「接続先の設定」から入れる
+const CLOUD_DEFAULT = { url: '', anonKey: '' };
+// ログイン中は、端末内の控えもアカウントごとに分ける（共有の端末でも他の人のデータが見えない）
+const GUEST_KEY = 'campus-schedule/v1', AUTH_KEY = 'campus-schedule/auth', DEVICE_KEY = 'campus-schedule/device';
+const userKey = id => `campus-schedule/u/${id}`, syncKey = id => `campus-schedule/sync/${id}`;
+const readJSON = k => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } };
+const writeJSON = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } };
+const blankSync = () => ({ rev: 0, dirty: false, lastSync: null, sig: '' });
+let session = readJSON(AUTH_KEY);
+if (!(session && session.access_token && session.user && session.user.id)) session = null;
+let STORE_KEY = session ? userKey(session.user.id) : GUEST_KEY;
+let sync = Object.assign(blankSync(), session ? readJSON(syncKey(session.user.id)) : null);
 const EXAM_KINDS = ['期末試験', '中間試験', '小テスト', 'レポート', '課題', 'その他'];
 const EXAM_HOURS = { 期末試験: 10, 中間試験: 6, 小テスト: 2, レポート: 6, 課題: 3, その他: 4 };   // 目標勉強時間の既定値（時間）
 const STUDY_STEPS = [15, 30, 60];   // 勉強時間のワンタップ記録（分）
@@ -966,7 +1006,7 @@ function defaultState() {
   const y = acadYear();
   return {
     v: 2, courses: [], exams: [],
-    settings: { ranges: defaultRanges(), entryYear: ENTRY_YEAR, entrySet: true, years: DEFAULT_YEARS, required: DEFAULT_REQUIRED, gv: 2, cats: presetCats(), curr: 1, nikkei: '', attRatio: 3, lateRatio: 3 },
+    settings: { ranges: defaultRanges(), entryYear: ENTRY_YEAR, entrySet: true, years: DEFAULT_YEARS, required: DEFAULT_REQUIRED, gv: 2, promo: true, cats: presetCats(), curr: 1, nikkei: '', attRatio: 3, lateRatio: 3 },
     ui: { y, q: 1, view: 'grid', filter: 'term', span: 'week' },
   };
 }
@@ -997,7 +1037,11 @@ function normCourse(c, fallbackYear = acadYear()) {
       .sort((a, b) => a.d * 10 + a.p - (b.d * 10 + b.p)) : [],
   };
 }
-const isISO = s => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s);
+const isISO = s => {
+  if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+  const d = new Date(s + 'T00:00');
+  return !isNaN(d) && isoDate(d) === s;   // 2026-02-30 のような存在しない日付は、Chrome は繰り上げ・Safari は Invalid Date になるので両方とも弾く
+};
 function normExam(x) {
   if (!x || !isISO(x.date)) return null;
   const kind = EXAM_KINDS.includes(x.kind) ? x.kind : 'その他';
@@ -1038,6 +1082,7 @@ function normalize(d) {
     years: yrs >= 1 && yrs <= 8 ? yrs : DEFAULT_YEARS,
     required: req > 0 ? req : DEFAULT_REQUIRED,
     cats: normCats(s.cats),
+    promo: s.promo !== false,
     nikkei: parseFloat(s.nikkei) >= 0 ? String(parseFloat(s.nikkei)) : '',
     attRatio: ATT_RATIOS.includes(s.attRatio) ? s.attRatio : 3,
     lateRatio: LATE_RATIOS.includes(s.lateRatio) ? s.lateRatio : 3,
@@ -1067,6 +1112,7 @@ function load() {
 function save() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
   catch (e) { toast('この端末に保存できませんでした（プライベートモードの可能性）'); }
+  if (session) trackChange();
 }
 let state = load();
 let search = '';
@@ -1236,6 +1282,8 @@ function render() {
   $('#qtabs').innerHTML = `<span class="ind" style="transform:translateX(${(q - 1) * 100}%)"></span>` +
     QUARTERS.map(x => `<button class="qtab ${x === q ? 'on' : ''}" data-q="${x}" aria-pressed="${x === q}">${Y === cy && x === cq ? '<i class="cur" title="現在のクォーター"></i>' : ''}Q${x}<span class="cnt num">${coursesIn(Y, x).length || ''}</span></button>`).join('');
   $$('.bar .seg').forEach(b => b.classList.toggle('on', b.dataset.view === view));
+  $('#syncbar').innerHTML = syncBannerHTML();
+  paintDot();
   if (view === 'grid' || (view === 'list' && filter === 'term')) renderNow(); else $('#now').innerHTML = '';
   $('#view').innerHTML = view === 'list' ? listHTML() : view === 'stats' ? statsHTML() : view === 'exam' ? examHTML() : timetableHTML();
   $('#nbExam').textContent = upcomingExams().filter(x => dayDiff(x.date) <= 7).length || '';
@@ -1363,7 +1411,7 @@ function calBannerHTML() {
   const T = info.iso, days = x => Math.round((new Date(x + 'T00:00') - new Date(T + 'T00:00')) / 864e5);
   const out = [];
   if (info.swap) out.push(['swap', `今日は${DAYS[info.d]}曜日の授業日（曜日振替）`]);
-  else if (!info.class) out.push(['off', `今日は授業がありません · ${info.label}`]);
+  else if (!info.class && info.kind !== 'weekend') out.push(['off', `今日は授業がありません · ${info.label}`]);   // 土日は言うまでもないので出さない
   for (const x of calEvents(cal)) {
     if (x.kind === 'vac' || x.kind === 'event') continue;
     const k = x.kind === 'exam' ? 'exam' : 'reg';
@@ -1732,7 +1780,7 @@ function statsHTML() {
       <div class="tile"><div class="k"><i style="background:${short ? 'var(--warn)' : 'var(--accent-2)'}"></i>予定込みで不足</div><div class="v num" style="color:${short ? 'var(--warn)' : 'var(--accent-2)'}">${fmtCr(short)}<small>単位</small></div><div class="d">${short ? 'あと履修登録が必要' : '要件単位に到達見込み'}</div></div>
     </div></div>`;
 
-  h += promoHTML();
+  if (state.settings.promo !== false) h += promoHTML();
 
   // 出欠の要注意
   const risky = all.map(c => ({ c, i: attInfo(c) })).filter(x => x.i && x.i.active && x.i.level !== 'ok').sort((a, b) => a.i.rem - b.i.rem);
@@ -1781,6 +1829,7 @@ function closeSheet() {
   $('#sheet').classList.remove('open');
   $('#scrim').classList.remove('open');
   document.body.classList.remove('lock');
+  if (session && (pendingRemote || sync.dirty)) setTimeout(() => { if (!sheetOpen()) syncNow(false); }, 400);
   if (onSheetClose) { const f = onSheetClose; onSheetClose = null; f(); }
 }
 $('#scrim').addEventListener('click', closeSheet);
@@ -1856,6 +1905,7 @@ function openDetail(id) {
     $('#dGrade', sh).addEventListener('click', e => {
       const b = e.target.closest('.gb'); if (!b) return;
       c.grade = b.dataset.g;
+      if (c.score !== '' && gradeFromScore(+c.score) !== c.grade) { c.score = ''; $('#dScore', sh).value = ''; }
       $$('.gb', sh).forEach(x => x.classList.toggle('on', x === b));
       note(); save(); render();
       toast(`成績を「${gradeMeta(c.grade).label}（${gradeMeta(c.grade).name}）」にしました`);
@@ -1877,7 +1927,7 @@ function openDetail(id) {
       if (add) {
         const date = $('#attDate', attEl).value;
         if (!date) { toast('日付を選んでください'); return; }
-        const dow = new Date(date + 'T00:00').getDay() - 1;
+        const di = dayInfo(date), dow = di.cal ? (di.class ? di.d : -1) : new Date(date + 'T00:00').getDay() - 1;   // 振替日はその日に行う授業の曜日
         const slot = c.slots.find(s => s.d === dow);
         recordAbsence(c, add.dataset.addatt, date, slot ? slot.p : 0);
       } else if (rm) {
@@ -1949,7 +1999,7 @@ function openForm(id, preset, fill) {
     <div class="fg"><span class="fl">出欠管理</span><div class="toggles" style="grid-template-columns:1fr 1fr" id="fAtt"><button type="button" class="tg ${c.attOff ? '' : 'on'}" data-a="on">管理する</button><button type="button" class="tg ${c.attOff ? 'on' : ''}" data-a="off">しない</button></div>
       <div class="row2"><div class="fg"><label for="fSess">総授業回数</label><input type="number" id="fSess" inputmode="numeric" min="1" step="1" placeholder="${attAuto.total != null ? `自動（${attAuto.total}回）` : '要入力'}" value="${esc(c.sessions || '')}"></div>
         <div class="fg"><label for="fAttMax">休める回数</label><input type="number" id="fAttMax" inputmode="numeric" min="0" step="1" placeholder="${attAuto.allowed != null ? `自動（${attAuto.allowed}回）` : '自動'}" value="${esc(c.attMax || '')}"></div></div>
-      <div class="hint">空欄なら自動：総回数はクォーター期間（未設定なら${DEFAULT_SESSIONS_PER_Q}回/クォーター）から、休める回数は「総回数の1/${state.settings.attRatio}以上で不可」から計算。シラバスに回数が書いてあれば上書きしてください。</div></div>
+      <div class="hint">空欄なら自動：総回数は学年暦（祝日・休講・曜日振替・定期試験期間を除く。学年暦のない年度はクォーター期間、未設定なら${DEFAULT_SESSIONS_PER_Q}回/クォーター）から、休める回数は「総回数の1/${state.settings.attRatio}以上で不可」から計算。シラバスに回数が書いてあれば上書きしてください。</div></div>
     <div class="fg"><label for="fBook">教科書</label><textarea id="fBook" placeholder="書名・著者・出版社・ISBN など（複数可）">${esc(c.textbook)}</textarea></div>
     <div class="fg"><span class="fl">評価基準</span>
       <div class="presets" id="ePre">${EVAL_PRESETS.map(p => `<button type="button" class="pre" data-p="${esc(p)}">＋ ${esc(p)}</button>`).join('')}</div>
@@ -1971,7 +2021,13 @@ function openForm(id, preset, fill) {
       el.className = 'num ' + (!$$('.erow', rows).length ? '' : t === 100 ? 'ok' : 'bad');
     };
     const refreshBusy = () => $$('.slot', sh).forEach(s => s.classList.toggle('busy', busy(+s.dataset.d, +s.dataset.p)));
+    const updAtt = () => {
+      const t = totalSessions({ ...c, sessions: '' });
+      $('#fSess', sh).placeholder = t ? `自動（${t.n}回）` : '要入力';
+      $('#fAttMax', sh).placeholder = t ? `自動（${Math.max(0, Math.ceil(t.n / state.settings.attRatio - 1e-9) - 1)}回）` : '自動';
+    };
     const updHint = () => {
+      updAtt();
       const h = $('#slotHint', sh);
       const clash = c.slots.filter(s => busy(s.d, s.p));
       if (clash.length) {
@@ -2014,6 +2070,7 @@ function openForm(id, preset, fill) {
     $('#fG', sh).addEventListener('click', e => {
       const b = e.target.closest('.gb'); if (!b) return;
       c.grade = b.dataset.g;
+      if (c.score !== '' && gradeFromScore(+c.score) !== c.grade) { c.score = ''; $('#fScore', sh).value = ''; }
       $$('#fG .gb', sh).forEach(x => x.classList.toggle('on', x === b));
     });
     $('#fScore', sh).addEventListener('input', e => {
@@ -2396,6 +2453,534 @@ function openExamForm(id, preset = {}) {
   });
 }
 
+/* ===== アカウントとクラウド同期（任意） ===== */
+// ログインしなければ一切通信しない。Supabase の Auth(GoTrue) と PostgREST は素の HTTPS なので、SDK を読み込まず
+// fetch だけで扱う（単一HTML・外部CDN非依存・オフライン動作の前提を崩さない）。
+// 時間割は利用者ごとに1行（campus_schedules）へ丸ごと入り、行レベルセキュリティで本人にしか読み書きできない。
+// 端末内の控えもアカウントごとに分けるので、共有の端末でも他の人のデータは見えない。
+let syncTimer = null, syncState = 'off', syncError = '', cloudConflict = null, syncPolling = null, recoveryMode = false;
+let syncRunning = null, pendingGuest = null, pendingRemote = false, armedKey = '', armedT = null, refreshing = null, pendingAuth = null;
+const acct = { mode: 'login', view: 'main', busy: false, msg: '', ok: false, email: '' };
+const payloadSig = () => JSON.stringify({ c: state.courses, e: state.exams, s: state.settings });
+const hasData = s => !!(s && ((s.courses && s.courses.length) || (s.exams && s.exams.length)));
+const sheetOpen = () => $('#sheet').classList.contains('open');
+const persistSync = () => { if (session) writeJSON(syncKey(session.user.id), sync); };
+const cloudConfig = () => { const cc = (readJSON(DEVICE_KEY) || {}).cloud || {}; return { url: String(cc.url || CLOUD_DEFAULT.url || '').trim().replace(/\/+$/, ''), anonKey: String(cc.anonKey || CLOUD_DEFAULT.anonKey || '').trim() }; };
+const cloudReady = () => { const c = cloudConfig(); return !!(c.url && c.anonKey); };
+const cloudUser = () => (session && session.user && session.user.id) || null;
+const cloudEmail = () => (session && session.user && session.user.email) || '';
+const deviceName = () => /iPhone|iPad|Android/i.test(navigator.userAgent || '') ? 'スマートフォン' : 'パソコン';
+function saveSession(v) { session = v; if (v) writeJSON(AUTH_KEY, v); else { try { localStorage.removeItem(AUTH_KEY); } catch (e) {} } }
+const count = a => Array.isArray(a) ? a.length : 0;
+const stamp = iso => { const d = new Date(iso); return isNaN(d) ? '不明' : d.toLocaleString('ja-JP'); };
+function downloadJSON(name, obj) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' }));
+  a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+// 画面に出ている内容が変わったときだけ「未送信」にする（タブを切り替えただけでは通信しない）
+function trackChange() {
+  const sig = payloadSig();
+  if (sig === sync.sig) return;
+  sync.sig = sig; sync.dirty = true; persistSync();
+  scheduleSync(); renderSyncDot();
+}
+function bootUI() {
+  if (yearsList().includes(acadYear())) state.ui.y = acadYear();
+  const cq = quarterByDate();
+  if (cq) state.ui.q = cq;
+}
+
+// ---------- 通信 ----------
+const JA_ERRORS = [
+  [/invalid login credentials/i, 'メールアドレスまたはパスワードが違います。'],
+  [/email not confirmed/i, 'メールの確認がまだ済んでいません。届いたメールのリンクを開いてから、ログインしてください。'],
+  [/already registered|already been registered/i, 'このメールアドレスは登録済みです。ログインしてください。'],
+  [/at least \d+ characters/i, 'パスワードは8文字以上にしてください。'],
+  [/rate limit|too many|security purposes/i, '短い時間に何度も試したため、しばらく待ってからやり直してください。'],
+  [/valid email|invalid email|unable to validate email/i, 'メールアドレスの形式を確認してください。'],
+  [/signups? (are )?(not allowed|disabled)/i, '現在、新規登録は受け付けていません。'],
+];
+async function cloudError(res, fallback) {
+  let detail = '';
+  try { const b = await res.json(); detail = b.msg || b.message || b.error_description || b.error || ''; } catch (e) {}
+  const hit = JA_ERRORS.find(([re]) => re.test(detail));
+  return Error(hit ? hit[1] : `${fallback}（${res.status}）`);
+}
+async function net(fn) {
+  try { return await fn(); }
+  catch (e) { if (e instanceof TypeError) throw Error('ネットワークに接続できませんでした。通信状況を確認してください。'); throw e; }
+}
+const authPost = (path, body) => { const c = cloudConfig(); return fetch(c.url + path, { method: 'POST', headers: { apikey: c.anonKey, 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); };
+// 更新トークンは使い捨てなので、同時に何度も更新しないよう1回に束ねる
+const refreshSession = () => refreshing || (refreshing = doRefresh().finally(() => { refreshing = null; }));
+async function doRefresh() {
+  if (!session || !session.refresh_token) return false;
+  let res;
+  try { res = await authPost('/auth/v1/token?grant_type=refresh_token', { refresh_token: session.refresh_token }); }
+  catch (e) { return false; }                          // 通信できないだけでは、ログインを失効させない
+  if (!res.ok) { expireSession(); return false; }
+  saveSession(Object.assign({}, session, await res.json()));
+  return true;
+}
+// 401 は一度だけ更新して再試行する。二度目は諦める。
+async function cloudFetch(path, init, retry) {
+  const c = cloudConfig(), opts = init || {};
+  const headers = Object.assign({ apikey: c.anonKey, 'Content-Type': 'application/json' }, opts.headers || {});
+  if (session && session.access_token) headers.Authorization = 'Bearer ' + session.access_token;
+  const res = await fetch(c.url + path, Object.assign({}, opts, { headers }));
+  if (res.status === 401 && retry !== false && session && session.refresh_token) {
+    if (await refreshSession()) return cloudFetch(path, opts, false);
+  }
+  return res;
+}
+// 更新トークンが無効になった（ほかの端末でログアウトした等）。未送信の控えは端末に残したまま、ログイン前の表示へ戻す。
+function expireSession() {
+  if (!session) return;
+  saveSession(null);
+  STORE_KEY = GUEST_KEY; sync = blankSync(); cloudConflict = null; pendingGuest = null; recoveryMode = false;
+  clearTimeout(syncTimer); syncState = 'off';
+  state = load(); bootUI(); render(); renderSyncDot();
+  toast('ログインの有効期限が切れました。もう一度ログインしてください。');
+}
+
+// ---------- 登録・ログイン・ログアウト ----------
+const cloudSignIn = (email, password) => net(async () => {
+  const res = await authPost('/auth/v1/token?grant_type=password', { email: String(email || '').trim(), password: String(password || '') });
+  if (!res.ok) throw await cloudError(res, 'ログインできませんでした');
+  saveSession(await res.json());
+});
+const cloudSignUp = (email, password) => net(async () => {
+  const back = /^https?:/.test(location.href) ? '?redirect_to=' + encodeURIComponent(location.origin + location.pathname) : '';
+  const res = await authPost('/auth/v1/signup' + back, { email: String(email || '').trim(), password: String(password || '') });
+  if (!res.ok) throw await cloudError(res, '登録できませんでした');
+  const body = await res.json();
+  if (!body.access_token) return { confirm: true };     // メール確認が有効なプロジェクトでは、トークンは返らない
+  saveSession(body);
+  return { confirm: false };
+});
+const cloudRecover = email => net(async () => {
+  const res = await authPost('/auth/v1/recover', { email: String(email || '').trim(), redirect_to: location.origin + location.pathname });
+  if (!res.ok) throw await cloudError(res, '再設定メールを送れませんでした');
+  return true;
+});
+const cloudUpdatePassword = password => net(async () => {
+  if (String(password || '').length < 8) throw Error('パスワードは8文字以上にしてください。');
+  const res = await cloudFetch('/auth/v1/user', { method: 'PUT', body: JSON.stringify({ password }) });
+  if (!res.ok) throw await cloudError(res, 'パスワードを変更できませんでした');
+  recoveryMode = false;
+  return true;
+});
+
+// ログイン直後の取り込み。クラウドを正とし、ログイン前に画面に出ていたデータは別のところに残したままにする。
+async function enterAccount() {
+  if (syncRunning) await syncRunning.catch(() => {});
+  const uid = cloudUser();
+  const guest = STORE_KEY === GUEST_KEY ? JSON.parse(JSON.stringify(state)) : null;
+  const ui = state.ui;
+  STORE_KEY = userKey(uid);
+  sync = Object.assign(blankSync(), readJSON(syncKey(uid)));
+  const cached = readJSON(STORE_KEY);
+  cloudConflict = null; pendingGuest = null; syncError = '';
+  let remote = null, failed = false;
+  try { remote = await cloudPull(); } catch (e) { failed = true; syncError = e.message; }
+  const fresh = () => { state = defaultState(); state.ui = ui; };
+  if (failed) {                                           // 取得できなかった：控えがあればそれを使い、無ければ空で始めて後で同期する
+    if (cached && Array.isArray(cached.courses)) { state = normalize(cached); state.ui = ui; } else fresh();
+    syncState = 'error';
+  } else if (remote) {
+    if (cached && Array.isArray(cached.courses) && sync.dirty && remote.rev > sync.rev) {   // この端末にも未送信の変更がある
+      state = normalize(cached); state.ui = ui;
+      cloudConflict = { remote, local: {} }; syncState = 'conflict';
+    } else {
+      try { adoptRemote(remote); syncState = 'synced'; }
+      catch (e) {                                         // 壊れたクラウドのデータは取り込まない（手元のデータを守る）
+        failed = true; syncError = e.message; syncState = 'error';
+        if (cached && Array.isArray(cached.courses)) { state = normalize(cached); state.ui = ui; } else fresh();
+      }
+    }
+  } else {                                                // クラウドが空
+    if (cached && Array.isArray(cached.courses)) { state = normalize(cached); state.ui = ui; sync.dirty = true; }
+    else { fresh(); if (hasData(guest)) pendingGuest = guest; }
+    sync.sig = payloadSig();
+    if (!pendingGuest) syncState = 'synced';
+  }
+  bootUI(); persistSync(); localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  render(); renderSyncDot();
+  if (!pendingGuest && !failed && !cloudConflict && (sync.dirty || !remote)) syncNow(false);
+}
+// ログイン前のデータを、いま入っているアカウントに引き継ぐ／引き継がない
+async function resolveGuest(adopt) {
+  const g = pendingGuest;
+  pendingGuest = null;
+  if (adopt && g) {
+    const ui = state.ui;
+    state = normalize({ courses: g.courses, exams: g.exams, settings: g.settings });
+    state.ui = ui; bootUI();
+    save();                                               // 変更として記録 → 自動で送る
+    toast('ログイン前のデータをこのアカウントに引き継ぎました');
+  } else { sync.sig = payloadSig(); persistSync(); }
+  render(); renderSyncDot();
+  syncNow(false);
+}
+async function accountSignOut(wipe) {
+  if (sync.dirty) { try { await syncNow(true); } catch (e) {} }       // 出る前に送れるだけ送る
+  const uid = cloudUser();
+  try { await cloudFetch('/auth/v1/logout', { method: 'POST' }, false); } catch (e) {}
+  saveSession(null);
+  if (wipe && uid) { try { localStorage.removeItem(userKey(uid)); localStorage.removeItem(syncKey(uid)); } catch (e) {} }
+  clearTimeout(syncTimer);
+  STORE_KEY = GUEST_KEY; sync = blankSync(); cloudConflict = null; pendingGuest = null; recoveryMode = false; syncState = 'off'; syncError = '';
+  acct.email = '';
+  state = load(); bootUI(); render(); renderSyncDot();
+}
+
+// ---------- 取得・送信・競合 ----------
+async function cloudPull() {
+  const res = await net(() => cloudFetch('/rest/v1/campus_schedules?select=data,rev,updated_at,device'));
+  if (!res.ok) throw await cloudError(res, 'クラウドから取得できませんでした');
+  const rows = await res.json();
+  return rows && rows.length ? rows[0] : null;
+}
+// rev による楽観ロック。サーバが進んでいたら 0 件が返るので、上書きせず競合にする。
+async function cloudPush() {
+  const rev = sync.rev || 0, sigSent = payloadSig();
+  const body = { user_id: cloudUser(), data: payload(), rev: rev + 1, updated_at: new Date().toISOString(), device: deviceName() };
+  let res;
+  if (rev === 0) {
+    res = await net(() => cloudFetch('/rest/v1/campus_schedules', { method: 'POST', headers: { Prefer: 'return=representation' }, body: JSON.stringify(body) }));
+    if (res.status === 409) return { conflict: true };
+  } else {
+    res = await net(() => cloudFetch('/rest/v1/campus_schedules?user_id=eq.' + cloudUser() + '&rev=eq.' + rev, { method: 'PATCH', headers: { Prefer: 'return=representation' }, body: JSON.stringify(body) }));
+  }
+  if (!res.ok) throw await cloudError(res, 'クラウドへ保存できませんでした');
+  const rows = await res.json();
+  if (!rows || !rows.length) return { conflict: true };
+  sync.rev = body.rev; sync.lastSync = body.updated_at;
+  sync.dirty = payloadSig() !== sigSent;                  // 送信中にまた編集されていたら、未送信のまま残す
+  persistSync();
+  return { conflict: false };
+}
+// クラウドから来たデータは、取り込む前に必ず検証する。壊れていれば取り込まず、手元のデータを守る。
+function adoptRemote(remote) {
+  const d = remote && remote.data;
+  if (!d || !Array.isArray(d.courses)) throw Error('クラウドのデータが読み取れませんでした。手元のデータはそのまま残しています。');
+  const ui = state.ui;
+  state = normalize(d);
+  state.ui = ui;
+  const ys = yearsList();
+  if (!ys.includes(state.ui.y)) state.ui.y = ys.includes(acadYear()) ? acadYear() : ys[0];
+  sync.rev = remote.rev; sync.dirty = false; sync.lastSync = remote.updated_at || new Date().toISOString(); sync.sig = payloadSig();
+  localStorage.setItem(STORE_KEY, JSON.stringify(state)); persistSync();
+}
+// 予約同期と手動同期が重なると、両方が同じ rev を読んで後発が競合を誤判定する。走っている同期に相乗りさせる。
+function syncNow(manual) {
+  if (syncRunning) return syncRunning;
+  syncRunning = runSync(manual).finally(() => { syncRunning = null; });
+  return syncRunning;
+}
+async function runSync(manual) {
+  if (!cloudReady() || !session) { syncState = 'off'; return 'off'; }
+  if ((cloudConflict || pendingGuest) && !manual) return cloudConflict ? 'conflict' : 'pending';
+  if (pendingGuest) return 'pending';
+  if (!navigator.onLine) { syncState = 'offline'; renderSyncDot(); return 'offline'; }
+  syncState = 'syncing'; syncError = ''; renderSyncDot();
+  try {
+    const remote = await cloudPull();
+    if (remote && remote.rev > (sync.rev || 0)) {
+      if (sync.dirty) { cloudConflict = { remote, local: {} }; syncState = 'conflict'; renderSyncDot(); render(); return 'conflict'; }
+      if (sheetOpen()) { pendingRemote = true; syncState = 'synced'; renderSyncDot(); return 'deferred'; }   // 編集中の画面を差し替えない
+      adoptRemote(remote); pendingRemote = false; render();
+    }
+    if (sync.dirty || !remote) {
+      const out = await cloudPush();
+      if (out.conflict) {
+        const latest = await cloudPull();
+        cloudConflict = { remote: latest, local: {} };
+        syncState = 'conflict'; renderSyncDot(); render(); return 'conflict';
+      }
+      if (sync.dirty) scheduleSync();                     // 送信中の編集を、続けて送る
+    }
+    syncState = 'synced'; renderSyncDot(); render();
+    return 'synced';
+  } catch (err) {
+    syncError = err.message; syncState = 'error'; renderSyncDot(); render();
+    return 'error';
+  }
+}
+function scheduleSync() {
+  if (!cloudReady() || !session) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => { syncNow(false); }, 2000);
+}
+// 競合の解決。捨てる側は先に JSON で書き出せるようにしてある。
+async function resolveConflict(choice) {
+  if (!cloudConflict) return;
+  const remote = cloudConflict.remote;
+  try {
+    if (choice === 'remote' && remote) { adoptRemote(remote); cloudConflict = null; render(); }
+    else {
+      sync.rev = remote ? remote.rev : 0; sync.dirty = true; cloudConflict = null; persistSync();
+      const out = await cloudPush();
+      if (out.conflict) { cloudConflict = { remote: await cloudPull(), local: {} }; syncState = 'conflict'; renderSyncDot(); return; }
+    }
+    syncState = 'synced';
+  } catch (e) { syncError = e.message; syncState = 'error'; }
+  renderSyncDot(); render();
+}
+async function cloudDeleteRemote() {
+  const res = await net(() => cloudFetch('/rest/v1/campus_schedules?user_id=eq.' + cloudUser(), { method: 'DELETE' }));
+  if (!res.ok) throw await cloudError(res, 'クラウドの記録を削除できませんでした');
+  sync.rev = 0; sync.dirty = true; sync.lastSync = null; cloudConflict = null; persistSync();   // この端末の記録は残る。次の変更で上げ直される
+}
+// アカウントそのものの削除（supabase/schema.sql の delete_my_account）。クラウドの記録も一緒に消える。
+async function cloudDeleteAccount() {
+  const res = await net(() => cloudFetch('/rest/v1/rpc/delete_my_account', { method: 'POST', body: '{}' }, false));
+  if (!res.ok) throw await cloudError(res, 'アカウントを削除できませんでした');
+  const uid = cloudUser();
+  saveSession(null);
+  try { localStorage.removeItem(userKey(uid)); localStorage.removeItem(syncKey(uid)); } catch (e) {}
+  clearTimeout(syncTimer);
+  STORE_KEY = GUEST_KEY; sync = blankSync(); cloudConflict = null; pendingGuest = null; recoveryMode = false; syncState = 'off';
+  state = load(); bootUI(); render(); renderSyncDot();
+}
+// 再設定・確認メールのリンクは #access_token=... を付けて戻ってくる。資格情報をURLに残さないよう、読み取ったらすぐ消す。
+async function consumeAuthHash() {
+  const raw = String(location.hash || '').slice(1);
+  if (!/access_token=/.test(raw) || !cloudReady()) return false;
+  const q = new URLSearchParams(raw), type = q.get('type') || '', access = q.get('access_token'), refresh = q.get('refresh_token');
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  if (!access || !refresh) return false;
+  // リンクにトークンを仕込めば、誰でも他人の端末を自分のアカウントにログインさせられてしまう。
+  // そのまま使わず、どのアカウントなのかを見せて、本人が確認してからログインする。
+  let user;
+  try {
+    const c = cloudConfig();
+    const res = await fetch(c.url + '/auth/v1/user', { headers: { apikey: c.anonKey, Authorization: 'Bearer ' + access } });
+    if (!res.ok) return false;
+    user = await res.json();
+  } catch (e) { return false; }
+  if (!user || !user.id) return false;
+  pendingAuth = { access, refresh, type, user, email: user.email || '' };
+  return type || 'signin';
+}
+function authConfirmView() {
+  const p = pendingAuth;
+  const what = p.type === 'recovery' ? 'パスワードの再設定' : p.type === 'signup' ? 'メールアドレスの確認' : 'ログイン';
+  return `<div class="acct-h"><b>${what}</b>${pill('warn', '確認')}</div>
+    <div class="note warn-box"><b>メールのリンクから、次のアカウントでログインします。</b>
+      <p style="font-size:15px;word-break:break-all"><b>${esc(p.email)}</b></p>
+      <p class="hint">心当たりのないメールアドレスのときは、ログインせずに「やめる」を押してください。</p>
+      <div class="stack" style="margin-top:12px"><button type="button" class="btn pri wide" data-acct="auth-yes">このアカウントでログインする</button>
+      <button type="button" class="btn wide" data-acct="auth-no">やめる</button></div></div>`;
+}
+
+// ---------- 状態の表示 ----------
+const SYNC_LABEL = { off: '未ログイン', syncing: '同期中…', synced: '同期済み', offline: 'オフライン', conflict: '要確認', error: '同期エラー' };
+const SYNC_CLS = { off: 'off', syncing: 'busy', synced: 'ok', offline: 'off', conflict: 'warn', error: 'err' };
+function paintDot() {
+  const el = $('#sdot');
+  if (!el) return;
+  const st = session ? syncState : 'off';
+  el.hidden = !session;
+  el.className = 'sdot ' + SYNC_CLS[st];
+  el.title = SYNC_LABEL[st];
+}
+function renderSyncDot() { paintDot(); drawAccount(false); }
+function syncBannerHTML() {
+  if (!session) return '';
+  const b = (cls, t) => `<button type="button" class="cbn ${cls} cbn-btn" data-acctopen>${esc(t)}</button>`;
+  if (pendingGuest) return b('swap', `ログイン前のデータ（授業${pendingGuest.courses.length}件）を、このアカウントに引き継ぐか選んでください`);
+  if (cloudConflict) return b('off', '同期の競合があります。この端末とクラウド、どちらの内容を残すか選んでください');
+  if (syncState === 'error') return b('off', `クラウドに同期できませんでした：${syncError}`);
+  return '';
+}
+function startSyncWatch() {
+  addEventListener('online', () => { if (session) syncNow(false); });
+  addEventListener('offline', () => { if (session) { syncState = 'offline'; renderSyncDot(); } });
+  // 画面を離れるときは2秒を待たずに送り出す。スマホはタブを閉じるのが速く、待っている間に閉じられると次に開くまで送られない。
+  document.addEventListener('visibilitychange', () => {
+    if (!session) return;
+    if (document.hidden) { clearTimeout(syncTimer); if (sync.dirty) syncNow(false); } else syncNow(false);
+  });
+  clearInterval(syncPolling);
+  syncPolling = setInterval(() => { if (session && !document.hidden) syncNow(false); }, 60000);
+}
+
+// ---------- アカウント画面（共有・同期シートの上段） ----------
+const pill = (cls, t) => `<span class="pill ${cls}"><i></i>${t}</span>`;
+function armedOnce(key) {
+  if (armedKey === key) { armedKey = ''; return true; }
+  armedKey = key; clearTimeout(armedT);
+  armedT = setTimeout(() => { armedKey = ''; drawAccount(true); }, 3500);
+  drawAccount(true);
+  return false;
+}
+const cfgForm = () => { const c = cloudConfig(); return `<form id="cfgForm" class="stack" autocomplete="off" novalidate>
+    <div class="fg" style="margin-top:8px"><label for="cfUrl">プロジェクトURL</label><input type="url" id="cfUrl" name="url" value="${esc(c.url)}" placeholder="https://xxxxxxxx.supabase.co" autocapitalize="off" spellcheck="false"></div>
+    <div class="fg"><label for="cfKey">anon キー</label><input type="text" id="cfKey" name="anonKey" value="${esc(c.anonKey)}" autocapitalize="off" spellcheck="false"></div>
+    <button class="btn wide" type="submit" style="margin-top:12px">接続先を保存</button>
+    <div class="hint">anon キーは公開前提の値です。実際の保護は行レベルセキュリティが行い、自分の記録だけが読み書きできます。service_role キーは入れないでください。</div></form>`; };
+function configView() {
+  return `<div class="acct-h"><b>アカウント</b>${pill('off', '未設定')}</div>
+    <p class="hint">この配布版は、まだクラウドの接続先が設定されていません。ログイン機能を使うには、接続先（Supabase のプロジェクトURLと anon キー）を入れます。手順は CLOUD_SETUP.md にあります。入れなくても、これまでどおり端末内だけで使えます。</p>${cfgForm()}`;
+}
+function loginView() {
+  const m = acct.mode;
+  return `<div class="acct-h"><b>アカウント</b>${pill('off', '未ログイン')}</div>
+    <p class="hint">ログインすると、時間割・成績・試験が自分のアカウントにクラウド保存され、別の端末でも同じデータを使えます。友達もそれぞれのアカウントで、自分の時間割だけを登録できます（他の人のデータは見えません）。ログインしなくても、これまでどおり端末内だけで使えます。</p>
+    ${m === 'recover' ? '' : `<div class="ctabs" style="margin:6px 0 4px"><div class="seg2" role="group"><button type="button" data-acct="mode:login" class="${m === 'login' ? 'on' : ''}">ログイン</button><button type="button" data-acct="mode:signup" class="${m === 'signup' ? 'on' : ''}">新規登録</button></div></div>`}
+    <form id="authForm" class="stack" autocomplete="on" novalidate>
+      <div class="fg"><label for="auEmail">メールアドレス</label><input type="email" id="auEmail" name="email" value="${esc(acct.email)}" inputmode="email" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="you@example.com"></div>
+      ${m === 'recover' ? '' : `<div class="fg"><label for="auPass">パスワード（8文字以上）</label><input type="password" id="auPass" name="password" autocomplete="${m === 'signup' ? 'new-password' : 'current-password'}"></div>`}
+      ${m === 'signup' ? `<div class="fg"><label for="auPass2">パスワード（確認）</label><input type="password" id="auPass2" name="password2" autocomplete="new-password"></div>` : ''}
+      ${acct.msg ? `<div class="hint ${acct.ok ? 'okmsg' : 'warn'}" role="status">${esc(acct.msg)}</div>` : ''}
+      <button class="btn pri wide" type="submit" style="margin-top:14px" ${acct.busy ? 'disabled' : ''}>${acct.busy ? '通信中…' : m === 'signup' ? '登録する' : m === 'recover' ? '再設定メールを送る' : 'ログイン'}</button>
+    </form>
+    <div class="acct-links">${m === 'login' ? '<button type="button" class="linkbtn" data-acct="mode:recover">パスワードを忘れた</button>' : m === 'recover' ? '<button type="button" class="linkbtn" data-acct="mode:login">ログインにもどる</button>' : ''}</div>
+    <div class="hint">クラウドに送られるのは、時間割・成績・単位・試験・設定そのものです。端末内だけで使いたい場合は、ログインしないでください。</div>
+    <details class="cfg"><summary>接続先の設定（管理者向け）</summary>${cfgForm()}</details>`;
+}
+function guestView() {
+  const g = pendingGuest;
+  const replace = hasData(state);
+  return `<div class="acct-h"><b>${esc(cloudEmail())}</b>${pill('warn', '要確認')}</div>
+    <div class="note warn-box"><b>ログイン前のデータを引き継ぎますか？</b>
+      <p>この端末には、ログイン前の時間割（授業${g.courses.length}件・試験${count(g.exams)}件）があります。このアカウントのクラウドはまだ空です。</p>
+      <p class="hint">引き継がなければ、このアカウントは空の時間割で始まります。ログイン前のデータは、ログアウトすると元どおり見えます。</p>
+      <div class="stack" style="margin-top:12px"><button type="button" class="btn pri wide" data-acct="adopt-yes">${armedKey === 'adopt-yes' ? 'もう一度押すと、いまの内容を置き換えます' : replace ? '引き継ぐ（いまの内容は置き換わります）' : 'この端末のデータを引き継ぐ'}</button>
+      <button type="button" class="btn wide" data-acct="adopt-no">引き継がずに、空の時間割で始める</button></div></div>`;
+}
+function logoutView() {
+  return `<div class="acct-h"><b>${esc(cloudEmail())}</b>${pill(SYNC_CLS[syncState], SYNC_LABEL[syncState])}</div>
+    <div class="note warn-box"><b>ログアウトしますか？</b>
+      ${sync.dirty ? '<p class="hint warn">まだクラウドに送れていない変更があります。「この端末に残す」を選ぶと、次に同じアカウントでログインしたときに送られます。</p>' : '<p class="hint">クラウドには保存済みです。</p>'}
+      <div class="stack" style="margin-top:12px"><button type="button" class="btn pri wide" data-acct="logout-keep">ログアウト（この端末にデータを残す）</button>
+      <button type="button" class="btn danger wide" data-acct="logout-wipe">${armedKey === 'logout-wipe' ? 'もう一度押すと、この端末のデータを消します' : '共有の端末なので、データも消してログアウト'}</button>
+      <button type="button" class="linkbtn" data-acct="logout-cancel">やめる</button></div></div>`;
+}
+function loggedInView() {
+  const st = syncState, c = cloudConflict;
+  const conflict = !c ? '' : `<div class="note warn-box"><b>この端末とクラウドの両方が変わっています。</b>
+      <p class="hint num">クラウド：${c.remote ? `${esc(stamp(c.remote.updated_at))} ／ ${esc(c.remote.device || '不明な端末')} ／ 授業${count(c.remote.data && c.remote.data.courses)}件・試験${count(c.remote.data && c.remote.data.exams)}件` : 'なし'}<br>この端末：授業${state.courses.length}件・試験${state.exams.length}件</p>
+      <div class="stack" style="margin-top:10px"><button type="button" class="btn pri wide" data-acct="conflict-local">この端末の内容にする</button>
+      <button type="button" class="btn wide" data-acct="conflict-remote">クラウドの内容にする</button>
+      <button type="button" class="linkbtn" data-acct="conflict-export">両方を書き出す（選ぶ前の控え）</button></div></div>`;
+  const recovery = !recoveryMode ? '' : `<form id="pwForm" class="stack note" autocomplete="on" novalidate><b>新しいパスワードを設定してください。</b>
+      <input type="text" name="username" value="${esc(cloudEmail())}" autocomplete="username" hidden>
+      <div class="fg" style="margin-top:8px"><label for="pwNew">新しいパスワード（8文字以上）</label><input type="password" id="pwNew" name="password" autocomplete="new-password"></div>
+      ${acct.msg ? `<div class="hint ${acct.ok ? 'okmsg' : 'warn'}">${esc(acct.msg)}</div>` : ''}
+      <button class="btn pri wide" type="submit" style="margin-top:12px">パスワードを変更</button></form>`;
+  return `<div class="acct-h"><b class="em">${esc(cloudEmail())}</b>${pill(SYNC_CLS[st], SYNC_LABEL[st])}</div>
+    <div class="hint num">最終同期：${sync.lastSync ? esc(stamp(sync.lastSync)) : 'まだありません'} ・ ${sync.dirty ? '未送信の変更があります' : '送信済み'}</div>
+    ${st === 'error' ? `<div class="hint warn" role="status">${esc(syncError)}</div>` : ''}${conflict}${recovery}
+    <div class="row2" style="margin-top:14px"><button type="button" class="btn" data-acct="sync">今すぐ同期</button><button type="button" class="btn" data-acct="logout">ログアウト</button></div>
+    <div class="hint">変更は自動でクラウドに保存されます。別の端末でも、同じアカウントでログインすれば同じ時間割が出ます。</div>
+    <details class="cfg"><summary>アカウントの管理</summary>
+      <form id="pwForm2" class="stack" autocomplete="on" novalidate><input type="text" name="username" value="${esc(cloudEmail())}" autocomplete="username" hidden>
+        <div class="fg" style="margin-top:10px"><label for="pwNew2">パスワードを変更（8文字以上）</label><input type="password" id="pwNew2" name="password" autocomplete="new-password"></div>
+        ${!recoveryMode && acct.msg ? `<div class="hint ${acct.ok ? 'okmsg' : 'warn'}">${esc(acct.msg)}</div>` : ''}
+        <button class="btn wide" type="submit" style="margin-top:10px">変更する</button></form>
+      <div class="stack" style="margin-top:16px"><button type="button" class="btn danger wide" data-acct="delete-remote">${armedKey === 'delete-remote' ? 'もう一度押すと、クラウドの記録を削除します' : 'クラウドの記録を削除（この端末の記録は残ります）'}</button>
+      <button type="button" class="btn danger wide" data-acct="delete-account">${armedKey === 'delete-account' ? 'もう一度押すと、アカウントを完全に削除します' : 'アカウントを削除（クラウドの記録も消えます）'}</button></div></details>`;
+}
+function accountHTML() {
+  if (pendingAuth) return authConfirmView();
+  if (!cloudReady() && !session) return configView();
+  if (!session) return loginView();
+  if (acct.view === 'logout') return logoutView();
+  if (pendingGuest) return guestView();
+  return loggedInView();
+}
+// 背景の同期で入力途中のフォームを消さない（操作の結果として描き直すときだけ force）
+function drawAccount(force) {
+  const box = $('#acctBox');
+  if (!box) return;
+  const ae = document.activeElement;
+  if (!force && ae && box.contains(ae) && /^(INPUT|TEXTAREA)$/.test(ae.tagName)) return;
+  const open = [...box.querySelectorAll('details')].map(d => d.open);   // 描き直しで「アカウントの管理」が閉じて、確認の2回目が押せなくならないように
+  box.innerHTML = accountHTML();
+  box.querySelectorAll('details').forEach((d, i) => { if (open[i]) d.open = true; });
+}
+async function submitAuth(form) {
+  const f = form.elements, email = String(f.email.value || '').trim(), m = acct.mode;
+  acct.email = email;                                      // 失敗したときに、メールアドレスは打ち直さなくて済むように
+  const password = f.password ? f.password.value : '';
+  const fail = msg => { acct.msg = msg; acct.ok = false; drawAccount(true); };
+  if (!email) return fail('メールアドレスを入力してください。');
+  if (m !== 'recover') {
+    if (password.length < 8) return fail('パスワードは8文字以上にしてください。');
+    if (m === 'signup' && password !== f.password2.value) return fail('確認用のパスワードが一致しません。');
+  }
+  acct.busy = true; acct.msg = ''; drawAccount(true);
+  try {
+    if (m === 'recover') { await cloudRecover(email); acct.msg = '再設定メールを送りました。届いたメールのリンクを開いてください。'; acct.ok = true; }
+    else if (m === 'signup') {
+      const out = await cloudSignUp(email, password);
+      if (out.confirm) { acct.mode = 'login'; acct.msg = '確認メールを送りました。メールのリンクを開いてから、ログインしてください。'; acct.ok = true; }
+      else { acct.msg = ''; acct.email = ''; await enterAccount(); toast('登録しました'); }
+    } else { await cloudSignIn(email, password); acct.msg = ''; acct.email = ''; await enterAccount(); toast('ログインしました'); }
+  } catch (err) { acct.msg = err.message; acct.ok = false; }
+  acct.busy = false; drawAccount(true);
+}
+async function acctAction(a) {
+  if (a.startsWith('mode:')) { acct.mode = a.slice(5); acct.msg = ''; acct.ok = false; return drawAccount(true); }
+  const done = () => { acct.msg = ''; drawAccount(true); };
+  try {
+    switch (a) {
+      case 'sync': {
+        const r = await syncNow(true);
+        toast({ synced: '同期しました', conflict: '競合があります。どちらを残すか選んでください', error: '同期できませんでした', offline: 'オフラインです', deferred: '同期しました' }[r] || '');
+        return done();
+      }
+      case 'auth-yes': {
+        const p = pendingAuth; pendingAuth = null;
+        if (session) await accountSignOut(false);            // 別のアカウントでログイン中なら、先に外す（控えは残す）
+        saveSession({ access_token: p.access, refresh_token: p.refresh, user: p.user });
+        recoveryMode = p.type === 'recovery';
+        await enterAccount(); toast('ログインしました'); return done();
+      }
+      case 'auth-no': pendingAuth = null; toast('ログインをやめました'); return done();
+      case 'logout': acct.view = 'logout'; return drawAccount(true);
+      case 'logout-cancel': acct.view = 'main'; return drawAccount(true);
+      case 'logout-keep': await accountSignOut(false); acct.view = 'main'; toast('ログアウトしました'); return done();
+      case 'logout-wipe':
+        if (sync.dirty && !armedOnce(a)) return;
+        await accountSignOut(true); acct.view = 'main'; toast('ログアウトして、この端末のデータを消しました'); return done();
+      case 'adopt-yes': if (hasData(state) && !armedOnce(a)) return; await resolveGuest(true); return done();
+      case 'adopt-no': await resolveGuest(false); return done();
+      case 'conflict-local': await resolveConflict('local'); toast('この端末の内容にしました'); return done();
+      case 'conflict-remote': await resolveConflict('remote'); toast('クラウドの内容にしました'); return done();
+      case 'conflict-export': {
+        const d = isoDate(new Date()).replace(/-/g, ''), c = cloudConflict;
+        downloadJSON(`campus-schedule-local-${d}.json`, payload());
+        if (c && c.remote) downloadJSON(`campus-schedule-cloud-${d}.json`, c.remote.data);
+        return toast('この端末とクラウドの両方を書き出しました');
+      }
+      case 'delete-remote': if (!armedOnce(a)) return; await cloudDeleteRemote(); toast('クラウドの記録を削除しました'); return done();
+      case 'delete-account': if (!armedOnce(a)) return; await cloudDeleteAccount(); acct.view = 'main'; toast('アカウントを削除しました'); return done();
+    }
+  } catch (err) { acct.msg = err.message; acct.ok = false; drawAccount(true); toast(err.message); }
+}
+async function submitPassword(form) {
+  const pw = form.elements.password.value;
+  try { await cloudUpdatePassword(pw); acct.msg = 'パスワードを変更しました。'; acct.ok = true; form.reset(); toast('パスワードを変更しました'); }
+  catch (err) { acct.msg = err.message; acct.ok = false; }
+  drawAccount(true);
+}
+function saveCloudConfig(form) {
+  const url = String(form.elements.url.value || '').trim().replace(/\/+$/, ''), anonKey = String(form.elements.anonKey.value || '').trim();
+  if (url && !/^https:\/\//.test(url) && !/^http:\/\/(127\.0\.0\.1|localhost)/.test(url)) return toast('プロジェクトURLは https:// で始めてください');
+  if (/service_role/.test(anonKey)) return toast('service_role キーは入れないでください。anon public キーを使います');
+  const dev = readJSON(DEVICE_KEY) || {};
+  dev.cloud = { url, anonKey };
+  writeJSON(DEVICE_KEY, dev);
+  toast(url && anonKey ? '接続先を保存しました' : '接続先を空にしました');
+  drawAccount(true);
+}
+
 /* ===== share / sync ===== */
 function b64u(bytes) {
   let s = '';
@@ -2445,21 +3030,32 @@ async function openShare() {
   const url = has ? await shareUrl() : '';
   const standalone = navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
   const installNote = standalone
-    ? 'ホーム画面から開いたこのアプリのデータは、Safari で開いたときのデータとは別に保存されています。Safari 側の内容は、Safari で共有リンクを作り、こちらで開くと取り込めます。'
-    : /iPhone|iPad|iPod/.test(navigator.userAgent) ? 'ホーム画面に追加すると保存領域が別になり、追加直後は空の状態で始まります。追加する前に、下の共有リンクを控えておいてください。' : '';
+    ? 'ホーム画面から開いたこのアプリのデータは、Safari で開いたときのデータとは別に保存されています。ログインすると、どちらからでも同じ時間割を使えます。'
+    : /iPhone|iPad|iPod/.test(navigator.userAgent) ? 'ホーム画面に追加すると保存領域が別になり、追加直後は空の状態で始まります。ログインしておくと、追加したあとも同じ時間割が出ます。ログインしない場合は、追加する前に下の共有リンクを控えてください。' : '';
   const canShare = !!navigator.share;
-  const body = `
-    <p class="hint" style="margin:0 0 14px;font-size:13px;color:var(--mute)">データはこの端末のブラウザ内に保存されています。<b style="color:var(--fg)">共有リンク</b>を別の端末（スマホ⇄PC）で開くと、4年分の時間割・成績・試験対策・設定をまとめて取り込めます。リンクには授業データそのものが含まれ、サーバーには送信されません。</p>
+  acct.view = 'main'; acct.msg = ''; acct.ok = false; armedKey = '';
+  const body = `<section id="acctBox">${accountHTML()}</section>
+    <div class="divider"></div>
+    <span class="fl">共有リンクとバックアップ</span>
+    <p class="hint" style="margin:0 0 14px;font-size:13px;color:var(--mute)">ログインしていないデータは、この端末のブラウザ内に保存されています。<b style="color:var(--fg)">共有リンク</b>を別の端末で開くと、4年分の時間割・成績・試験対策・設定を取り込めます（アカウントの同期とは別の手段です）。リンクには授業データそのものが含まれ、サーバーには送信されません。</p>
     ${installNote ? `<p class="hint warn" style="margin:-4px 0 14px;font-size:12.5px">${installNote}</p>` : ''}
-    ${url ? `<span class="fl">共有リンク</span><div class="sharebox"><input type="text" id="shUrl" readonly value="${esc(url)}"><button class="btn" id="shCopy" aria-label="コピー">${ICON.copy}</button></div>
+    ${url ? `<div class="sharebox"><input type="text" id="shUrl" readonly value="${esc(url)}"><button class="btn" id="shCopy" aria-label="コピー">${ICON.copy}</button></div>
       <div class="hint num">${state.courses.length} 件の授業 · ${state.exams.length} 件の試験 · ${url.length.toLocaleString()} 文字</div>
       <div class="stack" style="margin-top:14px">${canShare ? `<button class="btn pri wide" id="shNative">${ICON.share}LINE・メール・AirDrop などで送る</button>` : ''}</div>`
       : '<div class="empty-state" style="padding:26px 16px"><b>まだ授業がありません</b><p style="margin:0">授業を追加すると共有リンクを作れます。</p></div>'}
-    <div class="divider"></div>
     <div class="fg"><span class="fl">バックアップ（JSONファイル）</span>
       <div class="row2" style="margin-top:0"><button class="btn" id="shExport" ${has ? '' : 'disabled style="opacity:.4"'}>${ICON.down}書き出し</button><button class="btn" id="shImport">${ICON.up}読み込み</button></div>
       <div class="hint">読み込むと現在のデータは置き換わります（確認画面が出ます）。</div></div>`;
-  openSheet('共有・同期', body, '', sh => {
+  openSheet('アカウント・共有', body, '', sh => {
+    const box = $('#acctBox', sh);
+    box.addEventListener('click', e => { const b = e.target.closest('[data-acct]'); if (b) acctAction(b.dataset.acct); });
+    box.addEventListener('submit', e => {
+      e.preventDefault();
+      const f = e.target;
+      if (f.id === 'authForm') submitAuth(f);
+      else if (f.id === 'pwForm' || f.id === 'pwForm2') submitPassword(f);
+      else if (f.id === 'cfgForm') saveCloudConfig(f);
+    });
     const u = $('#shUrl', sh);
     if (u) {
       u.addEventListener('focus', () => u.select());
@@ -2471,12 +3067,7 @@ async function openShare() {
     });
     $('#shExport', sh).addEventListener('click', () => {
       if (!has) return;
-      const blob = new Blob([JSON.stringify(payload(), null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `campus-schedule-${isoDate(new Date()).replace(/-/g, '')}.json`;
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      downloadJSON(`campus-schedule-${isoDate(new Date()).replace(/-/g, '')}.json`, payload());
       toast('JSONを書き出しました');
     });
     $('#shImport', sh).addEventListener('click', () => $('#fileIn').click());
@@ -2529,6 +3120,8 @@ function openSettings() {
         <select id="stYears">${[4, 5, 6].map(n => `<option value="${n}" ${n === S.years ? 'selected' : ''}>${n}年間</option>`).join('')}</select></div>
       <div class="hint">今年度（${cy}年度）が何年生かを決めます。登録済みの授業は年度で管理しているので、変えても消えません。</div></div>
     <div class="fg"><span class="fl">卒業要件単位</span><input type="number" id="stReq" inputmode="decimal" min="1" value="${S.required}"></div>
+    <div class="fg"><span class="fl">進級要件カード（単位・成績画面）</span><div class="toggles" style="grid-template-columns:1fr 1fr" id="stPromo"><button type="button" class="tg ${S.promo !== false ? 'on' : ''}" data-v="1">表示する</button><button type="button" class="tg ${S.promo === false ? 'on' : ''}" data-v="0">表示しない</button></div>
+      <div class="hint">2年次から3年次への進級要件（内蔵の定義）を出します。学部が違うなど、当てはまらないときは消せます。</div></div>
     <div class="fg"><span class="fl">成績評語と評価点</span>
       <div class="gtab" role="table">
         <div class="gr gh"><span>評語</span><span>評価点</span><span>GP</span><span>単位</span></div>
@@ -2565,6 +3158,10 @@ function openSettings() {
       S.cats = presetCats(); S.required = DEFAULT_REQUIRED;
       save(); closeSheet(); render(); toast('卒業要件を初期設定（128単位）に戻しました');
     });
+    $('#stPromo', sh).addEventListener('click', e => {
+      const b = e.target.closest('.tg'); if (!b) return;
+      $$('#stPromo .tg', sh).forEach(x => x.classList.toggle('on', x === b));
+    });
     $('#stSave', sh).addEventListener('click', () => {
       const nr = QUARTERS.map(() => ({ s: '', e: '' }));
       $$('input[type=date]', sh).forEach(i => { nr[+i.dataset.i][i.dataset.k] = i.value; });
@@ -2575,6 +3172,7 @@ function openSettings() {
       S.entrySet = true;
       S.years = +$('#stYears', sh).value;
       S.required = req;
+      S.promo = $('#stPromo .tg.on', sh).dataset.v !== '0';
       S.attRatio = +$('#stAtt', sh).value;
       S.lateRatio = +$('#stLate', sh).value;
       const oldName = new Map(S.cats.map(x => [x.id, x.name]));
@@ -2617,6 +3215,7 @@ document.addEventListener('click', e => {
     render();
     return;
   }
+  if (e.target.closest('[data-acctopen]')) { openShare(); return; }
   const pm = e.target.closest('[data-pmopen],[data-pmadd],[data-pmexam]');
   if (pm) {
     const d = pm.dataset;
@@ -2743,11 +3342,16 @@ document.addEventListener('focusin', e => {
 
 /* ===== boot ===== */
 {
-  if (yearsList().includes(acadYear())) state.ui.y = acadYear();
-  const cq = quarterByDate();
-  if (cq) state.ui.q = cq;
+  if (session && !sync.sig) { sync.sig = payloadSig(); persistSync(); }
+  bootUI();
   render();
-  checkHash();
+  (async () => {
+    const back = await consumeAuthHash();                  // 再設定・確認メールのリンクから戻ってきたとき
+    if (!back) await checkHash();                          // 共有リンク
+    else { render(); openShare(); }
+    startSyncWatch();
+    if (session) syncNow(false);
+  })();
 }
 </script>
 </body>
