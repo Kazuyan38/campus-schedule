@@ -940,7 +940,7 @@ const DEFAULT_SESSIONS_PER_Q = 8;   // 期間未設定時の 1クォーター・
 const ATT_RATIOS = [3, 4, 5];       // 欠席が総回数の 1/n 以上で不可
 const LATE_RATIOS = [3, 2, 0];      // 遅刻 n 回で欠席1回（0 = 数えない）
 // 接続先（Supabase）の既定値。dev/set_cloud.py が書き換える。空ならアプリ内の「接続先の設定」から入れる
-const CLOUD_DEFAULT = { url: '', anonKey: '' };
+const CLOUD_DEFAULT = { url: 'https://hpdyoxbtrnebnvzhyieq.supabase.co', anonKey: 'sb_publishable_b0bIMqh5bsYxkPTe0_uVkg_ibv2swRF' };
 // ログイン中は、端末内の控えもアカウントごとに分ける（共有の端末でも他の人のデータが見えない）
 const GUEST_KEY = 'campus-schedule/v1', AUTH_KEY = 'campus-schedule/auth', DEVICE_KEY = 'campus-schedule/device';
 const userKey = id => `campus-schedule/u/${id}`, syncKey = id => `campus-schedule/sync/${id}`;
@@ -2500,7 +2500,8 @@ const JA_ERRORS = [
   [/already registered|already been registered/i, 'このメールアドレスは登録済みです。ログインしてください。'],
   [/at least \d+ characters/i, 'パスワードは8文字以上にしてください。'],
   [/rate limit|too many|security purposes/i, '短い時間に何度も試したため、しばらく待ってからやり直してください。'],
-  [/valid email|invalid email|unable to validate email/i, 'メールアドレスの形式を確認してください。'],
+  [/not authorized/i, 'このメールアドレスには、確認メールを送れません。管理者のメール設定が必要です（CLOUD_SETUP.md の 4）。'],
+  [/address .*is invalid|valid email|invalid email|unable to validate email/i, 'このメールアドレスは使えません。形式を確認するか、別のメールアドレスで試してください。'],
   [/signups? (are )?(not allowed|disabled)/i, '現在、新規登録は受け付けていません。'],
 ];
 async function cloudError(res, fallback) {
